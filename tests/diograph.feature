@@ -3,16 +3,16 @@ Feature: Diograph
   Background:
     Given I have empty place for room
     And I initiate a room
-    And diograph.json has 1 diories
-    And room.json has 1 connection
+    # And diograph.json has 1 diories
+    # And room.json has 1 connection
 
-  Scenario: Get diory
-    When I call getDiory operation
-    Then I receive a diory
+  # Scenario: Get diory
+  #   When I call getDiory operation
+  #   Then I receive a diory
 
   Scenario: Create diory
     When I call createDiory operation
-    Then diograph.json has 2 diories
+    Then diograph.json has 1 diories
 
   # Scenario: Update diory
   #   When I call updateDiory for the last diory with "New name" as text
