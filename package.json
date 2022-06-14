@@ -1,0 +1,26 @@
+{
+  "name": "diograph-cli",
+  "version": "0.0.1",
+  "main": "dist/index.js",
+  "types": "index.d.ts",
+  "author": "Jouni Alanen <jouni@diory.me>",
+  "license": "MIT",
+  "dependencies": {},
+  "devDependencies": {
+    "@cucumber/cucumber": "^8.0.0",
+    "typescript": "^4.5.5"
+  },
+  "scripts": {
+    "build": "tsc",
+    "build-watch": "yarn build --watch",
+    "prettier": "prettier --write .",
+    "test": "cucumber-js tests/ tests/steps"
+  },
+  "prettier": {
+    "tabWidth": 2,
+    "semi": false,
+    "singleQuote": true,
+    "printWidth": 100,
+    "trailingComma": "all"
+  }
+}
