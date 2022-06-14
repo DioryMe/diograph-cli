@@ -1,0 +1,3 @@
+[submodule "local-client"]
+	path = local-client
+	url = git@github.com:DioryMe/local-client.git
