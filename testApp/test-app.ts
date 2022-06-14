@@ -2,7 +2,6 @@ import { existsSync, mkdirSync } from 'fs'
 import { readFile, writeFile, rm } from 'fs/promises'
 import { join } from 'path'
 import { Connection, Room, RoomClient } from 'diograph-js'
-import { Generator } from '@diograph/file-generator'
 import { LocalClient } from '../local-client'
 
 const appDataFolderPath = process.env['APP_DATA_FOLDER'] || join(process.cwd(), 'tmp')
@@ -24,7 +23,6 @@ class App {
     rooms: [],
   }
   rooms: Room[] = []
-  connections: Connection[] = []
 
   constructor() {}
 
@@ -47,7 +45,8 @@ class App {
         const client = new LocalClient(roomData.address)
         const roomClient = new RoomClient(undefined, client)
         const room = new Room(roomClient)
-        await this.addAndLoadRoom(room)
+        this.rooms.push(room)
+        return room.loadRoom()
       }),
     )
   }
@@ -57,14 +56,6 @@ class App {
       rooms: this.rooms.map((room) => ({ address: room.address })),
     }
     await writeFile(APP_DATA_PATH, JSON.stringify(jsonAppData, null, 2))
-  }
-
-  addAndLoadRoom = async (room: Room) => {
-    const exists = this.rooms.find((existingRoom) => existingRoom.address === room.address)
-    if (!exists) {
-      // await room.loadRoom()
-      this.rooms.push(room)
-    }
   }
 
   run = async (command: string, arg1: string, arg2: string, arg3: string) => {
@@ -81,12 +72,13 @@ class App {
 
     await this.initiateAppData()
 
-    const generator = new Generator()
-
     if (command === 'addRoom') {
       const roomPath = arg1
       if (!arg1) {
         throw new Error('Arg1 not provided for addRoom(), please provide one')
+      }
+      if (this.rooms.find((existingRoom) => existingRoom.address === room.address)) {
+        throw new Error(`addRoom error: Room with address ${roomPath} already exists`)
       }
       if (!existsSync(roomPath)) {
         mkdirSync(roomPath)
@@ -94,9 +86,18 @@ class App {
       const client = new LocalClient(roomPath)
       const roomClient = new RoomClient(undefined, client)
       const room = new Room(roomClient)
-      await this.addAndLoadRoom(room)
-      await this.saveAppData()
+
+      const connection = new Connection({
+        address: join(roomPath, 'Diory Content'),
+        contentClient: 'local',
+      })
+      room.addConnection(connection)
+
       await room.saveRoom()
+
+      this.rooms.push(room)
+      await this.saveAppData()
+
       console.log('Room added.')
       return
     }
@@ -127,7 +128,6 @@ class App {
     if (command === 'addConnection') {
       const connectionAddress = arg1 || process.cwd()
       const connection = new Connection({ address: connectionAddress, contentClient: 'local' })
-      this.connections.push(connection)
       room.addConnection(connection)
       await room.saveRoom()
       console.log('Connection added.')
