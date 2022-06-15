@@ -3,8 +3,8 @@ Feature: Diograph
   Background:
     Given I have empty place for room
     And I initiate a room
+    And room.json has 1 connection
     # And diograph.json has 1 diories
-    # And room.json has 1 connection
 
   # Scenario: Get diory
   #   When I call getDiory operation

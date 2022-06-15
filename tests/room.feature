@@ -6,9 +6,9 @@ Feature: Room
 
   Scenario: Initiate room
     Then room.json does exists
-    # And room.json has 1 connections
+    And room.json has 1 connections
     And diograph.json does exists
-    # And diograph.json has one diory
+    # And diograph.json has 1 diories
 
   Scenario: Delete room
     When I delete room
@@ -17,7 +17,7 @@ Feature: Room
 
   Scenario: Add connection to room
     When I add connection to content-source-folder
-    Then room.json has 1 connections
+    Then room.json has 2 connections
 
   # Scenario: Content source contents list
   #   When I add connection to content-source-folder

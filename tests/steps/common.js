@@ -4,7 +4,7 @@ const { join } = require('path')
 const { Given, When, Then } = require('@cucumber/cucumber')
 const { App } = require('../../dist/testApp/test-app')
 
-const CONTENT_SOURCE_FOLDER = join(process.cwd(), 'fixtures', 'content-source')
+const CONTENT_SOURCE_FOLDER = join(process.cwd(), 'demo-content-room', 'Mary')
 const APP_DATA_PATH = join(process.cwd(), 'tmp')
 const TEMP_ROOM_PATH = APP_DATA_PATH
 const CONTENT_FOLDER_PATH = join(APP_DATA_PATH, 'Diory Content') // <-- this is deleted recursively!
@@ -40,7 +40,7 @@ When('I add connection to {word}', async (destination) => {
     case 'content-source-folder':
       connectionAddress = CONTENT_SOURCE_FOLDER
       break
-    case 'DioryContent':
+    case 'DioryContent': // <-- currently not in use, created automatically in addRoom
       connectionAddress = CONTENT_FOLDER_PATH
       break
     default:
