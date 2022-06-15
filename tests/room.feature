@@ -50,16 +50,13 @@ Feature: Room
     And room.json has 1 connection
     And last connection has 0 contentUrls
 
-  # Scenario: Import diory with content
-  #   When I call importDiory with content
-  #   Then diograph.json has 2 diories
-  #   And images folder has 1 image
-  #   And content folder has 1 file
-  #   And room.json has 1 connection
-  #   And last connection has 1 contentUrls
-  #   And last diory has dioryId as image
-  #   And last diory has dioryId as contentUrl
-  #   And last diory has image/jpeg as encodingFormat
+  Scenario: Import diory with content
+    When I call importDiory with content
+    Then diograph.json has 1 diories
+    And content folder has 1 file
+    And last connection has 1 contentUrls
+    And last diory has image/png as encodingFormat
+    And last diory has bafkreihoednm4s2g4vpame3mweewfq5of3hks2mbmkvoksxg3z4rhmweeu as contentUrl
 
   # Scenario: Get content
   #   When I call importDiory with content

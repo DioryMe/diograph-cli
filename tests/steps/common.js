@@ -149,10 +149,8 @@ Then('last diory has {word} as {word}', (value, property) => {
   const diories = Object.values(diograph.diograph)
   const lastDiory = diories[diories.length - 1]
 
-  if (property === 'image') {
-    assert.equal(lastDiory.image, `images/${lastDiory.id}`)
-  } else if (property === 'contentUrl') {
-    assert.equal(lastDiory.data[0].contentUrl, lastDiory.id)
+  if (property === 'contentUrl') {
+    assert.equal(lastDiory.data[0].contentUrl, value)
   } else if (property === 'encodingFormat') {
     assert.equal(lastDiory.data[0].encodingFormat, value)
   }

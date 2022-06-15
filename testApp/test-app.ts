@@ -187,12 +187,10 @@ class App {
       if (copyContent) {
         const sourceFileContent = await readFile(filePath)
         await this.roomInFocus.addContent(sourceFileContent, cid || dioryObject.id)
-        console.log(this.roomInFocus)
         diory.changeContentUrl(cid || dioryObject.id)
       }
       await this.roomInFocus.diograph.addDiory(diory)
       await this.roomInFocus.saveRoom()
-      // console.log('diorob', diory.toDioryObject())
       return
     }
 
