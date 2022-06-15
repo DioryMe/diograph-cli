@@ -25,6 +25,7 @@ class App {
     rooms: [],
   }
   rooms: Room[] = []
+  roomInFocus?: Room
 
   constructor() {}
 
@@ -32,6 +33,7 @@ class App {
     initiateAppData(APP_DATA_PATH).then(({ initiatedRooms, initiatedAppData }) => {
       this.rooms = initiatedRooms
       this.appData = initiatedAppData
+      this.roomInFocus = initiatedRooms[0]
     })
 
   run = async (command: string, arg1: string, arg2: string, arg3: string) => {
@@ -69,11 +71,29 @@ class App {
 
       await room.saveRoom()
 
+      if (!this.rooms.length) {
+        this.roomInFocus = room
+      }
       this.rooms.push(room)
       await saveAppData(this.rooms, APP_DATA_PATH)
 
       console.log('Room added.')
       return
+    }
+
+    if (command === 'deleteRoom') {
+      if (!this.roomInFocus) {
+        return
+      }
+      await this.roomInFocus.deleteRoom()
+      this.rooms.shift()
+      await saveAppData(this.rooms, APP_DATA_PATH)
+      console.log('Room deleted.')
+      return
+    }
+
+    if (!this.roomInFocus) {
+      throw new Error('roomInFocus is missing')
     }
 
     if (command === 'appListRooms') {
@@ -85,26 +105,15 @@ class App {
       return
     }
 
-    // TODO: Implement "room in focus" => defaults to first one
-    const room = this.rooms[0]
-
     if (command === 'roomListConnections') {
-      return room.connections.map((connection) => ({ address: connection.address }))
-    }
-
-    if (command === 'deleteRoom') {
-      await room.deleteRoom()
-      this.rooms.shift()
-      await saveAppData(this.rooms, APP_DATA_PATH)
-      console.log('Room deleted.')
-      return
+      return this.roomInFocus.connections.map((connection) => ({ address: connection.address }))
     }
 
     if (command === 'addConnection') {
       const connectionAddress = arg1 || process.cwd()
       const connection = new Connection({ address: connectionAddress, contentClient: 'local' })
-      room.addConnection(connection)
-      await room.saveRoom()
+      this.roomInFocus.addConnection(connection)
+      await this.roomInFocus.saveRoom()
       console.log('Connection added.')
       return
     }
@@ -115,7 +124,7 @@ class App {
     }
 
     if (command === 'listClientContents') {
-      const connection = room.connections[1]
+      const connection = this.roomInFocus.connections[1]
       const list = await listLocalContentSource('/', connection.address)
       connection.diograph.mergeDiograph(list)
       connection.diograph.diories.forEach((diory) => {
@@ -123,12 +132,12 @@ class App {
           connection.addContentUrl(diory.data[0].contentUrl, diory.id)
         }
       })
-      await room.saveRoom()
+      await this.roomInFocus.saveRoom()
       return
     }
 
     if (command === 'listClientContents2') {
-      const connection = room.connections[1]
+      const connection = this.roomInFocus.connections[1]
       const list = await listLocalContentSource('/Subfolder', connection.address)
       connection.diograph.mergeDiograph(list)
       connection.diograph.diories.forEach((diory) => {
@@ -136,46 +145,46 @@ class App {
           connection.addContentUrl(diory.data[0].contentUrl, diory.id)
         }
       })
-      await room.saveRoom()
+      await this.roomInFocus.saveRoom()
       return
     }
 
-    if (command === 'getDiograph' && room.diograph) {
-      return room.diograph.diories
+    if (command === 'getDiograph' && this.roomInFocus.diograph) {
+      return this.roomInFocus.diograph.diories
     }
 
-    if (command === 'getDiory' && room.diograph) {
-      const diory = await room.diograph.getDiory('some-diory-id')
+    if (command === 'getDiory' && this.roomInFocus.diograph) {
+      const diory = await this.roomInFocus.diograph.getDiory('some-diory-id')
       return diory
     }
 
-    if (command === 'createDiory' && room.diograph) {
-      await room.diograph.createDiory({ text: 'Superia' })
-      await room.saveRoom()
+    if (command === 'createDiory' && this.roomInFocus.diograph) {
+      await this.roomInFocus.diograph.createDiory({ text: 'Superia' })
+      await this.roomInFocus.saveRoom()
       console.log('Diory created.')
       return
     }
 
-    if (command === 'deleteDiory' && room.diograph) {
-      await room.diograph.deleteDiory(arg1)
-      await room.saveRoom()
+    if (command === 'deleteDiory' && this.roomInFocus.diograph) {
+      await this.roomInFocus.diograph.deleteDiory(arg1)
+      await this.roomInFocus.saveRoom()
       console.log('Diory deleted.')
       return
     }
 
-    if (command === 'importDiory' && room.diograph) {
+    if (command === 'importDiory' && this.roomInFocus.diograph) {
       // const filePath = arg1
       // const copyContent = arg2
 
       // const diory = await generator.generateDioryFromFile(filePath)
       // if (copyContent) {
       //   const sourceFileContent = await readFile(filePath)
-      //   const tool = this.getTool(room.connections[0])
+      //   const tool = this.getTool(this.roomInFocus.connections[0])
       //   const contentUrl = await tool.addContent(sourceFileContent, diory.id)
       //   diory.changeContentUrl(contentUrl)
       // }
-      // await room.diograph.addDiory(diory)
-      // await room.saveRoom()
+      // await this.roomInFocus.diograph.addDiory(diory)
+      // await this.roomInFocus.saveRoom()
       return
     }
 
