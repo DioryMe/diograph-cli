@@ -5,10 +5,12 @@ import { LocalClient } from '../local-client'
 
 interface RoomData {
   address: string
+  connectionInFocusAddress: string
 }
 
 interface AppData {
   rooms: RoomData[]
+  roomInFocusAddress: string
 }
 
 const initiateAppData = async (appDataPath: string) => {
@@ -36,12 +38,24 @@ const initiateAppData = async (appDataPath: string) => {
     }),
   )
 
+  // Set roomInFocus to appData
+  if (rooms.length) {
+    appData.roomInFocusAddress = rooms[0].address
+    appData.rooms = rooms.map((room) => {
+      return {
+        address: room.address,
+        connectionInFocusAddress: room.connections[0].address,
+      }
+    })
+  }
+
   return { initiatedRooms: rooms, initiatedAppData: appData }
 }
 
-const saveAppData = async (rooms: Room[], appDataPath: string) => {
+const saveAppData = async (rooms: Room[], roomInFocusAddress: string, appDataPath: string) => {
   const jsonAppData = {
     rooms: rooms.map((room) => ({ address: room.address })),
+    roomInFocusAddress,
   }
   await writeFile(appDataPath, JSON.stringify(jsonAppData, null, 2))
 }

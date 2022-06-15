@@ -14,24 +14,30 @@ const APP_DATA_PATH = join(appDataFolderPath, 'app-data.json')
 
 interface RoomData {
   address: string
+  connectionInFocusAddress: string
 }
 
 interface AppData {
   rooms: RoomData[]
+  roomInFocusAddress: string | undefined
 }
 
 class App {
   appData: AppData = {
     rooms: [],
+    roomInFocusAddress: undefined,
   }
   rooms: Room[] = []
+  roomInFocus: Room | undefined = undefined
 
   constructor() {}
 
   init = async () =>
     initiateAppData(APP_DATA_PATH).then(({ initiatedRooms, initiatedAppData }) => {
+      console.log(initiateAppData)
       this.rooms = initiatedRooms
       this.appData = initiatedAppData
+      this.roomInFocus = this.rooms.find((room) => room.address === this.appData.roomInFocusAddress)
     })
 
   run = async (command: string, arg1: string, arg2: string, arg3: string) => {
@@ -70,7 +76,7 @@ class App {
       await room.saveRoom()
 
       this.rooms.push(room)
-      await saveAppData(this.rooms, APP_DATA_PATH)
+      await saveAppData(this.rooms, room.address, APP_DATA_PATH)
 
       console.log('Room added.')
       return
@@ -86,7 +92,11 @@ class App {
     }
 
     // TODO: Implement "room in focus" => defaults to first one
-    const room = this.rooms[0]
+    const room = this.roomInFocus
+
+    if (!room) {
+      return
+    }
 
     if (command === 'roomListConnections') {
       return room.connections.map((connection) => ({ address: connection.address }))
@@ -95,7 +105,7 @@ class App {
     if (command === 'deleteRoom') {
       await room.deleteRoom()
       this.rooms.shift()
-      await saveAppData(this.rooms, APP_DATA_PATH)
+      await saveAppData(this.rooms, room.address, APP_DATA_PATH)
       console.log('Room deleted.')
       return
     }
@@ -127,6 +137,7 @@ class App {
       return
     }
 
+    // TODO: DRY this out by passing path as an argument to listClientContents
     if (command === 'listClientContents2') {
       const connection = room.connections[1]
       const list = await listLocalContentSource('/Subfolder', connection.address)
