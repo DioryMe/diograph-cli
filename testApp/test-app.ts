@@ -4,6 +4,7 @@ import { join } from 'path'
 import { Connection, Room, RoomClient } from 'diograph-js'
 import { LocalClient } from '../local-client'
 import { initiateAppData, saveAppData } from './app-data'
+import { listLocalContentSource } from './listLocalContentSource'
 
 const appDataFolderPath = process.env['APP_DATA_FOLDER'] || join(process.cwd(), 'tmp')
 if (!existsSync(appDataFolderPath)) {
@@ -114,22 +115,28 @@ class App {
     }
 
     if (command === 'listClientContents') {
-      // const connection = room.connections[1]
-      // const tool = this.getTool(connection)
-      // const list = await tool.list('/')
-
-      // await room.saveRoom()
-      // return list
+      const connection = room.connections[1]
+      const list = await listLocalContentSource('/', connection.address)
+      connection.diograph.mergeDiograph(list)
+      connection.diograph.diories.forEach((diory) => {
+        if (diory.data && diory.data[0].contentUrl) {
+          connection.addContentUrl(diory.data[0].contentUrl, diory.id)
+        }
+      })
+      await room.saveRoom()
       return
     }
 
     if (command === 'listClientContents2') {
-      // const connection = room.connections[1]
-      // const tool = this.getTool(connection)
-      // const list = await tool.list('subfolder')
-
-      // await room.saveRoom()
-      // return list
+      const connection = room.connections[1]
+      const list = await listLocalContentSource('/Subfolder', connection.address)
+      connection.diograph.mergeDiograph(list)
+      connection.diograph.diories.forEach((diory) => {
+        if (diory.data && diory.data[0].contentUrl) {
+          connection.addContentUrl(diory.data[0].contentUrl, diory.id)
+        }
+      })
+      await room.saveRoom()
       return
     }
 

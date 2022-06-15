@@ -4,7 +4,7 @@ const { join } = require('path')
 const { Given, When, Then } = require('@cucumber/cucumber')
 const { App } = require('../../dist/testApp/test-app')
 
-const CONTENT_SOURCE_FOLDER = join(process.cwd(), 'demo-content-room', 'Mary')
+const CONTENT_SOURCE_FOLDER = join(process.cwd(), 'demo-content-room', 'source')
 const APP_DATA_PATH = join(process.cwd(), 'tmp')
 const TEMP_ROOM_PATH = APP_DATA_PATH
 const CONTENT_FOLDER_PATH = join(APP_DATA_PATH, 'Diory Content') // <-- this is deleted recursively!
@@ -91,14 +91,14 @@ Then('appData has {word} room(s)', (count) => {
   assert.equal(appData.rooms.length, parseInt(count, 10))
 })
 
-Then('last connection contentUrls has {int} diories', (dioryCount) => {
+Then('last connection diograph has {int} diories', (dioryCount) => {
   const roomJsonContents = readFileSync(join(TEMP_ROOM_PATH, 'room.json'), {
     encoding: 'utf8',
   })
   const roomJson = JSON.parse(roomJsonContents)
   const lastConnection = roomJson.connections[roomJson.connections.length - 1]
 
-  const diories = Object.values(lastConnection.contentUrls)
+  const diories = Object.values(lastConnection.diograph)
   assert.equal(diories.length, dioryCount)
 })
 
