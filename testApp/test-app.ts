@@ -43,7 +43,7 @@ class App {
           throw new Error('Invalid room address in app-data.json')
         }
         const client = new LocalClient(roomData.address)
-        const roomClient = new RoomClient(undefined, client)
+        const roomClient = new RoomClient(client)
         const room = new Room(roomClient)
         this.rooms.push(room)
         return room.loadRoom()
@@ -84,7 +84,7 @@ class App {
         mkdirSync(roomPath)
       }
       const client = new LocalClient(roomPath)
-      const roomClient = new RoomClient(undefined, client)
+      const roomClient = new RoomClient(client)
       const room = new Room(roomClient)
 
       const connection = new Connection({
