@@ -3,6 +3,7 @@ import { readFile, writeFile, rm } from 'fs/promises'
 import { join } from 'path'
 import { Connection, Room, RoomClient } from 'diograph-js'
 import { LocalClient } from '../local-client'
+import { initiateAppData, saveAppData } from './app-data'
 
 const appDataFolderPath = process.env['APP_DATA_FOLDER'] || join(process.cwd(), 'tmp')
 if (!existsSync(appDataFolderPath)) {
@@ -26,37 +27,11 @@ class App {
 
   constructor() {}
 
-  initiateAppData = async () => {
-    // Initiate app data if doesn't exist yet
-    if (!existsSync(APP_DATA_PATH)) {
-      const defaultAppData = { rooms: [] }
-      await writeFile(APP_DATA_PATH, JSON.stringify(defaultAppData, null, 2))
-    }
-
-    const appDataContents = await readFile(APP_DATA_PATH, { encoding: 'utf8' })
-    this.appData = JSON.parse(appDataContents)
-
-    // Load rooms
-    await Promise.all(
-      this.appData.rooms.map(async (roomData) => {
-        if (!existsSync(roomData.address)) {
-          throw new Error('Invalid room address in app-data.json')
-        }
-        const client = new LocalClient(roomData.address)
-        const roomClient = new RoomClient(client)
-        const room = new Room(roomClient)
-        this.rooms.push(room)
-        return room.loadRoom()
-      }),
-    )
-  }
-
-  saveAppData = async () => {
-    const jsonAppData = {
-      rooms: this.rooms.map((room) => ({ address: room.address })),
-    }
-    await writeFile(APP_DATA_PATH, JSON.stringify(jsonAppData, null, 2))
-  }
+  init = async () =>
+    initiateAppData(APP_DATA_PATH).then(({ initiatedRooms, initiatedAppData }) => {
+      this.rooms = initiatedRooms
+      this.appData = initiatedAppData
+    })
 
   run = async (command: string, arg1: string, arg2: string, arg3: string) => {
     if (!command) {
@@ -70,14 +45,12 @@ class App {
       return
     }
 
-    await this.initiateAppData()
-
     if (command === 'addRoom') {
       const roomPath = arg1
       if (!arg1) {
         throw new Error('Arg1 not provided for addRoom(), please provide one')
       }
-      if (this.rooms.find((existingRoom) => existingRoom.address === room.address)) {
+      if (this.rooms.find((existingRoom) => existingRoom.address === roomPath)) {
         throw new Error(`addRoom error: Room with address ${roomPath} already exists`)
       }
       if (!existsSync(roomPath)) {
@@ -96,7 +69,7 @@ class App {
       await room.saveRoom()
 
       this.rooms.push(room)
-      await this.saveAppData()
+      await saveAppData(this.rooms, APP_DATA_PATH)
 
       console.log('Room added.')
       return
@@ -111,6 +84,7 @@ class App {
       return
     }
 
+    // TODO: Implement "room in focus" => defaults to first one
     const room = this.rooms[0]
 
     if (command === 'roomListConnections') {
@@ -120,7 +94,7 @@ class App {
     if (command === 'deleteRoom') {
       await room.deleteRoom()
       this.rooms.shift()
-      await this.saveAppData()
+      await saveAppData(this.rooms, APP_DATA_PATH)
       console.log('Room deleted.')
       return
     }

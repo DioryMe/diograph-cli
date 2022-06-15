@@ -12,6 +12,7 @@ const CONTENT_FOLDER_PATH = join(APP_DATA_PATH, 'Diory Content') // <-- this is 
 const testApp = new App()
 
 Given('I have empty place for room', async () => {
+  await testApp.init()
   await testApp.run('deleteRoom')
   await testApp.run('resetApp')
   existsSync(join(APP_DATA_PATH, 'app-data.json')) &&
