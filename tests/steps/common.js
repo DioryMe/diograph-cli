@@ -54,12 +54,24 @@ When('I add connection to {word}', async (destination) => {
 })
 
 When('I call importDiory', async () => {
-  const imageFilePath = join(APP_DATA_PATH, '..', 'fixtures', 'PIXNIO-53799-6177x4118.jpeg')
+  const imageFilePath = join(
+    APP_DATA_PATH,
+    '..',
+    'demo-content-room',
+    'source',
+    'one-test-image.jpg',
+  )
   await testApp.run('importDiory', imageFilePath)
 })
 
 When('I call importDiory with content', async () => {
-  const imageFilePath = join(APP_DATA_PATH, '..', 'fixtures', 'PIXNIO-53799-6177x4118.jpeg')
+  const imageFilePath = join(
+    APP_DATA_PATH,
+    '..',
+    'demo-content-room',
+    'source',
+    'one-test-image.jpg',
+  )
   await testApp.run('importDiory', imageFilePath, true)
 })
 

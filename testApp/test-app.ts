@@ -1,10 +1,11 @@
 import { existsSync, mkdirSync } from 'fs'
 import { readFile, writeFile, rm } from 'fs/promises'
 import { join } from 'path'
-import { Connection, Room, RoomClient } from 'diograph-js'
+import { Connection, Diory, Room, RoomClient } from 'diograph-js'
 import { LocalClient } from '../local-client'
 import { initiateAppData, saveAppData } from './app-data'
 import { listLocalContentSource } from './listLocalContentSource'
+import { Generator, getDefaultImage } from '@diograph/file-generator'
 
 const appDataFolderPath = process.env['APP_DATA_FOLDER'] || join(process.cwd(), 'tmp')
 if (!existsSync(appDataFolderPath)) {
@@ -173,18 +174,25 @@ class App {
     }
 
     if (command === 'importDiory' && this.roomInFocus.diograph) {
-      // const filePath = arg1
-      // const copyContent = arg2
+      const filePath = arg1
+      const copyContent = arg2
 
-      // const diory = await generator.generateDioryFromFile(filePath)
-      // if (copyContent) {
-      //   const sourceFileContent = await readFile(filePath)
-      //   const tool = this.getTool(this.roomInFocus.connections[0])
-      //   const contentUrl = await tool.addContent(sourceFileContent, diory.id)
-      //   diory.changeContentUrl(contentUrl)
-      // }
-      // await this.roomInFocus.diograph.addDiory(diory)
-      // await this.roomInFocus.saveRoom()
+      const generator = new Generator()
+      const { dioryObject, thumbnailBuffer, cid } = await generator.generateDioryFromFile(filePath)
+      const dataUrl = thumbnailBuffer
+        ? `data:image/jpeg;base64,${thumbnailBuffer.toString('base64')}`
+        : getDefaultImage()
+      dioryObject.image = dataUrl
+      const diory = new Diory(dioryObject)
+      if (copyContent) {
+        const sourceFileContent = await readFile(filePath)
+        await this.roomInFocus.addContent(sourceFileContent, cid || dioryObject.id)
+        console.log(this.roomInFocus)
+        diory.changeContentUrl(cid || dioryObject.id)
+      }
+      await this.roomInFocus.diograph.addDiory(diory)
+      await this.roomInFocus.saveRoom()
+      // console.log('diorob', diory.toDioryObject())
       return
     }
 

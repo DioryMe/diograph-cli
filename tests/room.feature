@@ -8,7 +8,7 @@ Feature: Room
     Then room.json does exists
     And room.json has 1 connections
     And diograph.json does exists
-    # And diograph.json has 1 diories
+    And diograph.json has 0 diories
 
   Scenario: Delete room
     When I delete room
@@ -44,12 +44,11 @@ Feature: Room
   #   Then diograph.json has two diories
   #   And images folder has one image
 
-  # Scenario: Import diory
-  #   When I call importDiory
-  #   Then diograph.json has 2 diories
-  #   And images folder has 1 image
-  #   And room.json has 1 connection
-  #   And last connection has 0 contentUrls
+  Scenario: Import diory
+    When I call importDiory
+    Then diograph.json has 1 diories
+    And room.json has 1 connection
+    And last connection has 0 contentUrls
 
   # Scenario: Import diory with content
   #   When I call importDiory with content
