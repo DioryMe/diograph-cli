@@ -5,6 +5,7 @@ import { LocalClient } from '../local-client'
 
 interface RoomData {
   address: string
+  connectionInFocusAddress: string
 }
 
 interface AppData {
@@ -40,9 +41,12 @@ const initiateAppData = async (appDataPath: string) => {
   // Set roomInFocus to appData
   if (rooms.length) {
     appData.roomInFocusAddress = rooms[0].address
-    appData.rooms = rooms.map((room) => ({
-      address: room.address,
-    }))
+    appData.rooms = rooms.map((room) => {
+      return {
+        address: room.address,
+        connectionInFocusAddress: room.connections[0].address,
+      }
+    })
   }
 
   return { initiatedRooms: rooms, initiatedAppData: appData }
