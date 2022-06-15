@@ -14,7 +14,6 @@ const APP_DATA_PATH = join(appDataFolderPath, 'app-data.json')
 
 interface RoomData {
   address: string
-  connectionInFocusAddress: string
 }
 
 interface AppData {
