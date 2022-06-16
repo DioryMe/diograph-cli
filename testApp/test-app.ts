@@ -227,12 +227,20 @@ class App {
       return this.roomInFocus.getContent(arg1)
     }
 
+    if (command === 'writeFile') {
+      const contentId = arg1
+      const fileName = arg2
+      const fileBuffer = await this.roomInFocus.connections[0].readContent(contentId)
+      await writeFile(fileName, fileBuffer)
+      return
+    }
+
     if (command === 'dryRun') {
       console.log('Dry run completed.')
       return
     }
 
-    throw new Error(`Invalid command '${command}' (or invalid room...)`)
+    throw new Error(`Invalid command '${command}' (or forgot return...or invalid room...)`)
   }
 }
 
