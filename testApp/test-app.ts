@@ -207,17 +207,13 @@ class App {
       this.roomInFocus.diograph?.addDiory(newDiory)
       if (copyContent) {
         // 2. Make content available also via native-connection
-        // Lue tiedoston sisältö source-connectionista (elikkäs kakkosesta)
         const contentUrl = newDiory.getContentUrl()
         if (!contentUrl) {
           return
         }
         const fileContents = await this.roomInFocus.connections[1].readContent(contentUrl)
-        // Lisää/kopioi tiedoston sisältö huoneen native-connectioniin (elikkäs ekaan)
         const internalPath = await nativeConnection.addContent(fileContents, contentUrl)
-        // Lisää native-connectioniin contentUrl (jolloin löytyy siitä huoneesta)
         nativeConnection.addContentUrl(contentUrl, internalPath)
-        // ContentUrl pysyy samana!! => ei tarvii muuttaa
       }
       await this.roomInFocus.saveRoom()
       return
