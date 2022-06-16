@@ -177,15 +177,7 @@ Then('last connection has {int} contentUrls', (value) => {
   assert.equal(Object.values(lastConnection.contentUrls).length, value)
 })
 
-Then('I can call getPathFromContentUrl', async () => {
-  const roomJsonContents = readFileSync(join(TEMP_ROOM_PATH, 'room.json'), {
-    encoding: 'utf8',
-  })
-  const roomJson = JSON.parse(roomJsonContents)
-  const lastConnection = roomJson.connections[roomJson.connections.length - 1]
-
-  const contentUrls = Object.keys(lastConnection.contentUrls)
-
-  const contentUrl = await testApp.run('getPathFromContentUrl', contentUrls[0])
-  assert.equal(contentUrl, join(TEMP_ROOM_PATH, 'Diory Content', contentUrls[0]))
+Then('I get url from getContent with {string}', async (contentId) => {
+  const response = await testApp.run('getContent', contentId)
+  assert.ok(response, "getContent() didn't return anything")
 })

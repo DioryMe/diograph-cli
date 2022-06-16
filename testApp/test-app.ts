@@ -215,6 +215,10 @@ class App {
       return
     }
 
+    if (command === 'getContent') {
+      return this.roomInFocus.getContent(arg1)
+    }
+
     if (command === 'dryRun') {
       console.log('Dry run completed.')
       return
