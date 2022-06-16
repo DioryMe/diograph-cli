@@ -46,13 +46,13 @@ Feature: Room
     And content folder has 0 file
     And I get url from getContent with 'bafkreihoednm4s2g4vpame3mweewfq5of3hks2mbmkvoksxg3z4rhmweeu'
 
-  # Scenario: Add diory from content source with content
-  #   When I add connection to content-source-folder
-  #   And I call listClientContents operation
-  #   # And I import last diory to native-connection with content
-  #   # Then diograph.json has two diories
-  #   # And content folder has 1 file
-  #   # And I get url from getContent with 'bafkreihoednm4s2g4vpame3mweewfq5of3hks2mbmkvoksxg3z4rhmweeu'
+  Scenario: Add diory from content source with content
+    When I add connection to content-source-folder
+    And I call listClientContents operation
+    And I import last diory to first connection with content
+    Then diograph.json has 1 diories
+    And content folder has 1 file
+    And I get url from getContent with 'bafkreihoednm4s2g4vpame3mweewfq5of3hks2mbmkvoksxg3z4rhmweeu'
 
   # Scenario: Import diory
   #   When I call importDiory

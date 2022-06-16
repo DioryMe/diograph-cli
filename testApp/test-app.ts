@@ -198,18 +198,26 @@ class App {
     if (command === 'import') {
       const dioryId = arg1 // same as internalPath...
       const copyContent = arg2
-      const newDioryObject = this.roomInFocus.connections[1].diograph
-        .getDiory(dioryId)
-        .toDioryObject()
+      const nativeConnection = this.roomInFocus.connections[0]
+      const sourceConnection = this.roomInFocus.connections[1]
+      // 1. Import diory from connection's diograph to room's diograph
+      const newDioryObject = sourceConnection.diograph.getDiory(dioryId).toDioryObject()
       newDioryObject.id = uuid()
-      this.roomInFocus.diograph?.addDiory(new Diory(newDioryObject))
+      const newDiory = new Diory(newDioryObject)
+      this.roomInFocus.diograph?.addDiory(newDiory)
       if (copyContent) {
-        // 2. Tuo content saataville myös native-connectioniin
+        // 2. Make content available also via native-connection
         // Lue tiedoston sisältö source-connectionista (elikkäs kakkosesta)
+        const contentUrl = newDiory.getContentUrl()
+        if (!contentUrl) {
+          return
+        }
+        const fileContents = await this.roomInFocus.connections[1].readContent(contentUrl)
         // Lisää/kopioi tiedoston sisältö huoneen native-connectioniin (elikkäs ekaan)
+        const internalPath = await nativeConnection.addContent(fileContents, contentUrl)
         // Lisää native-connectioniin contentUrl (jolloin löytyy siitä huoneesta)
-        // ContentUrl pysyy samana!!
-        // => enable second .feature test
+        nativeConnection.addContentUrl(contentUrl, internalPath)
+        // ContentUrl pysyy samana!! => ei tarvii muuttaa
       }
       await this.roomInFocus.saveRoom()
       return
