@@ -194,8 +194,28 @@ class App {
       return
     }
 
+    if (command === 'import') {
+      const dioryId = arg1 // same as internalPath...
+      const copyContent = arg2
+      // 1. Contentia edustava diory lisätä(/kopioida source-connectionin diographista) huoneen diographiin
+      // Etsiä kyseinen diory diographista internalPathin avulla (=id)
+      // Luoda/muuttaa sille uusi id (koska vanha on joku internalPath)
+      // Lisätä diory huoneen diographiin (.addDiory(new Diory(updatedDioryObject)))
+      // => enable one row from .feature test (or the whole test should pass now...)
+      if (copyContent) {
+        // 2. Tuo content saataville myös native-connectioniin
+        // Lue tiedoston sisältö source-connectionista (elikkäs kakkosesta)
+        // Lisää/kopioi tiedoston sisältö huoneen native-connectioniin (elikkäs ekaan)
+        // Lisää native-connectioniin contentUrl (jolloin löytyy siitä huoneesta)
+        // ContentUrl pysyy samana!!
+        // => enable second .feature test
+      }
+      return
+    }
+
     if (command === 'dryRun') {
       console.log('Dry run completed.')
+      return
     }
 
     throw new Error(`Invalid command '${command}' (or invalid room...)`)

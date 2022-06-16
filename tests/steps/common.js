@@ -79,6 +79,14 @@ When('I call {word} operation', async (operation) => {
   await testApp.run(operation)
 })
 
+When('I import last diory to first connection', async () => {
+  await testApp.run('import', '/two-test-image.jpg')
+})
+
+When('I import last diory to first connection with content', async () => {
+  await testApp.run('import', '/two-test-image.jpg', true)
+})
+
 // THEN
 
 Then('{word} {word} exists', (fileName, doesOrNot) => {

@@ -27,6 +27,7 @@ addRoom(roomPath)
 - adds room to given path
 - creates LocalClient, RoomClient and Room
 - saves room address to app-data
+- e.g. ... addRoom /room/folder
 
 appListRooms
 - list available rooms in the app
@@ -50,6 +51,7 @@ deleteRoom()
 addConnection(connectionPath)
 - add connection to given (or current) path
 - currently to first room
+- e.g. ... addConnection /path/to/source/folder
 
 importDioryFromFile
 - copy file to appTempFolder
@@ -60,16 +62,22 @@ importDioryFromFile
 addDioryToRoom(shouldCopyContent)
 - add diory in focus in connection's diograph to room
 - add diory's content to room in focus (+ change contentUrl?)
+
+import
+- copy diory (and content) from connection to room
+- boolean to define if content should be made available also on native-connection
+- e.g. ... import /two-test-image.jpg false
 ```
 
 ## Connection commands
 
 ```
-listClientContents(path)
+listClientContents
 - uses listContentSource tool to list contents (in diograph)
-  - should: pass connection & instantiate client of that type
-- currently uses second connection in the room
 - should be: list content source contents
+- e.g. ... listClientContents
+  - currently lists contents of the second connection in the room
+  - should this return something?
 ```
 
 ## Diograph commands
