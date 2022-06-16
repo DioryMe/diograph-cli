@@ -38,11 +38,21 @@ Feature: Room
     Then last connection diograph has 6 diories
     And last connection has 4 contentUrls
 
-  # Scenario: Add diory from content source
-  #   When I add connection to content-source-folder
-  #   And I call import operation for client
-  #   Then diograph.json has two diories
-  #   And images folder has one image
+  Scenario: Add diory from content source
+    When I add connection to content-source-folder
+    And I call listClientContents operation
+    # And I import last diory to native-connection
+    # Then diograph.json has two diories
+    # And content folder has 0 file
+    # And I can call getContent and reply 123
+
+  Scenario: Add diory from content source with content
+    When I add connection to content-source-folder
+    And I call listClientContents operation
+    # And I import last diory to native-connection with content
+    # Then diograph.json has two diories
+    # And content folder has 1 file
+    # And I can call getContent and reply 456
 
   Scenario: Import diory
     When I call importDiory
@@ -57,10 +67,6 @@ Feature: Room
     And last connection has 1 contentUrls
     And last diory has image/png as encodingFormat
     And last diory has bafkreihoednm4s2g4vpame3mweewfq5of3hks2mbmkvoksxg3z4rhmweeu as contentUrl
-
-  # Scenario: Get content
-  #   When I call importDiory with content
-  #   Then I can call getPathFromContentUrl
 
   # Scenario: Delete diory with content
   #   When I call importDiory with content
