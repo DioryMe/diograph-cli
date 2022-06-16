@@ -5,7 +5,8 @@
     "target": "es2016",
     "module": "commonjs",
     "strict": true,
-    "forceConsistentCasingInFileNames": true
+    "forceConsistentCasingInFileNames": true,
+    "sourceMap": true
   },
   "exclude": ["node_modules", "dist"]
 }
