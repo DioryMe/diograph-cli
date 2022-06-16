@@ -42,8 +42,8 @@ Feature: Room
     When I add connection to content-source-folder
     And I call listClientContents operation
     And I import last diory to first connection
-    # Then diograph.json has two diories
-    # And content folder has 0 file
+    Then diograph.json has 1 diories
+    And content folder has 0 file
     # And I can call getContent and reply 123
 
   # Scenario: Add diory from content source with content

@@ -123,6 +123,9 @@ Then('last connection diograph has {int} diories', (dioryCount) => {
 })
 
 Then('content folder has {int} file(s)', (count) => {
+  if (count === 0 && !existsSync(CONTENT_FOLDER_PATH)) {
+    return
+  }
   const contentFileList =
     lstatSync(CONTENT_FOLDER_PATH).isDirectory() && readdirSync(CONTENT_FOLDER_PATH)
   assert.equal(contentFileList.length, count)

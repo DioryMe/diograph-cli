@@ -66,7 +66,7 @@ addDioryToRoom(shouldCopyContent)
 import
 - copy diory (and content) from connection to room
 - boolean to define if content should be made available also on native-connection
-- e.g. ... import /two-test-image.jpg false
+- e.g. ... import /two-test-image.jpg true
 ```
 
 ## Connection commands

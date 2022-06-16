@@ -6,6 +6,7 @@ import { LocalClient } from '../local-client'
 import { initiateAppData, saveAppData } from './app-data'
 import { listLocalContentSource } from './listLocalContentSource'
 import { Generator, getDefaultImage } from '@diograph/file-generator'
+import { v4 as uuid } from 'uuid'
 
 const appDataFolderPath = process.env['APP_DATA_FOLDER'] || join(process.cwd(), 'tmp')
 if (!existsSync(appDataFolderPath)) {
@@ -197,11 +198,11 @@ class App {
     if (command === 'import') {
       const dioryId = arg1 // same as internalPath...
       const copyContent = arg2
-      // 1. Contentia edustava diory lisätä(/kopioida source-connectionin diographista) huoneen diographiin
-      // Etsiä kyseinen diory diographista internalPathin avulla (=id)
-      // Luoda/muuttaa sille uusi id (koska vanha on joku internalPath)
-      // Lisätä diory huoneen diographiin (.addDiory(new Diory(updatedDioryObject)))
-      // => enable one row from .feature test (or the whole test should pass now...)
+      const newDioryObject = this.roomInFocus.connections[1].diograph
+        .getDiory(dioryId)
+        .toDioryObject()
+      newDioryObject.id = uuid()
+      this.roomInFocus.diograph?.addDiory(new Diory(newDioryObject))
       if (copyContent) {
         // 2. Tuo content saataville myös native-connectioniin
         // Lue tiedoston sisältö source-connectionista (elikkäs kakkosesta)
@@ -210,6 +211,7 @@ class App {
         // ContentUrl pysyy samana!!
         // => enable second .feature test
       }
+      await this.roomInFocus.saveRoom()
       return
     }
 
