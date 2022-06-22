@@ -126,6 +126,11 @@
   resolved "https://registry.yarnpkg.com/@cucumber/tag-expressions/-/tag-expressions-4.1.0.tgz#9a91b0e0dd2f2ba703e3038c52b49b9ac06c2c6f"
   integrity sha512-chTnjxV3vryL75N90wJIMdMafXmZoO2JgNJLYpsfcALL2/IQrRiny3vM9DgD5RDCSt1LNloMtb7rGey9YWxCsA==
 
+"@diograph/local-client@*":
+  version "0.0.1"
+  resolved "https://registry.yarnpkg.com/@diograph/local-client/-/local-client-0.0.1.tgz#c4830e1d3785dc189b617baaa70810ff14789649"
+  integrity sha512-sTTu/raLSTPha4ijbqAgNZYD925gsrDHkZjsQ7JCvjipRBIu4UHvaNjTE+2yX/mmwj33avc4m+wRfr45NjA49g==
+
 "@jridgewell/resolve-uri@^3.0.3":
   version "3.0.7"
   resolved "https://registry.yarnpkg.com/@jridgewell/resolve-uri/-/resolve-uri-3.0.7.tgz#30cd49820a962aff48c8fffc5cd760151fca61fe"
