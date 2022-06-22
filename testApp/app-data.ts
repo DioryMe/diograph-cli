@@ -1,7 +1,7 @@
-import { existsSync, mkdirSync } from 'fs'
+import { existsSync } from 'fs'
 import { readFile, writeFile, rm } from 'fs/promises'
-import { Connection, Room, RoomClient } from 'diograph-js'
-import { LocalClient } from '../local-client'
+import { Room, RoomClient } from 'diograph-js'
+import { LocalClient } from '@diograph/local-client'
 
 interface RoomData {
   address: string
