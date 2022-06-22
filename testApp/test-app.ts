@@ -4,7 +4,7 @@ import { join } from 'path'
 import { Connection, Diory, Room, RoomClient } from 'diograph-js'
 import { LocalClient } from '../local-client'
 import { initiateAppData, saveAppData } from './app-data'
-import { listLocalContentSource } from './listLocalContentSource'
+import { localDiographGenerator } from './localDiographGenerator'
 import { Generator, getDefaultImage } from '@diograph/file-generator'
 import { v4 as uuid } from 'uuid'
 
@@ -127,7 +127,7 @@ class App {
 
     if (command === 'listClientContents') {
       const connection = this.roomInFocus.connections[1]
-      const list = await listLocalContentSource('/', connection.address)
+      const list = await localDiographGenerator('/', connection.address)
       connection.diograph.mergeDiograph(list)
       connection.diograph.diories.forEach((diory) => {
         if (diory.data && diory.data[0].contentUrl) {
@@ -140,7 +140,7 @@ class App {
 
     if (command === 'listClientContents2') {
       const connection = this.roomInFocus.connections[1]
-      const list = await listLocalContentSource('/Subfolder', connection.address)
+      const list = await localDiographGenerator('/Subfolder', connection.address)
       connection.diograph.mergeDiograph(list)
       connection.diograph.diories.forEach((diory) => {
         if (diory.data && diory.data[0].contentUrl) {
@@ -201,7 +201,7 @@ class App {
       const nativeConnection = this.roomInFocus.connections[0]
       const sourceConnection = this.roomInFocus.connections[1]
       // 1. Import diory from connection's diograph to room's diograph
-      const newDioryObject = sourceConnection.diograph.getDiory(dioryId).toDioryObject()
+      const newDioryObject = sourceConnection.diograph.getDiory(dioryId).toObject()
       newDioryObject.id = uuid()
       const newDiory = new Diory(newDioryObject)
       this.roomInFocus.diograph?.addDiory(newDiory)
