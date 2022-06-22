@@ -136,19 +136,19 @@
   resolved "https://registry.yarnpkg.com/@cucumber/tag-expressions/-/tag-expressions-4.1.0.tgz#9a91b0e0dd2f2ba703e3038c52b49b9ac06c2c6f"
   integrity sha512-chTnjxV3vryL75N90wJIMdMafXmZoO2JgNJLYpsfcALL2/IQrRiny3vM9DgD5RDCSt1LNloMtb7rGey9YWxCsA==
 
-"@diograph/file-generator@0.0.2":
+"@diograph/file-generator@0.0.2-next.3":
   version "0.0.2-next.3"
   resolved "https://registry.yarnpkg.com/@diograph/file-generator/-/file-generator-0.0.2-next.3.tgz#e933340b9ec4a2366981d603d54b29edda6a4a17"
   integrity sha512-Nsk2QZrT0JMtc5UKuqzrOB6uznCF3S7oWQl6LP1zrloiurNwrOBJ95A3AyDyfmlHaZeKdrdnpJ8RvrvCepsK/A==
   dependencies:
-    diograph-js "0.0.3"
+    diograph-js "0.0.3-next.1"
     exifreader "^4.1.0"
     file-type "^16.4.0"
     multiformats "^9.6.5"
     sharp "*"
     uuid "^8.3.2"
 
-"@diograph/local-client@0.0.2":
+"@diograph/local-client@0.0.2-next.0":
   version "0.0.2-next.0"
   resolved "https://registry.yarnpkg.com/@diograph/local-client/-/local-client-0.0.2-next.0.tgz#b3c71e49d60624f6817ec056e6b2feadc8ef2869"
   integrity sha512-nSeIOBtp0De1t3GV7CPkOnRetiTXap3Prs68OaSmzsM1UkUkOjRBVU5fI3Kck6mYKQJOz6hzN8b1stM7XFesfQ==
@@ -391,7 +391,7 @@ diff@^4.0.1:
   resolved "https://registry.yarnpkg.com/diff/-/diff-4.0.2.tgz#60f3aecb89d5fae520c11aa19efc2bb982aade7d"
   integrity sha512-58lmxKSA4BNyLz+HHMUzlOEpg09FV+ev6ZMe3vJihgdxzgcwZ8VoEEPmALCZG9LmqfVoNMMKpttIYTVG6uDY7A==
 
-diograph-js@0.0.3:
+diograph-js@0.0.3-next.1:
   version "0.0.3-next.1"
   resolved "https://registry.yarnpkg.com/diograph-js/-/diograph-js-0.0.3-next.1.tgz#406c5311fc59cb5ecb2e9ae18a3e171057b40c7a"
   integrity sha512-2untA+lDJqm+r0wFv5jBjkWZ//bMnx7JyeiOIS5HYAep6B3apDZa09s6hsneD1n5ZenYmNFFjiAT8DzCPv7ktg==

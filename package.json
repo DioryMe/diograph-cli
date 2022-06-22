@@ -6,9 +6,9 @@
   "author": "Jouni Alanen <jouni@diory.me>",
   "license": "MIT",
   "dependencies": {
-    "@diograph/local-client": "0.0.2",
-    "@diograph/file-generator": "0.0.2",
-    "diograph-js": "0.0.3",
+    "@diograph/local-client": "0.0.2-next.0",
+    "@diograph/file-generator": "0.0.2-next.3",
+    "diograph-js": "0.0.3-next.1",
     "uuid": "^8.3.2"
   },
   "devDependencies": {
