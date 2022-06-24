@@ -136,22 +136,22 @@
   resolved "https://registry.yarnpkg.com/@cucumber/tag-expressions/-/tag-expressions-4.1.0.tgz#9a91b0e0dd2f2ba703e3038c52b49b9ac06c2c6f"
   integrity sha512-chTnjxV3vryL75N90wJIMdMafXmZoO2JgNJLYpsfcALL2/IQrRiny3vM9DgD5RDCSt1LNloMtb7rGey9YWxCsA==
 
-"@diograph/file-generator@0.0.2-next.3":
-  version "0.0.2-next.3"
-  resolved "https://registry.yarnpkg.com/@diograph/file-generator/-/file-generator-0.0.2-next.3.tgz#e933340b9ec4a2366981d603d54b29edda6a4a17"
-  integrity sha512-Nsk2QZrT0JMtc5UKuqzrOB6uznCF3S7oWQl6LP1zrloiurNwrOBJ95A3AyDyfmlHaZeKdrdnpJ8RvrvCepsK/A==
+"@diograph/file-generator@0.0.2":
+  version "0.0.2"
+  resolved "https://registry.yarnpkg.com/@diograph/file-generator/-/file-generator-0.0.2.tgz#9b0291a1aa8f05fa4752f2f47a921496b3b2463d"
+  integrity sha512-E6j4tbvB/H1zCWE4wx9EakDN0tz+kN9eqa7tEsXy3d2RUMMIjnoVKqGWi3wRmS1l/WpuiVIa5arYaxRfPUL/bw==
   dependencies:
-    diograph-js "0.0.3-next.1"
+    diograph-js "0.0.3"
     exifreader "^4.1.0"
     file-type "^16.4.0"
     multiformats "^9.6.5"
     sharp "*"
     uuid "^8.3.2"
 
-"@diograph/local-client@0.0.2-next.0":
-  version "0.0.2-next.0"
-  resolved "https://registry.yarnpkg.com/@diograph/local-client/-/local-client-0.0.2-next.0.tgz#b3c71e49d60624f6817ec056e6b2feadc8ef2869"
-  integrity sha512-nSeIOBtp0De1t3GV7CPkOnRetiTXap3Prs68OaSmzsM1UkUkOjRBVU5fI3Kck6mYKQJOz6hzN8b1stM7XFesfQ==
+"@diograph/local-client@0.0.2":
+  version "0.0.2"
+  resolved "https://registry.yarnpkg.com/@diograph/local-client/-/local-client-0.0.2.tgz#72abb002e6d5bfd890e357c2581dd17a0bb3e293"
+  integrity sha512-Y1Bdsf5vfm3gx/O5QenJd394O15oEBe3Iwhg4b6hracT5fs03EAaAG5prX2rAApvuCR1L6jAv/bx4kTXQXD9yA==
 
 "@jridgewell/resolve-uri@^3.0.3":
   version "3.0.7"
@@ -391,10 +391,10 @@ diff@^4.0.1:
   resolved "https://registry.yarnpkg.com/diff/-/diff-4.0.2.tgz#60f3aecb89d5fae520c11aa19efc2bb982aade7d"
   integrity sha512-58lmxKSA4BNyLz+HHMUzlOEpg09FV+ev6ZMe3vJihgdxzgcwZ8VoEEPmALCZG9LmqfVoNMMKpttIYTVG6uDY7A==
 
-diograph-js@0.0.3-next.1:
-  version "0.0.3-next.1"
-  resolved "https://registry.yarnpkg.com/diograph-js/-/diograph-js-0.0.3-next.1.tgz#406c5311fc59cb5ecb2e9ae18a3e171057b40c7a"
-  integrity sha512-2untA+lDJqm+r0wFv5jBjkWZ//bMnx7JyeiOIS5HYAep6B3apDZa09s6hsneD1n5ZenYmNFFjiAT8DzCPv7ktg==
+diograph-js@0.0.3:
+  version "0.0.3"
+  resolved "https://registry.yarnpkg.com/diograph-js/-/diograph-js-0.0.3.tgz#e4819fdb388c674855a88224f7569fc8233b01bd"
+  integrity sha512-F5Kx+O5B0Pas58czQ6qAL2nmFEJKU9rxr1Sfx4mAAFA92HFU0ZVCnr1g9Q144sItaoYzdpgBx2A6V4RyvxKL6A==
   dependencies:
     uuid "^8.3.2"
 
@@ -659,9 +659,9 @@ mkdirp-classic@^0.5.2, mkdirp-classic@^0.5.3:
   integrity sha512-gKLcREMhtuZRwRAfqP3RFW+TK4JqApVBtOIftVgjuABpAtpxhPGaDcfvbhNvD0B8iD1oUr/txX35NjcaY6Ns/A==
 
 multiformats@^9.6.5:
-  version "9.6.5"
-  resolved "https://registry.yarnpkg.com/multiformats/-/multiformats-9.6.5.tgz#f2d894a26664b454a90abf5a8911b7e39195db80"
-  integrity sha512-vMwf/FUO+qAPvl3vlSZEgEVFY/AxeZq5yg761ScF3CZsXgmTi/HGkicUiNN0CI4PW8FiY2P0OLklOcmQjdQJhw==
+  version "9.7.0"
+  resolved "https://registry.yarnpkg.com/multiformats/-/multiformats-9.7.0.tgz#845799e8df70fbb6b15922500e45cb87cf12f7e5"
+  integrity sha512-uv/tcgwk0yN4DStopnBN4GTgvaAlYdy6KnZpuzEPFOYQd71DYFJjs0MN1ERElAflrZaYyGBWXyGxL5GgrxIx0Q==
 
 mz@^2.7.0:
   version "2.7.0"
