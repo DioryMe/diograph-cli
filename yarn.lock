@@ -136,10 +136,10 @@
   resolved "https://registry.yarnpkg.com/@cucumber/tag-expressions/-/tag-expressions-4.1.0.tgz#9a91b0e0dd2f2ba703e3038c52b49b9ac06c2c6f"
   integrity sha512-chTnjxV3vryL75N90wJIMdMafXmZoO2JgNJLYpsfcALL2/IQrRiny3vM9DgD5RDCSt1LNloMtb7rGey9YWxCsA==
 
-"@diograph/file-generator@0.0.2":
-  version "0.0.2"
-  resolved "https://registry.yarnpkg.com/@diograph/file-generator/-/file-generator-0.0.2.tgz#9b0291a1aa8f05fa4752f2f47a921496b3b2463d"
-  integrity sha512-E6j4tbvB/H1zCWE4wx9EakDN0tz+kN9eqa7tEsXy3d2RUMMIjnoVKqGWi3wRmS1l/WpuiVIa5arYaxRfPUL/bw==
+"@diograph/file-generator@0.0.3":
+  version "0.0.3"
+  resolved "https://registry.yarnpkg.com/@diograph/file-generator/-/file-generator-0.0.3.tgz#1415393ec78f99d8d9c33dfde2f9d009ca52a863"
+  integrity sha512-wV4aKAA8olKmSi19U0kUOZp/vE2O51PWb0eFCW3jFkaVzGKrgv7+nN3GQNHinMvONovWVvVtac0Yp92mcVRE3A==
   dependencies:
     diograph-js "0.0.3"
     exifreader "^4.1.0"
