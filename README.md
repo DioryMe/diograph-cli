@@ -1,17 +1,25 @@
 # Diograph CLI
 
+## Usage
+
+Create room to /tmp folder and save app state to ./tmp/app-data.json
+
+```
+APP_DATA_PATH=./tmp/app-data.json node ./testApp/test-cli.js addRoom ./tmp
+```
+
+Import image diory to that room
+
+```
+APP_DATA_PATH=./tmp/app-data.json node ./testApp/test-cli.js importDiory ~/MyPictures/my-pic.jpg
+```
+
 ## TODO
 
 ```
 - Room in focus (currently always first room)
 - Connection in focus (currently always second in the room)
 - Diory in focus (both: room's & connection's diograph)
-```
-
-## Docs
-
-```
-APP_DATA_PATH = app-data.json
 ```
 
 ## App commands
