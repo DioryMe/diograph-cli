@@ -2,7 +2,7 @@ import { existsSync } from 'fs'
 import { readFile, writeFile, rm } from 'fs/promises'
 import { Room, RoomClient } from 'diograph-js'
 import { LocalClient } from '@diograph/local-client'
-import { S3Client } from '../s3-client'
+import { S3Client } from '@diograph/s3-client'
 
 interface RoomData {
   address: string
@@ -28,13 +28,18 @@ const initiateAppData = async (appDataPath: string) => {
   await Promise.all(
     appData.rooms.map(async (roomData: RoomData) => {
       let client
-      if (roomData.contentClientType == 'LocalClient') {
-        if (!existsSync(roomData.address)) {
-          throw new Error('Invalid room address in app-data.json')
+      try {
+        if (roomData.contentClientType == 'LocalClient') {
+          client = new LocalClient(roomData.address)
+          await client.verify()
+        } else {
+          client = new S3Client(roomData.address)
+          await client.verify()
         }
-        client = new LocalClient(roomData.address)
-      } else {
-        client = new S3Client(roomData.address)
+      } catch (error) {
+        throw new Error(
+          `Invalid room address in app-data.json: ${roomData.address} ${roomData.contentClientType} ${error}`,
+        )
       }
       const roomClient = new RoomClient(client)
       const room = new Room(roomClient)
