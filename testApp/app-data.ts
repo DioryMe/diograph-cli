@@ -65,7 +65,11 @@ const initiateAppData = async (appDataPath: string) => {
 
 const saveAppData = async (rooms: Room[], appDataPath: string) => {
   const jsonAppData = {
-    rooms: rooms.map((room) => ({ address: room.address })),
+    rooms: rooms.map((room) => ({
+      address: room.address,
+      // TODO: Save contentClientType somewhere in order to save it!!
+      contentClientType: 'S3Client',
+    })),
   }
   await writeFile(appDataPath, JSON.stringify(jsonAppData, null, 2))
 }

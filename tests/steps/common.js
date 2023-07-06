@@ -6,8 +6,12 @@ const { App } = require('../../dist/testApp/test-app')
 
 const CONTENT_SOURCE_FOLDER = join(process.cwd(), 'demo-content-room', 'source')
 const APP_DATA_PATH = join(process.cwd(), 'tmp')
-const TEMP_ROOM_PATH = APP_DATA_PATH
-const CONTENT_FOLDER_PATH = join(APP_DATA_PATH, 'Diory Content') // <-- this is deleted recursively!
+// LocalClient
+// const TEMP_ROOM_PATH = APP_DATA_PATH
+// const CONTENT_FOLDER_PATH = join(APP_DATA_PATH, 'Diory Content') // <-- this is deleted recursively!
+// S3Client
+const TEMP_ROOM_PATH = 's3://jvalanen-diory-test3' || APP_DATA_PATH
+const CONTENT_FOLDER_PATH = join(TEMP_ROOM_PATH, 'Diory Content') // <-- this is deleted recursively!
 
 const testApp = new App()
 
@@ -17,17 +21,23 @@ Given('I have empty place for room', async () => {
   await testApp.run('resetApp')
   existsSync(join(APP_DATA_PATH, 'app-data.json')) &&
     (await rmSync(join(APP_DATA_PATH, 'app-data.json')))
-  existsSync(CONTENT_FOLDER_PATH) && (await rmSync(CONTENT_FOLDER_PATH, { recursive: true }))
-  if (!existsSync(APP_DATA_PATH)) {
-    mkdirSync(APP_DATA_PATH)
-  }
+  // LocalClient
+  // existsSync(CONTENT_FOLDER_PATH) && (await rmSync(CONTENT_FOLDER_PATH, { recursive: true }))
+  // if (!existsSync(APP_DATA_PATH)) {
+  //   mkdirSync(APP_DATA_PATH)
+  // }
+  // S3Client
+  // TODO: Delete bucket keys recursively
 })
 
 // WHEN
 
 When('I initiate a room', async () => {
   // If room already exists, this connects to it instead of initiating a new one
-  await testApp.run('addRoom', TEMP_ROOM_PATH, 'LocalClient')
+  // LocalClient
+  // await testApp.run('addRoom', TEMP_ROOM_PATH, 'LocalClient')
+  // S3Client
+  await testApp.run('addRoom', TEMP_ROOM_PATH, 'S3Client')
 })
 
 When('I delete room', async () => {
@@ -53,7 +63,7 @@ When('I add connection to {word}', async (destination) => {
   await testApp.run('addConnection', connectionAddress)
 })
 
-When('I call importDiory', async () => {
+When('I call importDioryFromFile', async () => {
   const imageFilePath = join(
     APP_DATA_PATH,
     '..',
@@ -61,10 +71,10 @@ When('I call importDiory', async () => {
     'source',
     'one-test-image.jpg',
   )
-  await testApp.run('importDiory', imageFilePath)
+  await testApp.run('importDioryFromFile', imageFilePath)
 })
 
-When('I call importDiory with content', async () => {
+When('I call importDioryFromFile with content', async () => {
   const imageFilePath = join(
     APP_DATA_PATH,
     '..',
@@ -72,7 +82,7 @@ When('I call importDiory with content', async () => {
     'source',
     'one-test-image.jpg',
   )
-  await testApp.run('importDiory', imageFilePath, true)
+  await testApp.run('importDioryFromFile', imageFilePath, true)
 })
 
 When('I call {word} operation', async (operation) => {

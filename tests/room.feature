@@ -58,13 +58,13 @@ Feature: Room
   #   And I get url from getContent with 'bafkreihoednm4s2g4vpame3mweewfq5of3hks2mbmkvoksxg3z4rhmweeu'
 
   Scenario: Import diory
-    When I call importDiory
+    When I call importDioryFromFile
     Then diograph.json has 1 diories
     And room.json has 1 connection
     And last connection has 0 contentUrls
 
   Scenario: Import diory with content
-    When I call importDiory with content
+    When I call importDioryFromFile with content
     Then diograph.json has 1 diories
     And content folder has 1 file
     And last connection has 1 contentUrls
@@ -72,7 +72,7 @@ Feature: Room
     And last diory has bafkreihoednm4s2g4vpame3mweewfq5of3hks2mbmkvoksxg3z4rhmweeu as contentUrl
 
   # Scenario: Delete diory with content
-  #   When I call importDiory with content
+  #   When I call importDioryFromFile with content
   #   And I call deleteDiory with content for last diory
   #   Then diograph.json has 1 diories
   #   And images folder has 0 image

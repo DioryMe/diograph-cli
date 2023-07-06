@@ -43,6 +43,9 @@ appListRooms
 listConnections()
 - list all the available connections in the app
 - should be: appListConnections
+
+writeFile(contentId, fileName)
+- write given content to disk with chosen fileName
 ```
 
 ## Room commands
@@ -71,10 +74,13 @@ addDioryToRoom(shouldCopyContent)
 - add diory in focus in connection's diograph to room
 - add diory's content to room in focus (+ change contentUrl?)
 
-import
+import(connectionInternalPathId, copyContent)
 - copy diory (and content) from connection to room
 - boolean to define if content should be made available also on native-connection
 - e.g. ... import /two-test-image.jpg true
+
+getContent(contentUrl)
+- returns url for the content (room address + contentUrl)
 ```
 
 ## Connection commands

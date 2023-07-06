@@ -2,13 +2,10 @@ import { existsSync, mkdirSync } from 'fs'
 import { readFile, writeFile, rm } from 'fs/promises'
 import { join } from 'path'
 import { Connection, Diory, Room, RoomClient } from 'diograph-js'
-import { getClientAndVerify, initiateAppData, initiateRoom, saveAppData } from './app-data'
+import { initiateAppData, initiateRoom, saveAppData } from './app-data'
 import { localDiographGenerator } from './localDiographGenerator'
 import { Generator, getDefaultImage } from '@diograph/file-generator'
 import { v4 as uuid } from 'uuid'
-
-import { S3Client } from '../s3-client'
-import { LocalClient } from '@diograph/local-client'
 
 const appDataFolderPath = process.env['APP_DATA_FOLDER'] || join(process.cwd(), 'tmp')
 if (!existsSync(appDataFolderPath)) {
@@ -89,6 +86,7 @@ class App {
 
     if (command === 'deleteRoom') {
       if (!this.roomInFocus) {
+        console.log('deleteRoom called but no room in focus!!')
         return
       }
       await this.roomInFocus.deleteRoom()
@@ -195,7 +193,7 @@ class App {
       return
     }
 
-    if (command === 'importDiory' && this.roomInFocus.diograph) {
+    if (command === 'importDioryFromFile' && this.roomInFocus.diograph) {
       const filePath = arg1
       const copyContent = arg2
 
