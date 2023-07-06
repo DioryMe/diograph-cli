@@ -7,11 +7,11 @@ const { App } = require('../../dist/testApp/test-app')
 const CONTENT_SOURCE_FOLDER = join(process.cwd(), 'demo-content-room', 'source')
 const APP_DATA_PATH = join(process.cwd(), 'tmp')
 // LocalClient
-// const TEMP_ROOM_PATH = APP_DATA_PATH
-// const CONTENT_FOLDER_PATH = join(APP_DATA_PATH, 'Diory Content') // <-- this is deleted recursively!
+const TEMP_ROOM_PATH = APP_DATA_PATH
+const CONTENT_FOLDER_PATH = join(APP_DATA_PATH, 'Diory Content') // <-- this is deleted recursively!
 // S3Client
-const TEMP_ROOM_PATH = 's3://jvalanen-diory-test3' || APP_DATA_PATH
-const CONTENT_FOLDER_PATH = join(TEMP_ROOM_PATH, 'Diory Content') // <-- this is deleted recursively!
+// const TEMP_ROOM_PATH = 's3://jvalanen-diory-test3' || APP_DATA_PATH
+// const CONTENT_FOLDER_PATH = join(TEMP_ROOM_PATH, 'Diory Content') // <-- this is deleted recursively!
 
 const testApp = new App()
 
@@ -22,10 +22,10 @@ Given('I have empty place for room', async () => {
   existsSync(join(APP_DATA_PATH, 'app-data.json')) &&
     (await rmSync(join(APP_DATA_PATH, 'app-data.json')))
   // LocalClient
-  // existsSync(CONTENT_FOLDER_PATH) && (await rmSync(CONTENT_FOLDER_PATH, { recursive: true }))
-  // if (!existsSync(APP_DATA_PATH)) {
-  //   mkdirSync(APP_DATA_PATH)
-  // }
+  existsSync(CONTENT_FOLDER_PATH) && (await rmSync(CONTENT_FOLDER_PATH, { recursive: true }))
+  if (!existsSync(APP_DATA_PATH)) {
+    mkdirSync(APP_DATA_PATH)
+  }
   // S3Client
   // TODO: Delete bucket keys recursively
 })
@@ -35,9 +35,9 @@ Given('I have empty place for room', async () => {
 When('I initiate a room', async () => {
   // If room already exists, this connects to it instead of initiating a new one
   // LocalClient
-  // await testApp.run('addRoom', TEMP_ROOM_PATH, 'LocalClient')
+  await testApp.run('addRoom', TEMP_ROOM_PATH, 'LocalClient')
   // S3Client
-  await testApp.run('addRoom', TEMP_ROOM_PATH, 'S3Client')
+  // await testApp.run('addRoom', TEMP_ROOM_PATH, 'S3Client')
 })
 
 When('I delete room', async () => {
