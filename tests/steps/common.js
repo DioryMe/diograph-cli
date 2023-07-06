@@ -27,7 +27,7 @@ Given('I have empty place for room', async () => {
 
 When('I initiate a room', async () => {
   // If room already exists, this connects to it instead of initiating a new one
-  await testApp.run('addRoom', TEMP_ROOM_PATH)
+  await testApp.run('addRoom', TEMP_ROOM_PATH, 'LocalClient')
 })
 
 When('I delete room', async () => {
