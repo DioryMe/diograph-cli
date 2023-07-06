@@ -2,11 +2,13 @@ import { existsSync, mkdirSync } from 'fs'
 import { readFile, writeFile, rm } from 'fs/promises'
 import { join } from 'path'
 import { Connection, Diory, Room, RoomClient } from 'diograph-js'
-import { LocalClient } from '@diograph/local-client'
-import { initiateAppData, saveAppData } from './app-data'
+import { getClientAndVerify, initiateAppData, initiateRoom, saveAppData } from './app-data'
 import { localDiographGenerator } from './localDiographGenerator'
 import { Generator, getDefaultImage } from '@diograph/file-generator'
 import { v4 as uuid } from 'uuid'
+
+import { S3Client } from '../s3-client'
+import { LocalClient } from '@diograph/local-client'
 
 const appDataFolderPath = process.env['APP_DATA_FOLDER'] || join(process.cwd(), 'tmp')
 if (!existsSync(appDataFolderPath)) {
@@ -52,22 +54,24 @@ class App {
 
     if (command === 'addRoom') {
       const roomPath = arg1
-      if (!arg1) {
+      const contentClientType = arg2 || 'LocalClient'
+      if (!roomPath) {
         throw new Error('Arg1 not provided for addRoom(), please provide one')
+      }
+      if (!['LocalClient', 'S3Client'].includes(contentClientType)) {
+        throw new Error(
+          `addRoom error: contentClient type should be either LocalClient or S3Client`,
+        )
       }
       if (this.rooms.find((existingRoom) => existingRoom.address === roomPath)) {
         throw new Error(`addRoom error: Room with address ${roomPath} already exists`)
       }
-      if (!existsSync(roomPath)) {
-        mkdirSync(roomPath)
-      }
-      const client = new LocalClient(roomPath)
-      const roomClient = new RoomClient(client)
-      const room = new Room(roomClient)
+
+      const room = await initiateRoom(contentClientType, roomPath)
 
       const connection = new Connection({
         address: join(roomPath, 'Diory Content'),
-        contentClient: 'local',
+        contentClientType,
       })
       room.addConnection(connection)
 
@@ -113,7 +117,10 @@ class App {
 
     if (command === 'addConnection') {
       const connectionAddress = arg1 || process.cwd()
-      const connection = new Connection({ address: connectionAddress, contentClient: 'local' })
+      const connection = new Connection({
+        address: connectionAddress,
+        contentClientType: 'LocalClient',
+      })
       this.roomInFocus.addConnection(connection)
       await this.roomInFocus.saveRoom()
       console.log('Connection added.')
@@ -156,8 +163,22 @@ class App {
     }
 
     if (command === 'getDiory' && this.roomInFocus.diograph) {
-      const diory = await this.roomInFocus.diograph.getDiory('some-diory-id')
-      return diory
+      const dioryId = arg1 || 'some-diory-id'
+      const { id, links, text, latlng, date, data, style, created, modified } =
+        await this.roomInFocus.diograph.getDiory(dioryId)
+      return {
+        id,
+        links,
+        text,
+        latlng,
+        date,
+        data,
+        style,
+        created,
+        modified,
+        image: 'http://localhost:3000/diory/32540931-bb4a-4bd7-bf00-2fe0e2be0b38',
+        datobject: 'http://localhost:3000/content',
+      }
     }
 
     if (command === 'createDiory' && this.roomInFocus.diograph) {
@@ -212,8 +233,8 @@ class App {
           return
         }
         const fileContents = await this.roomInFocus.connections[1].readContent(contentUrl)
-        const internalPath = await nativeConnection.addContent(fileContents, contentUrl)
-        nativeConnection.addContentUrl(contentUrl, internalPath)
+        await nativeConnection.addContent(fileContents, contentUrl)
+        nativeConnection.addContentUrl(contentUrl, join(nativeConnection.address, contentUrl))
       }
       await this.roomInFocus.saveRoom()
       return

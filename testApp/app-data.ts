@@ -13,6 +13,26 @@ interface AppData {
   rooms: RoomData[]
 }
 
+export const getClientAndVerify = async (contentClientType: string, address: string) => {
+  let client
+  if (contentClientType == 'LocalClient') {
+    client = new LocalClient(address)
+    await client.verify()
+  } else {
+    client = new S3Client(address)
+    await client.verify()
+  }
+
+  return client
+}
+
+export const initiateRoom = async (contentClientType: string, address: string) => {
+  const client = await getClientAndVerify(contentClientType, address)
+  const roomClient = new RoomClient(client)
+  const room = new Room(roomClient)
+  return room
+}
+
 const initiateAppData = async (appDataPath: string) => {
   // Initiate app data if doesn't exist yet
   if (!existsSync(appDataPath)) {
@@ -27,22 +47,14 @@ const initiateAppData = async (appDataPath: string) => {
   const rooms: Room[] = []
   await Promise.all(
     appData.rooms.map(async (roomData: RoomData) => {
-      let client
+      let room
       try {
-        if (roomData.contentClientType == 'LocalClient') {
-          client = new LocalClient(roomData.address)
-          await client.verify()
-        } else {
-          client = new S3Client(roomData.address)
-          await client.verify()
-        }
+        room = await initiateRoom(roomData.contentClientType, roomData.address)
       } catch (error) {
         throw new Error(
           `Invalid room address in app-data.json: ${roomData.address} ${roomData.contentClientType} ${error}`,
         )
       }
-      const roomClient = new RoomClient(client)
-      const room = new Room(roomClient)
       rooms.push(room)
       return room.loadRoom()
     }),
