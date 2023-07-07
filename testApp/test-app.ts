@@ -1,11 +1,13 @@
 import { existsSync, mkdirSync } from 'fs'
 import { readFile, writeFile, rm } from 'fs/promises'
 import { join } from 'path'
-import { Connection, Diory, Room, RoomClient } from 'diograph-js'
-import { initiateAppData, initiateRoom, saveAppData } from './app-data'
+import { Diory, Room } from 'diograph-js'
+import { initiateAppData, saveAppData } from './app-data'
 import { localDiographGenerator } from './localDiographGenerator'
 import { Generator, getDefaultImage } from '@diograph/file-generator'
 import { v4 as uuid } from 'uuid'
+import { addRoom } from '../src/addRoom'
+import { addConnection } from '../src/addConnection'
 
 const appDataFolderPath = process.env['APP_DATA_FOLDER'] || join(process.cwd(), 'tmp')
 if (!existsSync(appDataFolderPath)) {
@@ -52,9 +54,12 @@ class App {
     if (command === 'addRoom') {
       const roomPath = arg1
       const contentClientType = arg2 || 'LocalClient'
+
+      // Verify
       if (!roomPath) {
-        throw new Error('Arg1 not provided for addRoom(), please provide one')
+        throw new Error('Arg1 (=roomPath) not provided for addRoom(), please provide one')
       }
+
       if (!['LocalClient', 'S3Client'].includes(contentClientType)) {
         throw new Error(
           `addRoom error: contentClient type should be either LocalClient or S3Client`,
@@ -64,16 +69,10 @@ class App {
         throw new Error(`addRoom error: Room with address ${roomPath} already exists`)
       }
 
-      const room = await initiateRoom(contentClientType, roomPath)
+      // Execute
+      const room = await addRoom(roomPath, contentClientType)
 
-      const connection = new Connection({
-        address: join(roomPath, 'Diory Content'),
-        contentClientType,
-      })
-      room.addConnection(connection)
-
-      await room.saveRoom()
-
+      // App related stuff
       if (!this.rooms.length) {
         this.roomInFocus = room
       }
@@ -81,6 +80,7 @@ class App {
       await saveAppData(this.rooms, APP_DATA_PATH)
 
       console.log('Room added.')
+
       return
     }
 
@@ -114,13 +114,26 @@ class App {
     }
 
     if (command === 'addConnection') {
+      if (!this.roomInFocus) {
+        throw new Error('addConnection called withouth having this.roomInFocus')
+      }
+      if (!arg1) {
+        console.log(
+          `Connection address (=arg1) not provided for addConnection(), using ${process.cwd()}`,
+        )
+      }
       const connectionAddress = arg1 || process.cwd()
-      const connection = new Connection({
-        address: connectionAddress,
-        contentClientType: 'LocalClient',
-      })
-      this.roomInFocus.addConnection(connection)
-      await this.roomInFocus.saveRoom()
+
+      if (!arg2) {
+        console.log('ContentClientType (=arg2) not provided for addConnection(), using LocalClient')
+      }
+      const contentClientType = arg2 || 'LocalClient'
+      // TODO: Verify connectionAddress properly
+      // - e.g. LocalClient.verify(connectionAddress)
+      // - requires dynamic definition of Local/S3Client though...
+
+      await addConnection(this.roomInFocus, connectionAddress, contentClientType)
+
       console.log('Connection added.')
       return
     }
