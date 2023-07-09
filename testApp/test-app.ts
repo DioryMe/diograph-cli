@@ -2,7 +2,7 @@ import { existsSync, mkdirSync } from 'fs'
 import { readFile, writeFile, rm } from 'fs/promises'
 import { join } from 'path'
 import { Diory, Room } from 'diograph-js'
-import { initiateAppData, saveAppData } from './app-data'
+import { AppData, initiateAppData, saveAppData } from './app-data'
 import { localDiographGenerator } from './localDiographGenerator'
 import { Generator, getDefaultImage } from '@diograph/file-generator'
 import { v4 as uuid } from 'uuid'
@@ -14,14 +14,6 @@ if (!existsSync(appDataFolderPath)) {
   mkdirSync(appDataFolderPath)
 }
 const APP_DATA_PATH = join(appDataFolderPath, 'app-data.json')
-
-interface RoomData {
-  address: string
-}
-
-interface AppData {
-  rooms: RoomData[]
-}
 
 class App {
   appData: AppData = {

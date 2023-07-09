@@ -6,21 +6,23 @@ import { S3Client } from '@diograph/s3-client'
 
 interface RoomData {
   address: string
-  contentClientType: 'LocalClient' | 'S3Client'
+  roomClientType: 'LocalClient' | 'S3Client'
 }
 
-interface AppData {
+export interface AppData {
   rooms: RoomData[]
 }
 
-export const getClientAndVerify = async (contentClientType: string, address: string) => {
+export const getClientAndVerify = async (clientType: string, address: string) => {
   let client
-  if (contentClientType == 'LocalClient') {
+  if (clientType == 'LocalClient') {
     client = new LocalClient(address)
     await client.verify()
-  } else {
+  } else if ('S3Client') {
     client = new S3Client(address)
     await client.verify()
+  } else {
+    throw new Error(`getClientAndVerify: Unknown clientType: ${clientType}`)
   }
 
   return client
@@ -49,10 +51,10 @@ const initiateAppData = async (appDataPath: string) => {
     appData.rooms.map(async (roomData: RoomData) => {
       let room
       try {
-        room = await initiateRoom(roomData.contentClientType, roomData.address)
+        room = await initiateRoom(roomData.roomClientType, roomData.address)
       } catch (error) {
         throw new Error(
-          `Invalid room address in app-data.json: ${roomData.address} ${roomData.contentClientType} ${error}`,
+          `Invalid room address in app-data.json: ${roomData.address} ${roomData.roomClientType} ${error}`,
         )
       }
       rooms.push(room)
@@ -67,8 +69,7 @@ const saveAppData = async (rooms: Room[], appDataPath: string) => {
   const jsonAppData = {
     rooms: rooms.map((room) => ({
       address: room.address,
-      // TODO: Save contentClientType somewhere in order to save it!!
-      contentClientType: 'LocalClient',
+      roomClientType: room.roomClientType,
     })),
   }
   await writeFile(appDataPath, JSON.stringify(jsonAppData, null, 2))
