@@ -17,7 +17,6 @@ APP_DATA_PATH=./tmp/app-data.json node ./testApp/test-cli.js importDiory ~/MyPic
 ## TODO
 
 ```
-- Room in focus (currently always first room)
 - Connection in focus (currently always second in the room)
 - Diory in focus (both: room's & connection's diograph)
 ```
@@ -37,7 +36,7 @@ addRoom(roomPath)
 - saves room address to app-data
 - e.g. ... addRoom /room/folder
 
-appListRooms
+listRooms
 - list available rooms in the app
 
 listConnections()
@@ -51,9 +50,8 @@ writeFile(contentId, fileName)
 ## Room commands
 
 ```
-roomListConnections()
-- list room's connections
-- currently first room of the appListRoomsas there's
+listConnections()
+- list connections of room in focus
 
 deleteRoom()
 - remove room.json and diograph.json from the room path
@@ -61,7 +59,7 @@ deleteRoom()
 
 addConnection(connectionPath)
 - add connection to given (or current) path
-- currently to first room
+- add for room in focus
 - e.g. ... addConnection /path/to/source/folder
 
 importDioryFromFile

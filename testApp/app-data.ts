@@ -66,7 +66,9 @@ const initiateAppData = async (appDataPath: string) => {
   return {
     initiatedRooms: rooms,
     initiatedAppData: appData,
-    roomInFocus: rooms.find(({ address }) => address === appData.roomInFocus),
+    roomInFocus:
+      rooms.find(({ address }) => address === appData.roomInFocus) ||
+      (rooms.length > 0 ? rooms[0] : null),
   }
 }
 

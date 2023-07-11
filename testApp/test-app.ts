@@ -30,7 +30,6 @@ class App {
       this.rooms = initiatedRooms
       this.roomInFocus = roomInFocus
       this.appData = initiatedAppData
-      this.roomInFocus = initiatedRooms[0]
     })
 
   run = async (command: string, arg1: string, arg2: string, arg3: string) => {
@@ -38,6 +37,8 @@ class App {
       throw new Error('Command not provided to testApp(), please provide one')
     }
 
+    // TODO: Doesn't have any tests
+    // - should include listing room, listing connections, listing connection contents etc.
     if (command === 'setRoomInFocus') {
       const roomIndex = parseInt(arg1)
       if (isNaN(roomIndex)) {
@@ -51,7 +52,7 @@ class App {
       this.roomInFocus = this.rooms[roomIndex]
       await saveAppData(this.roomInFocus, this.rooms, APP_DATA_PATH)
 
-      console.log(`SUCCESS: Set room ${this.roomInFocus.address} in focus`)
+      console.log(`SUCCESS: Set room in focus: ${this.roomInFocus.address}`)
       return
     }
 
@@ -109,7 +110,7 @@ class App {
       throw new Error('roomInFocus is missing')
     }
 
-    if (command === 'appListRooms') {
+    if (command === 'listRooms') {
       return this.appData.rooms
     }
 
@@ -118,7 +119,7 @@ class App {
       return
     }
 
-    if (command === 'roomListConnections') {
+    if (command === 'listConnections') {
       return this.roomInFocus.connections.map((connection) => ({ address: connection.address }))
     }
 
