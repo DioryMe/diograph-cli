@@ -88,7 +88,7 @@ class App {
       return
     }
 
-    if (!this.roomInFocus) {
+    if (!this.roomInFocus || !this.roomInFocus.roomClient) {
       throw new Error('roomInFocus is missing')
     }
 
@@ -219,6 +219,8 @@ class App {
       return
     }
 
+    // TODO: This doesn't have any tests...
+    // - because: TODO: Demo content room doesn't have absolute paths and THAT IS A PROBLEM!!!
     if (command === 'import') {
       const dioryId = arg1 // same as internalPath...
       const copyContent = arg2
@@ -235,8 +237,17 @@ class App {
         if (!contentUrl) {
           return
         }
-        const fileContents = await this.roomInFocus.connections[1].readContent(contentUrl)
-        await nativeConnection.addContent(fileContents, contentUrl)
+        const sourceConnectionContentClient = new this.roomInFocus.roomClient.client.constructor(
+          sourceConnection.address,
+        )
+        const fileContents = await sourceConnection.readContent(
+          contentUrl,
+          sourceConnectionContentClient,
+        )
+        const nativeConnectionContentClient = new this.roomInFocus.roomClient.client.constructor(
+          nativeConnection.address,
+        )
+        await nativeConnection.addContent(fileContents, contentUrl, nativeConnectionContentClient)
         nativeConnection.addContentUrl(contentUrl, join(nativeConnection.address, contentUrl))
       }
       await this.roomInFocus.saveRoom()
@@ -247,10 +258,18 @@ class App {
       return this.roomInFocus.getContent(arg1)
     }
 
+    // TODO: This doesn't have any tests...
     if (command === 'writeFile') {
       const contentId = arg1
       const fileName = arg2
-      const fileBuffer = await this.roomInFocus.connections[0].readContent(contentId)
+      const nativeConnection = this.roomInFocus.connections[0]
+      const nativeConnectionContentClient = new this.roomInFocus.roomClient.client.constructor(
+        nativeConnection.address,
+      )
+      const fileBuffer = await nativeConnection.readContent(
+        contentId,
+        nativeConnectionContentClient,
+      )
       await writeFile(fileName, fileBuffer)
       return
     }
