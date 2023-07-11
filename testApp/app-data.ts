@@ -1,6 +1,6 @@
 import { existsSync } from 'fs'
 import { readFile, writeFile, rm } from 'fs/promises'
-import { Room, RoomClient } from 'diograph-js'
+import { Connection, Room, RoomClient } from 'diograph-js'
 import { LocalClient } from '@diograph/local-client'
 import { S3Client } from '@diograph/s3-client'
 
@@ -10,8 +10,9 @@ interface RoomData {
 }
 
 export interface AppData {
-  roomInFocus: string | null
   rooms: RoomData[]
+  roomInFocus: string | null
+  connectionInFocus: string | null
 }
 
 export const getClientAndVerify = async (clientType: string, address: string) => {
@@ -63,18 +64,34 @@ const initiateAppData = async (appDataPath: string) => {
     }),
   )
 
+  const roomInFocus =
+    rooms.find(({ address }) => address === appData.roomInFocus) ||
+    (rooms.length > 0 ? rooms[0] : null)
+
+  let connectionInFocus = null
+  if (roomInFocus) {
+    connectionInFocus =
+      roomInFocus.connections.find(({ address }) => address === appData.connectionInFocus) ||
+      (roomInFocus.connections.length > 0 ? roomInFocus.connections[0] : null)
+  }
+
   return {
     initiatedRooms: rooms,
     initiatedAppData: appData,
-    roomInFocus:
-      rooms.find(({ address }) => address === appData.roomInFocus) ||
-      (rooms.length > 0 ? rooms[0] : null),
+    roomInFocus,
+    connectionInFocus,
   }
 }
 
-const saveAppData = async (roomInFocus: Room, rooms: Room[], appDataPath: string) => {
+const saveAppData = async (
+  roomInFocus: Room | null,
+  connectionInFocus: Connection | null,
+  rooms: Room[],
+  appDataPath: string,
+) => {
   const jsonAppData = {
-    roomInFocus: roomInFocus.address,
+    connectionInFocus: connectionInFocus ? connectionInFocus.address : null,
+    roomInFocus: roomInFocus ? roomInFocus.address : null,
     rooms: rooms.map((room) => ({
       address: room.address,
       roomClientType: room.roomClientType,

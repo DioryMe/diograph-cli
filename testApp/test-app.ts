@@ -1,7 +1,7 @@
 import { existsSync, mkdirSync } from 'fs'
 import { readFile, writeFile, rm } from 'fs/promises'
 import { join } from 'path'
-import { Diory, Room } from 'diograph-js'
+import { Connection, Diory, Room } from 'diograph-js'
 import { AppData, initiateAppData, saveAppData } from './app-data'
 import { localDiographGenerator } from './localDiographGenerator'
 import { Generator, getDefaultImage } from '@diograph/file-generator'
@@ -17,20 +17,25 @@ const APP_DATA_PATH = join(appDataFolderPath, 'app-data.json')
 
 class App {
   appData: AppData = {
-    roomInFocus: null,
     rooms: [],
+    roomInFocus: null,
+    connectionInFocus: null,
   }
   rooms: Room[] = []
   roomInFocus: Room | null = null
+  connectionInFocus: Connection | null = null
 
   constructor() {}
 
   init = async () =>
-    initiateAppData(APP_DATA_PATH).then(({ initiatedRooms, initiatedAppData, roomInFocus }) => {
-      this.rooms = initiatedRooms
-      this.roomInFocus = roomInFocus
-      this.appData = initiatedAppData
-    })
+    initiateAppData(APP_DATA_PATH).then(
+      ({ initiatedRooms, initiatedAppData, roomInFocus, connectionInFocus }) => {
+        this.rooms = initiatedRooms
+        this.roomInFocus = roomInFocus
+        this.connectionInFocus = connectionInFocus
+        this.appData = initiatedAppData
+      },
+    )
 
   run = async (command: string, arg1: string, arg2: string, arg3: string) => {
     if (!command) {
@@ -49,10 +54,46 @@ class App {
         throw new Error(`There's only ${this.rooms.length} room available, no index ${roomIndex}`)
       }
 
-      this.roomInFocus = this.rooms[roomIndex]
-      await saveAppData(this.roomInFocus, this.rooms, APP_DATA_PATH)
+      this.roomInFocus = this.rooms.length ? this.rooms[roomIndex] : null
+      this.connectionInFocus =
+        this.roomInFocus && this.roomInFocus.connections.length
+          ? this.roomInFocus.connections[0]
+          : null
+      await saveAppData(this.roomInFocus, this.connectionInFocus, this.rooms, APP_DATA_PATH)
 
-      console.log(`SUCCESS: Set room in focus: ${this.roomInFocus.address}`)
+      console.log(`SUCCESS: Set room in focus: ${this.roomInFocus && this.roomInFocus.address}`)
+      return
+    }
+
+    // TODO: Doesn't have any tests
+    // - should include listing room, listing connections, listing connection contents etc.
+    if (command === 'setConnectionInFocus') {
+      if (!this.roomInFocus) {
+        console.log('setConnectionInFocus called but no room in focus!!')
+        return
+      }
+
+      const connectionIndex = parseInt(arg1)
+      if (isNaN(connectionIndex)) {
+        throw new Error(`Please provide a number as index of connection (now: ${arg1})`)
+      }
+
+      if (this.roomInFocus.connections.length < connectionIndex + 1) {
+        throw new Error(
+          `There's only ${this.rooms.length} room available, no index ${connectionIndex}`,
+        )
+      }
+
+      this.connectionInFocus = this.roomInFocus.connections.length
+        ? this.roomInFocus.connections[connectionIndex]
+        : null
+      await saveAppData(this.roomInFocus, this.connectionInFocus, this.rooms, APP_DATA_PATH)
+
+      console.log(
+        `SUCCESS: Set connection in focus: ${
+          this.connectionInFocus && this.connectionInFocus.address
+        }`,
+      )
       return
     }
 
@@ -87,7 +128,7 @@ class App {
       // App related stuff
       this.roomInFocus = room
       this.rooms.push(room)
-      await saveAppData(this.roomInFocus, this.rooms, APP_DATA_PATH)
+      await saveAppData(this.roomInFocus, this.connectionInFocus, this.rooms, APP_DATA_PATH)
 
       console.log('Room added.')
 
@@ -101,7 +142,7 @@ class App {
       }
       await this.roomInFocus.deleteRoom()
       this.rooms.shift()
-      await saveAppData(this.roomInFocus, this.rooms, APP_DATA_PATH)
+      await saveAppData(this.roomInFocus, this.connectionInFocus, this.rooms, APP_DATA_PATH)
       console.log('Room deleted.')
       return
     }
@@ -142,9 +183,15 @@ class App {
       // - e.g. LocalClient.verify(connectionAddress)
       // - requires dynamic definition of Local/S3Client though...
 
+      // Execute
+      if (
+        this.roomInFocus.connections.find((connection) => connectionAddress == connection.address)
+      ) {
+        console.log('Connection already exists in room but added it anyway')
+      }
       await addConnection(this.roomInFocus, connectionAddress, contentClientType)
 
-      console.log('Connection added.')
+      console.log(`Connection added (${connectionAddress}) to room ${this.roomInFocus.address}`)
       return
     }
 
@@ -154,7 +201,13 @@ class App {
     }
 
     if (command === 'listClientContents') {
+      // const connection = this.connectionInFocus
+      // if (!connection) {
+      //   throw new Error('listClientContents: No connection in focus')
+      // }
       const connection = this.roomInFocus.connections[1]
+
+      console.log(`Listing contents of ${connection.address}`)
       const list = await localDiographGenerator('/', connection.address)
       connection.diograph.mergeDiograph(list)
       connection.diograph.diories.forEach((diory) => {
@@ -164,6 +217,7 @@ class App {
       })
       await this.roomInFocus.saveRoom()
       // TODO: This could print out something: list of files?
+      console.log(connection.contentUrls)
       return
     }
 
