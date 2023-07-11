@@ -10,6 +10,7 @@ interface RoomData {
 }
 
 export interface AppData {
+  roomInFocus: string | null
   rooms: RoomData[]
 }
 
@@ -62,11 +63,16 @@ const initiateAppData = async (appDataPath: string) => {
     }),
   )
 
-  return { initiatedRooms: rooms, initiatedAppData: appData }
+  return {
+    initiatedRooms: rooms,
+    initiatedAppData: appData,
+    roomInFocus: rooms.find(({ address }) => address === appData.roomInFocus),
+  }
 }
 
-const saveAppData = async (rooms: Room[], appDataPath: string) => {
+const saveAppData = async (roomInFocus: Room, rooms: Room[], appDataPath: string) => {
   const jsonAppData = {
+    roomInFocus: roomInFocus.address,
     rooms: rooms.map((room) => ({
       address: room.address,
       roomClientType: room.roomClientType,

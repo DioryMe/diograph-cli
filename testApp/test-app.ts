@@ -17,16 +17,18 @@ const APP_DATA_PATH = join(appDataFolderPath, 'app-data.json')
 
 class App {
   appData: AppData = {
+    roomInFocus: null,
     rooms: [],
   }
   rooms: Room[] = []
-  roomInFocus?: Room
+  roomInFocus: Room | null = null
 
   constructor() {}
 
   init = async () =>
-    initiateAppData(APP_DATA_PATH).then(({ initiatedRooms, initiatedAppData }) => {
+    initiateAppData(APP_DATA_PATH).then(({ initiatedRooms, initiatedAppData, roomInFocus }) => {
       this.rooms = initiatedRooms
+      this.roomInFocus = roomInFocus
       this.appData = initiatedAppData
       this.roomInFocus = initiatedRooms[0]
     })
@@ -34,6 +36,23 @@ class App {
   run = async (command: string, arg1: string, arg2: string, arg3: string) => {
     if (!command) {
       throw new Error('Command not provided to testApp(), please provide one')
+    }
+
+    if (command === 'setRoomInFocus') {
+      const roomIndex = parseInt(arg1)
+      if (isNaN(roomIndex)) {
+        throw new Error(`Please provide a number as index of room (now: ${arg1})`)
+      }
+
+      if (this.rooms.length < roomIndex + 1) {
+        throw new Error(`There's only ${this.rooms.length} room available, no index ${roomIndex}`)
+      }
+
+      this.roomInFocus = this.rooms[roomIndex]
+      await saveAppData(this.roomInFocus, this.rooms, APP_DATA_PATH)
+
+      console.log(`SUCCESS: Set room ${this.roomInFocus.address} in focus`)
+      return
     }
 
     if (command === 'resetApp') {
@@ -65,11 +84,9 @@ class App {
       const room = await addRoom(roomPath, contentClientType)
 
       // App related stuff
-      if (!this.rooms.length) {
-        this.roomInFocus = room
-      }
+      this.roomInFocus = room
       this.rooms.push(room)
-      await saveAppData(this.rooms, APP_DATA_PATH)
+      await saveAppData(this.roomInFocus, this.rooms, APP_DATA_PATH)
 
       console.log('Room added.')
 
@@ -83,7 +100,7 @@ class App {
       }
       await this.roomInFocus.deleteRoom()
       this.rooms.shift()
-      await saveAppData(this.rooms, APP_DATA_PATH)
+      await saveAppData(this.roomInFocus, this.rooms, APP_DATA_PATH)
       console.log('Room deleted.')
       return
     }
@@ -145,6 +162,7 @@ class App {
         }
       })
       await this.roomInFocus.saveRoom()
+      // TODO: This could print out something: list of files?
       return
     }
 
@@ -158,6 +176,7 @@ class App {
         }
       })
       await this.roomInFocus.saveRoom()
+      // TODO: This could print out something: list of files?
       return
     }
 
