@@ -2,7 +2,7 @@ const { existsSync, readFileSync, rmSync, mkdirSync, readdirSync, lstatSync } = 
 const assert = require('assert')
 const { join } = require('path')
 const { Given, When, Then } = require('@cucumber/cucumber')
-const { App } = require('../../dist/testApp/test-app')
+const { App } = require('../../../dist/testApp/test-app')
 
 const CONTENT_SOURCE_FOLDER = join(process.cwd(), 'demo-content-room', 'source')
 const APP_DATA_PATH = join(process.cwd(), 'tmp')
