@@ -12,10 +12,11 @@ const TEST_BUCKET_NAME = 'jvalanen-diory-test3'
 const TEST_ROOM_KEY = '/'
 const CONTENT_FOLDER_KEY = 'DioryContent/'
 const TEST_ROOM_FULL_URL = `s3://${join(TEST_BUCKET_NAME, TEST_ROOM_KEY)}`
-// const CONTENT_FOLDER_FULL_URL = `s3://${join(TEST_BUCKET_NAME, TEST_ROOM_KEY, CONTENT_FOLDER_KEY)}`
+const CONTENT_FOLDER_FULL_URL = `s3://${join(TEST_BUCKET_NAME, TEST_ROOM_KEY, CONTENT_FOLDER_KEY)}`
 
 const testApp = new App()
 const client = new S3Client(TEST_ROOM_FULL_URL)
+const connectionClient = new S3Client(CONTENT_FOLDER_FULL_URL)
 
 Given('I have empty place for room', async () => {
   await testApp.init()
@@ -65,6 +66,10 @@ When('I call {word} operation', async (operation) => {
   await testApp.run(operation)
 })
 
+When('I import last diory to first connection', async () => {
+  await testApp.run('import', '/two-test-image.jpg')
+})
+
 /*
 When('I delete room', async () => {
   await testApp.run('deleteRoom')
@@ -90,12 +95,6 @@ When('I call importDioryFromFile with content', async () => {
     'one-test-image.jpg',
   )
   await testApp.run('importDioryFromFile', imageFilePath, true)
-})
-
-
-
-When('I import last diory to first connection', async () => {
-  await testApp.run('import', '/two-test-image.jpg')
 })
 
 When('I import last diory to first connection with content', async () => {
@@ -151,6 +150,11 @@ Then('I get url from getContent with {string}', async (contentId) => {
   assert.ok(response, "getContent() didn't return anything")
 })
 
+Then('content folder has {int} file(s)', async (count) => {
+  const list = await connectionClient.list('')
+  assert.equal(list.KeyCount, count)
+})
+
 /*
 Then('{word} {word} exists in application support room', (fileName, doesOrNot) => {
   assert.equal(existsSync(join(APP_DATA_PATH, `${fileName}`)), doesOrNot === 'does')
@@ -161,17 +165,6 @@ Then('appData has {word} room(s)', (count) => {
   const appData = JSON.parse(appDataContents)
 
   assert.equal(appData.rooms.length, parseInt(count, 10))
-})
-
-
-
-Then('content folder has {int} file(s)', (count) => {
-  if (count === 0 && !existsSync(CONTENT_FOLDER_FULL_URL)) {
-    return
-  }
-  const contentFileList =
-    lstatSync(CONTENT_FOLDER_FULL_URL).isDirectory() && readdirSync(CONTENT_FOLDER_FULL_URL)
-  assert.equal(contentFileList.length, count)
 })
 
 Then('I receive a diory', async () => {

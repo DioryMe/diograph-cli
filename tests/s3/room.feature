@@ -18,11 +18,11 @@ Feature: Room
   #   When I add connection to content-source-folder
   #   Then room.json has 2 connections
 
-  Scenario: Content source contents list
-    When I add connection to content-source-folder
-    And I call listClientContents operation
-    Then last connection diograph has 3 diories
-    And last connection has 1 contentUrls
+  # Scenario: Content source contents list
+  #   When I add connection to content-source-folder
+  #   And I call listClientContents operation
+  #   Then last connection diograph has 3 diories
+  #   And last connection has 1 contentUrls
 
   # Scenario: Content source contents list 2
   #   When I add connection to content-source-folder
@@ -37,13 +37,13 @@ Feature: Room
   #   Then last connection diograph has 6 diories
   #   And last connection has 4 contentUrls
 
-  # Scenario: Add diory from content source
-  #   When I add connection to content-source-folder
-  #   And I call listClientContents operation
-  #   And I import last diory to first connection
-  #   Then diograph.json has 1 diories
-  #   And content folder has 0 file
-  #   And I get url from getContent with 'bafkreihoednm4s2g4vpame3mweewfq5of3hks2mbmkvoksxg3z4rhmweeu'
+  Scenario: Add diory from content source
+    When I add connection to content-source-folder
+    And I call listClientContents operation
+    And I import last diory to first connection
+    Then diograph.json has 1 diories
+    And content folder has 0 file
+    And I get url from getContent with 'bafkreihoednm4s2g4vpame3mweewfq5of3hks2mbmkvoksxg3z4rhmweeu'
 
   # # TODO: Demo content room doesn't have absolute paths and THAT IS A PROBLEM!!!
   # # Error: ENOENT: no such file or directory, open '.../demo-content-room/source.../demo-content-room/source/one-test-image.jpg'
