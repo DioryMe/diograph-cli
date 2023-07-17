@@ -5,7 +5,7 @@ const { Given, When, Then } = require('@cucumber/cucumber')
 const { App } = require('../../../dist/testApp/test-app')
 const { S3Client } = require('@diograph/s3-client')
 
-// const CONTENT_SOURCE_FOLDER = join(process.cwd(), 'demo-content-room', 'source')
+const CONTENT_SOURCE_FOLDER = join(process.cwd(), 'demo-content-room', 'source')
 const APP_DATA_PATH = join(process.cwd(), 'tmp')
 
 const TEST_BUCKET_NAME = 'jvalanen-diory-test3'
@@ -40,12 +40,7 @@ When('I initiate a room', async () => {
   await testApp.run('addRoom', TEST_ROOM_FULL_URL, 'S3Client')
 })
 
-/*
-When('I delete room', async () => {
-  await testApp.run('deleteRoom')
-})
-
-When('I add (connection) to {word}', async (destination) => {
+When('I add connection to {word}', async (destination) => {
   let connectionAddress
   switch (destination) {
     case 'content-source-folder':
@@ -58,10 +53,17 @@ When('I add (connection) to {word}', async (destination) => {
       break
   }
 
-  if (!existsSync(connectionAddress)) {
-    throw new Error(`ERROR: connectionAddress not found ${connectionAddress}`)
-  }
+  // TODO: Do this via client & allow using/testing S3 connection
+  // if (!existsSync(connectionAddress)) {
+  //   throw new Error(`ERROR: connectionAddress not found ${connectionAddress}`)
+  // }
+
   await testApp.run('addConnection', connectionAddress)
+})
+
+/*
+When('I delete room', async () => {
+  await testApp.run('deleteRoom')
 })
 
 When('I call importDioryFromFile', async () => {

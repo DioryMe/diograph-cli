@@ -10,13 +10,11 @@ Feature: Room
     And diograph.json does exists
     And diograph.json has 0 diories
 
-  # # "Delete room" does nothing if no Room in focus
-  # # Scenario: Delete room
-  # #   When I delete room
-  # #   Then room.json not exists
-  # #   And diograph.json not exists
+  Scenario: Add connection to local room
+    When I add connection to content-source-folder
+    Then room.json has 2 connections
 
-  # Scenario: Add connection to room
+  # Scenario: Add connection to S3 room
   #   When I add connection to content-source-folder
   #   Then room.json has 2 connections
 
