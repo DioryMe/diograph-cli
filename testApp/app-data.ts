@@ -21,7 +21,7 @@ export const getClientAndVerify = async (clientType: string, address: string) =>
   // - verify, readTextItem, readitem, writeTextItem, writeItem
   // - deleteItem, itemExists
   // - address is always just one url
-  console.log(address)
+  console.log(`Verifying address for ${clientType}:`, address)
   let client
   if (clientType == 'LocalClient') {
     client = new LocalClient(address)

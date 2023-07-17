@@ -6,9 +6,9 @@ Feature: Room
 
   Scenario: Initiate room
     Then room.json does exists
-    # And room.json has 1 connections
-    # And diograph.json does exists
-    # And diograph.json has 0 diories
+    And room.json has 1 connections
+    And diograph.json does exists
+    And diograph.json has 0 diories
 
   # # "Delete room" does nothing if no Room in focus
   # # Scenario: Delete room

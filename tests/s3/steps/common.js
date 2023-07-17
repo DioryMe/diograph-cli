@@ -5,14 +5,14 @@ const { Given, When, Then } = require('@cucumber/cucumber')
 const { App } = require('../../../dist/testApp/test-app')
 const { S3Client } = require('@diograph/s3-client')
 
-const CONTENT_SOURCE_FOLDER = join(process.cwd(), 'demo-content-room', 'source')
+// const CONTENT_SOURCE_FOLDER = join(process.cwd(), 'demo-content-room', 'source')
 const APP_DATA_PATH = join(process.cwd(), 'tmp')
-// S3Client
+
 const TEST_BUCKET_NAME = 'jvalanen-diory-test3'
 const TEST_ROOM_KEY = '/'
-const CONTENT_FOLDER_KEY = 'Diory Content'
+const CONTENT_FOLDER_KEY = 'DioryContent/'
 const TEST_ROOM_FULL_URL = `s3://${join(TEST_BUCKET_NAME, TEST_ROOM_KEY)}`
-const CONTENT_FOLDER_FULL_URL = `s3://${join(TEST_BUCKET_NAME, TEST_ROOM_KEY, CONTENT_FOLDER_KEY)}`
+// const CONTENT_FOLDER_FULL_URL = `s3://${join(TEST_BUCKET_NAME, TEST_ROOM_KEY, CONTENT_FOLDER_KEY)}`
 
 const testApp = new App()
 const client = new S3Client(TEST_ROOM_FULL_URL)
@@ -20,7 +20,6 @@ const client = new S3Client(TEST_ROOM_FULL_URL)
 Given('I have empty place for room', async () => {
   await testApp.init()
   await testApp.run('deleteRoom')
-  await testApp.run('resetApp')
 
   existsSync(join(APP_DATA_PATH, 'app-data.json')) &&
     (await rmSync(join(APP_DATA_PATH, 'app-data.json')))
@@ -28,9 +27,10 @@ Given('I have empty place for room', async () => {
     mkdirSync(APP_DATA_PATH)
   }
 
-  // S3Client
-  // TODO: Delete bucket keys recursively
-  // existsSync(CONTENT_FOLDER_FULL_URL) && (await rmSync(CONTENT_FOLDER_FULL_URL, { recursive: true }))
+  const contentFolderExists = await client.exists(CONTENT_FOLDER_KEY)
+  if (contentFolderExists) {
+    await client.deleteFolder(CONTENT_FOLDER_KEY)
+  }
 })
 
 // WHEN
@@ -45,7 +45,7 @@ When('I delete room', async () => {
   await testApp.run('deleteRoom')
 })
 
-When('I add connection to {word}', async (destination) => {
+When('I add (connection) to {word}', async (destination) => {
   let connectionAddress
   switch (destination) {
     case 'content-source-folder':
@@ -102,20 +102,30 @@ When('I import last diory to first connection with content', async () => {
 // THEN
 
 Then('{word} {word} exists', async (fileName, doesOrNot) => {
-  const existsResponse = await client.exists('room.json')
+  const existsResponse = await client.exists(fileName)
   assert.equal(existsResponse, doesOrNot === 'does')
+})
+
+Then('room.json has {word} connection(s)', async (clientCount) => {
+  const roomJsonContents = await client.readTextItem('room.json')
+  const roomJson = JSON.parse(roomJsonContents)
+  assert(roomJson.connections, 'Invalid room.json, connections not found')
+  assert.equal(roomJson.connections.length, clientCount === 'no' ? 0 : parseInt(clientCount, 10))
+})
+
+Then('diograph.json has {word} diories', async (dioryCount) => {
+  const diographContents = await client.readTextItem('diograph.json')
+  const diograph = JSON.parse(diographContents)
+  assert(diograph.diograph, 'Invalid diograph.json, diograph not found')
+  assert.equal(
+    Object.values(diograph.diograph).length,
+    dioryCount === 'no' ? 0 : parseInt(dioryCount, 10),
+  )
 })
 
 /*
 Then('{word} {word} exists in application support room', (fileName, doesOrNot) => {
   assert.equal(existsSync(join(APP_DATA_PATH, `${fileName}`)), doesOrNot === 'does')
-})
-
-Then('room.json has {word} connection(s)', (clientCount) => {
-  const roomJsonContents = readFileSync(join(TEST_ROOM_KEY, 'room.json'), { encoding: 'utf8' })
-  const roomJson = JSON.parse(roomJsonContents)
-  assert(roomJson.connections, 'Invalid room.json, connections not found')
-  assert.equal(roomJson.connections.length, clientCount === 'no' ? 0 : parseInt(clientCount, 10))
 })
 
 Then('appData has {word} room(s)', (count) => {
@@ -153,17 +163,6 @@ Then('I receive a diory', async () => {
   assert.equal(response.text, 'Root diory')
 })
 
-Then('diograph.json has {word} diories', (dioryCount) => {
-  const diographContents = readFileSync(join(TEST_ROOM_KEY, 'diograph.json'), {
-    encoding: 'utf8',
-  })
-  const diograph = JSON.parse(diographContents)
-  assert(diograph.diograph, 'Invalid diograph.json, diograph not found')
-  assert.equal(
-    Object.values(diograph.diograph).length,
-    dioryCount === 'no' ? 0 : parseInt(dioryCount, 10),
-  )
-})
 
 Then('last diory has {word} as {word}', (value, property) => {
   const diographContents = readFileSync(join(TEST_ROOM_KEY, 'diograph.json'), {
