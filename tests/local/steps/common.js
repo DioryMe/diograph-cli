@@ -3,41 +3,36 @@ const assert = require('assert')
 const { join } = require('path')
 const { Given, When, Then } = require('@cucumber/cucumber')
 const { App } = require('../../../dist/testApp/test-app')
+const { LocalClient } = require('@diograph/local-client')
 
 const CONTENT_SOURCE_FOLDER = join(process.cwd(), 'demo-content-room', 'source')
 const APP_DATA_PATH = join(process.cwd(), 'tmp')
 // LocalClient
-const TEMP_ROOM_PATH = APP_DATA_PATH
-const CONTENT_FOLDER_PATH = join(APP_DATA_PATH, 'Diory Content') // <-- this is deleted recursively!
-// S3Client
-// const TEMP_ROOM_PATH = 's3://jvalanen-diory-test3' || APP_DATA_PATH
-// const CONTENT_FOLDER_PATH = join(TEMP_ROOM_PATH, 'Diory Content') // <-- this is deleted recursively!
+const TEST_ROOM_FULL_URL = APP_DATA_PATH
+const CONTENT_FOLDER_PATH = join(TEST_ROOM_FULL_URL, 'Diory Content') // <-- this is deleted recursively!
 
 const testApp = new App()
+const client = new LocalClient(TEST_ROOM_FULL_URL)
 
 Given('I have empty place for room', async () => {
   await testApp.init()
   await testApp.run('deleteRoom')
-  await testApp.run('resetApp')
+
   existsSync(join(APP_DATA_PATH, 'app-data.json')) &&
     (await rmSync(join(APP_DATA_PATH, 'app-data.json')))
-  // LocalClient
-  existsSync(CONTENT_FOLDER_PATH) && (await rmSync(CONTENT_FOLDER_PATH, { recursive: true }))
   if (!existsSync(APP_DATA_PATH)) {
     mkdirSync(APP_DATA_PATH)
   }
-  // S3Client
-  // TODO: Delete bucket keys recursively
+
+  // TODO: Execute this via client.deleteFolder
+  existsSync(CONTENT_FOLDER_PATH) && (await rmSync(CONTENT_FOLDER_PATH, { recursive: true }))
 })
 
 // WHEN
 
 When('I initiate a room', async () => {
   // If room already exists, this connects to it instead of initiating a new one
-  // LocalClient
-  await testApp.run('addRoom', TEMP_ROOM_PATH, 'LocalClient')
-  // S3Client
-  // await testApp.run('addRoom', TEMP_ROOM_PATH, 'S3Client')
+  await testApp.run('addRoom', TEST_ROOM_FULL_URL, 'LocalClient')
 })
 
 When('I delete room', async () => {
@@ -99,8 +94,13 @@ When('I import last diory to first connection with content', async () => {
 
 // THEN
 
-Then('{word} {word} exists', (fileName, doesOrNot) => {
-  assert.equal(existsSync(join(TEMP_ROOM_PATH, `${fileName}`)), doesOrNot === 'does')
+// Then('{word} {word} exists', (fileName, doesOrNot) => {
+//   assert.equal(existsSync(join(TEST_ROOM_FULL_URL, `${fileName}`)), doesOrNot === 'does')
+// })
+
+Then('{word} {word} exists', async (fileName, doesOrNot) => {
+  const existsResponse = await client.exists(fileName)
+  assert.equal(existsResponse, doesOrNot === 'does')
 })
 
 Then('{word} {word} exists in application support room', (fileName, doesOrNot) => {
@@ -108,7 +108,7 @@ Then('{word} {word} exists in application support room', (fileName, doesOrNot) =
 })
 
 Then('room.json has {word} connection(s)', (clientCount) => {
-  const roomJsonContents = readFileSync(join(TEMP_ROOM_PATH, 'room.json'), { encoding: 'utf8' })
+  const roomJsonContents = readFileSync(join(TEST_ROOM_FULL_URL, 'room.json'), { encoding: 'utf8' })
   const roomJson = JSON.parse(roomJsonContents)
   assert(roomJson.connections, 'Invalid room.json, connections not found')
   assert.equal(roomJson.connections.length, clientCount === 'no' ? 0 : parseInt(clientCount, 10))
@@ -122,7 +122,7 @@ Then('appData has {word} room(s)', (count) => {
 })
 
 Then('last connection diograph has {int} diories', (dioryCount) => {
-  const roomJsonContents = readFileSync(join(TEMP_ROOM_PATH, 'room.json'), {
+  const roomJsonContents = readFileSync(join(TEST_ROOM_FULL_URL, 'room.json'), {
     encoding: 'utf8',
   })
   const roomJson = JSON.parse(roomJsonContents)
@@ -150,7 +150,7 @@ Then('I receive a diory', async () => {
 })
 
 Then('diograph.json has {word} diories', (dioryCount) => {
-  const diographContents = readFileSync(join(TEMP_ROOM_PATH, 'diograph.json'), {
+  const diographContents = readFileSync(join(TEST_ROOM_FULL_URL, 'diograph.json'), {
     encoding: 'utf8',
   })
   const diograph = JSON.parse(diographContents)
@@ -162,7 +162,7 @@ Then('diograph.json has {word} diories', (dioryCount) => {
 })
 
 Then('last diory has {word} as {word}', (value, property) => {
-  const diographContents = readFileSync(join(TEMP_ROOM_PATH, 'diograph.json'), {
+  const diographContents = readFileSync(join(TEST_ROOM_FULL_URL, 'diograph.json'), {
     encoding: 'utf8',
   })
   const diograph = JSON.parse(diographContents)
@@ -178,7 +178,7 @@ Then('last diory has {word} as {word}', (value, property) => {
 })
 
 Then('last connection has {int} contentUrls', (value) => {
-  const roomJsonContents = readFileSync(join(TEMP_ROOM_PATH, 'room.json'), {
+  const roomJsonContents = readFileSync(join(TEST_ROOM_FULL_URL, 'room.json'), {
     encoding: 'utf8',
   })
   const roomJson = JSON.parse(roomJsonContents)
