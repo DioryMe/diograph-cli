@@ -36,21 +36,20 @@ addRoom(roomPath)
 - saves room address to app-data
 - e.g. ... addRoom /room/folder
 
-listRooms
+listRooms (or listAppRooms)
 - list available rooms in the app
 
-listConnections()
+listAppConnections()
 - list all the available connections in the app
-- should be: appListConnections
 
-writeFile(contentId, fileName)
+writeFileFromContent(contentId, fileName)
 - write given content to disk with chosen fileName
 ```
 
 ## Room commands
 
 ```
-listConnections()
+listConnections() (or listRoomConnections)
 - list connections of room in focus
 
 deleteRoom()
@@ -68,22 +67,18 @@ importDioryFromFile
 - add diory to room (in focus) diograph
 - add content to room (in focus) native connection
 
-addDioryToRoom(shouldCopyContent)
+copyDioryFromRoom(shouldCopyContent)
 - add diory in focus in connection's diograph to room
 - add diory's content to room in focus (+ change contentUrl?)
 
-import(connectionInternalPathId, copyContent)
+importDioryFromContentSource(connectionInternalPathId, copyContent)
 - copy diory (and content) from connection to room
 - boolean to define if content should be made available also on native-connection
 - e.g. ... import /two-test-image.jpg true
 
 getContent(contentUrl)
 - returns url for the content (room address + contentUrl)
-```
 
-## Connection commands
-
-```
 listClientContents
 - uses listContentSource tool to list contents (in diograph)
 - should be: list content source contents
@@ -109,9 +104,11 @@ app-data.json example:
 
 ```
 {
+  "roomInFocus": "/diograph-cli/tmp"
+  "connectionInFocus": "/diograph-cli/tmp/Diory Content"
   "rooms": [
     {
-      "address": "/Users/Jouni/Code/diograph-cli/tmp"
+      "address": "/diograph-cli/tmp"
     }
   ]
 }
