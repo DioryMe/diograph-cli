@@ -61,6 +61,10 @@ When('I add connection to {word}', async (destination) => {
   await testApp.run('addConnection', connectionAddress)
 })
 
+When('I call {word} operation', async (operation) => {
+  await testApp.run(operation)
+})
+
 /*
 When('I delete room', async () => {
   await testApp.run('deleteRoom')
@@ -88,9 +92,7 @@ When('I call importDioryFromFile with content', async () => {
   await testApp.run('importDioryFromFile', imageFilePath, true)
 })
 
-When('I call {word} operation', async (operation) => {
-  await testApp.run(operation)
-})
+
 
 When('I import last diory to first connection', async () => {
   await testApp.run('import', '/two-test-image.jpg')
@@ -125,6 +127,30 @@ Then('diograph.json has {word} diories', async (dioryCount) => {
   )
 })
 
+// TODO: Use connection in focus & app commands instead of parsing the room.json manually?
+Then('last connection diograph has {int} diories', async (dioryCount) => {
+  const roomJsonContents = await client.readTextItem('room.json')
+  const roomJson = JSON.parse(roomJsonContents)
+  const lastConnection = roomJson.connections[roomJson.connections.length - 1]
+
+  const diories = Object.values(lastConnection.diograph)
+  assert.equal(diories.length, dioryCount)
+})
+
+// TODO: Use connection in focus & app commands instead of parsing the room.json manually?
+Then('last connection has {int} contentUrls', async (value) => {
+  const roomJsonContents = await client.readTextItem('room.json')
+  const roomJson = JSON.parse(roomJsonContents)
+  const lastConnection = roomJson.connections[roomJson.connections.length - 1]
+
+  assert.equal(Object.values(lastConnection.contentUrls).length, value)
+})
+
+Then('I get url from getContent with {string}', async (contentId) => {
+  const response = await testApp.run('getContent', contentId)
+  assert.ok(response, "getContent() didn't return anything")
+})
+
 /*
 Then('{word} {word} exists in application support room', (fileName, doesOrNot) => {
   assert.equal(existsSync(join(APP_DATA_PATH, `${fileName}`)), doesOrNot === 'does')
@@ -137,16 +163,7 @@ Then('appData has {word} room(s)', (count) => {
   assert.equal(appData.rooms.length, parseInt(count, 10))
 })
 
-Then('last connection diograph has {int} diories', (dioryCount) => {
-  const roomJsonContents = readFileSync(join(TEST_ROOM_KEY, 'room.json'), {
-    encoding: 'utf8',
-  })
-  const roomJson = JSON.parse(roomJsonContents)
-  const lastConnection = roomJson.connections[roomJson.connections.length - 1]
 
-  const diories = Object.values(lastConnection.diograph)
-  assert.equal(diories.length, dioryCount)
-})
 
 Then('content folder has {int} file(s)', (count) => {
   if (count === 0 && !existsSync(CONTENT_FOLDER_FULL_URL)) {
@@ -180,20 +197,5 @@ Then('last diory has {word} as {word}', (value, property) => {
   } else if (property === 'encodingFormat') {
     assert.equal(lastDiory.data[0].encodingFormat, value)
   }
-})
-
-Then('last connection has {int} contentUrls', (value) => {
-  const roomJsonContents = readFileSync(join(TEST_ROOM_KEY, 'room.json'), {
-    encoding: 'utf8',
-  })
-  const roomJson = JSON.parse(roomJsonContents)
-  const lastConnection = roomJson.connections[roomJson.connections.length - 1]
-
-  assert.equal(Object.values(lastConnection.contentUrls).length, value)
-})
-
-Then('I get url from getContent with {string}', async (contentId) => {
-  const response = await testApp.run('getContent', contentId)
-  assert.ok(response, "getContent() didn't return anything")
 })
 */

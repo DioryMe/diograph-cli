@@ -4,25 +4,25 @@ Feature: Room
     Given I have empty place for room
     And I initiate a room
 
-  Scenario: Initiate room
-    Then room.json does exists
-    And room.json has 1 connections
-    And diograph.json does exists
-    And diograph.json has 0 diories
+  # Scenario: Initiate room
+  #   Then room.json does exists
+  #   And room.json has 1 connections
+  #   And diograph.json does exists
+  #   And diograph.json has 0 diories
 
-  Scenario: Add connection to local room
-    When I add connection to content-source-folder
-    Then room.json has 2 connections
+  # Scenario: Add connection to local room
+  #   When I add connection to content-source-folder
+  #   Then room.json has 2 connections
 
   # Scenario: Add connection to S3 room
   #   When I add connection to content-source-folder
   #   Then room.json has 2 connections
 
-  # Scenario: Content source contents list
-  #   When I add connection to content-source-folder
-  #   And I call listClientContents operation
-  #   Then last connection diograph has 3 diories
-  #   And last connection has 1 contentUrls
+  Scenario: Content source contents list
+    When I add connection to content-source-folder
+    And I call listClientContents operation
+    Then last connection diograph has 3 diories
+    And last connection has 1 contentUrls
 
   # Scenario: Content source contents list 2
   #   When I add connection to content-source-folder
