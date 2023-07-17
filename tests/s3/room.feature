@@ -2,7 +2,7 @@ Feature: Room
 
   Background:
     Given I have empty place for room
-    # And I initiate a room
+    And I initiate a room
 
   Scenario: Initiate room
     Then room.json does exists

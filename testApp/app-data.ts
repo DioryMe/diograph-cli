@@ -16,6 +16,12 @@ export interface AppData {
 }
 
 export const getClientAndVerify = async (clientType: string, address: string) => {
+  // TODO: Define common BaseClient class/interface and implement/inherit it
+  // - part of diograph-js? Or its own package?!?
+  // - verify, readTextItem, readitem, writeTextItem, writeItem
+  // - deleteItem, itemExists
+  // - address is always just one url
+  console.log(address)
   let client
   if (clientType == 'LocalClient') {
     client = new LocalClient(address)

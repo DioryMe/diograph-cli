@@ -8,13 +8,14 @@ const { S3Client } = require('@diograph/s3-client')
 const CONTENT_SOURCE_FOLDER = join(process.cwd(), 'demo-content-room', 'source')
 const APP_DATA_PATH = join(process.cwd(), 'tmp')
 // S3Client
-const TEST_BUCKET_NAME = 's3://jvalanen-diory-test3'
+const TEST_BUCKET_NAME = 'jvalanen-diory-test3'
 const TEST_ROOM_KEY = '/'
-const TEST_ROOM_FULL_PATH = join(TEST_BUCKET_NAME, TEST_ROOM_KEY)
-const CONTENT_FOLDER_KEY = join('Diory Content')
+const CONTENT_FOLDER_KEY = 'Diory Content'
+const TEST_ROOM_FULL_URL = `s3://${join(TEST_BUCKET_NAME, TEST_ROOM_KEY)}`
+const CONTENT_FOLDER_FULL_URL = `s3://${join(TEST_BUCKET_NAME, TEST_ROOM_KEY, CONTENT_FOLDER_KEY)}`
 
 const testApp = new App()
-const client = new S3Client(TEST_BUCKET_NAME)
+const client = new S3Client(TEST_ROOM_FULL_URL)
 
 Given('I have empty place for room', async () => {
   await testApp.init()
@@ -29,17 +30,14 @@ Given('I have empty place for room', async () => {
 
   // S3Client
   // TODO: Delete bucket keys recursively
-  // existsSync(CONTENT_FOLDER_PATH) && (await rmSync(CONTENT_FOLDER_PATH, { recursive: true }))
+  // existsSync(CONTENT_FOLDER_FULL_URL) && (await rmSync(CONTENT_FOLDER_FULL_URL, { recursive: true }))
 })
 
 // WHEN
 
 When('I initiate a room', async () => {
   // If room already exists, this connects to it instead of initiating a new one
-  // LocalClient
-  await testApp.run('addRoom', TEST_ROOM_FULL_PATH, 'S3Client')
-  // S3Client
-  // await testApp.run('addRoom', TEST_ROOM_KEY, 'S3Client')
+  await testApp.run('addRoom', TEST_ROOM_FULL_URL, 'S3Client')
 })
 
 /*
@@ -54,7 +52,7 @@ When('I add connection to {word}', async (destination) => {
       connectionAddress = CONTENT_SOURCE_FOLDER
       break
     case 'DioryContent': // <-- currently not in use, created automatically in addRoom
-      connectionAddress = CONTENT_FOLDER_PATH
+      connectionAddress = CONTENT_FOLDER_FULL_URL
       break
     default:
       break
@@ -139,11 +137,11 @@ Then('last connection diograph has {int} diories', (dioryCount) => {
 })
 
 Then('content folder has {int} file(s)', (count) => {
-  if (count === 0 && !existsSync(CONTENT_FOLDER_PATH)) {
+  if (count === 0 && !existsSync(CONTENT_FOLDER_FULL_URL)) {
     return
   }
   const contentFileList =
-    lstatSync(CONTENT_FOLDER_PATH).isDirectory() && readdirSync(CONTENT_FOLDER_PATH)
+    lstatSync(CONTENT_FOLDER_FULL_URL).isDirectory() && readdirSync(CONTENT_FOLDER_FULL_URL)
   assert.equal(contentFileList.length, count)
 })
 
