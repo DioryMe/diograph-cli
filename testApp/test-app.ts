@@ -8,6 +8,7 @@ import { Generator, getDefaultImage } from '@diograph/file-generator'
 import { v4 as uuid } from 'uuid'
 import { addRoom } from '../src/addRoom'
 import { addConnection } from '../src/addConnection'
+import { setRoomInFocus } from '../src/appCommands/setRoomInFocus'
 
 const appDataFolderPath = process.env['APP_DATA_FOLDER'] || join(process.cwd(), 'tmp')
 if (!existsSync(appDataFolderPath)) {
@@ -34,6 +35,11 @@ class App {
         this.roomInFocus = roomInFocus
         this.connectionInFocus = connectionInFocus
         this.appData = initiatedAppData
+
+        if (this.rooms.length) {
+          return setRoomInFocus(this.rooms, 0, APP_DATA_PATH)
+        }
+        console.log('No rooms to initiate...')
       },
     )
 
@@ -54,14 +60,8 @@ class App {
         throw new Error(`There's only ${this.rooms.length} room available, no index ${roomIndex}`)
       }
 
-      this.roomInFocus = this.rooms.length ? this.rooms[roomIndex] : null
-      this.connectionInFocus =
-        this.roomInFocus && this.roomInFocus.connections.length
-          ? this.roomInFocus.connections[0]
-          : null
-      await saveAppData(this.roomInFocus, this.connectionInFocus, this.rooms, APP_DATA_PATH)
+      await setRoomInFocus(this.rooms, roomIndex, APP_DATA_PATH)
 
-      console.log(`SUCCESS: Set room in focus: ${this.roomInFocus && this.roomInFocus.address}`)
       return
     }
 
