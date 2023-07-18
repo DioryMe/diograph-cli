@@ -14,11 +14,20 @@ Import image diory to that room
 APP_DATA_PATH=./tmp/app-data.json node ./testApp/test-cli.js importDiory ~/MyPictures/my-pic.jpg
 ```
 
-## TODO
+## Tests
+
+NOTE: You may want to remove APP_DATA_PATH before running tests
+
+Local:
 
 ```
-- Connection in focus (currently always second in the room)
-- Diory in focus (both: room's & connection's diograph)
+yarn test
+```
+
+S3:
+
+```
+DIOGRAPH_CLI_TEST_TYPE=S3 aws-vault exec ***** -- yarn test
 ```
 
 ## App commands

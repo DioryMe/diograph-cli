@@ -1,13 +1,14 @@
-const { existsSync, readFileSync, rmSync, mkdirSync, readdirSync, lstatSync } = require('fs')
+const { existsSync, rmSync, mkdirSync } = require('fs')
 const assert = require('assert')
 const { join } = require('path')
 const { Given, When, Then } = require('@cucumber/cucumber')
-const { App } = require('../../../dist/testApp/test-app')
+const { App } = require('../../dist/testApp/test-app')
 const { S3Client } = require('@diograph/s3-client')
 const { LocalClient } = require('@diograph/local-client')
 
 const APP_DATA_PATH = join(process.cwd(), 'tmp')
 const CONTENT_SOURCE_FOLDER = join(process.cwd(), 'demo-content-room', 'source')
+const testType = process.env['DIOGRAPH_CLI_TEST_TYPE']
 
 function localClientVars() {
   const TEST_ROOM_FULL_URL = APP_DATA_PATH
@@ -24,7 +25,6 @@ function localClientVars() {
     TEST_ROOM_FULL_URL,
     CONTENT_FOLDER_FULL_URL,
     resetContentFolder: async () => {
-      console.log('asdf', CONTENT_FOLDER_FULL_URL)
       // TODO: Execute this via client.deleteFolder
       existsSync(CONTENT_FOLDER_FULL_URL) && rmSync(CONTENT_FOLDER_FULL_URL, { recursive: true })
     },
@@ -64,7 +64,7 @@ const {
   TEST_ROOM_FULL_URL,
   CONTENT_FOLDER_FULL_URL,
   resetContentFolder,
-} = false ? localClientVars() : s3ClientVars()
+} = testType == 'S3' ? s3ClientVars() : localClientVars()
 // TODO: Select local/s3 with and ENV/argument to test script
 
 Given('I have empty place for room', async () => {
@@ -84,7 +84,7 @@ Given('I have empty place for room', async () => {
 
 When('I initiate a room', async () => {
   // If room already exists, this connects to it instead of initiating a new one
-  await testApp.run('addRoom', TEST_ROOM_FULL_URL, false ? 'LocalClient' : 'S3Client')
+  await testApp.run('addRoom', TEST_ROOM_FULL_URL, testType == 'S3' ? 'S3Client' : 'LocalClient')
 })
 
 When('I add connection to {word}', async (destination) => {
