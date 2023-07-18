@@ -68,17 +68,6 @@ When('I import last diory to first connection', async () => {
   await testApp.run('import', '/two-test-image.jpg')
 })
 
-When('I call importDioryFromFile with content', async () => {
-  const imageFilePath = join(
-    APP_DATA_PATH,
-    '..',
-    'demo-content-room',
-    'source',
-    'one-test-image.jpg',
-  )
-  await testApp.run('importDioryFromFile', imageFilePath, true)
-})
-
 When('I call importDioryFromFile', async () => {
   const imageFilePath = join(
     APP_DATA_PATH,
@@ -90,15 +79,16 @@ When('I call importDioryFromFile', async () => {
   await testApp.run('importDioryFromFile', imageFilePath)
 })
 
-/*
-When('I delete room', async () => {
-  await testApp.run('deleteRoom')
+When('I call importDioryFromFile with content', async () => {
+  const imageFilePath = join(
+    APP_DATA_PATH,
+    '..',
+    'demo-content-room',
+    'source',
+    'one-test-image.jpg',
+  )
+  await testApp.run('importDioryFromFile', imageFilePath, true)
 })
-
-When('I import last diory to first connection with content', async () => {
-  await testApp.run('import', '/two-test-image.jpg', true)
-})
-*/
 
 // THEN
 
@@ -152,28 +142,6 @@ Then('content folder has {int} file(s)', async (count) => {
   const list = await connectionClient.list('')
   assert.equal(list.KeyCount, count)
 })
-
-/*
-Then('{word} {word} exists in application support room', (fileName, doesOrNot) => {
-  assert.equal(existsSync(join(APP_DATA_PATH, `${fileName}`)), doesOrNot === 'does')
-})
-
-Then('appData has {word} room(s)', (count) => {
-  const appDataContents = readFileSync(join(APP_DATA_PATH, 'app-data.json'), { encoding: 'utf8' })
-  const appData = JSON.parse(appDataContents)
-
-  assert.equal(appData.rooms.length, parseInt(count, 10))
-})
-
-Then('I receive a diory', async () => {
-  const testApp = new App()
-  const response = await testApp.run('getDiory')
-  assert.ok(response)
-  assert.equal(response.id, 'some-diory-id')
-  assert.equal(response.text, 'Root diory')
-})
-
-*/
 
 Then('last diory has {word} as {word}', async (value, property) => {
   const diographContents = await client.readTextItem('diograph.json')
