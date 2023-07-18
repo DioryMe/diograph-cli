@@ -164,7 +164,7 @@ Then('I get url from getContent with {string}', async (contentId) => {
 
 Then('content folder has {int} file(s)', async (count) => {
   const list = await connectionClient.list('')
-  assert.equal(list.KeyCount, count)
+  assert.equal(list.length, count)
 })
 
 Then('last diory has {word} as {word}', async (value, property) => {
