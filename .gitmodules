@@ -1,9 +1,3 @@
-[submodule "local-client"]
-	path = local-client
-	url = git@github.com:DioryMe/local-client.git
 [submodule "demo-content-room"]
 	path = demo-content-room
 	url = git@github.com:DioryMe/demo-content-room.git
-[submodule "s3-client"]
-	path = s3-client
-	url = git@github.com:DioryMe/s3-client.git
