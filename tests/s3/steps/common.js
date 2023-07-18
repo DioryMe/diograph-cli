@@ -9,8 +9,8 @@ const CONTENT_SOURCE_FOLDER = join(process.cwd(), 'demo-content-room', 'source')
 const APP_DATA_PATH = join(process.cwd(), 'tmp')
 
 const TEST_BUCKET_NAME = 'jvalanen-diory-test3'
-const TEST_ROOM_KEY = '/'
-const CONTENT_FOLDER_KEY = 'DioryContent/'
+const TEST_ROOM_KEY = ''
+const CONTENT_FOLDER_KEY = 'Diory Content'
 const TEST_ROOM_FULL_URL = `s3://${join(TEST_BUCKET_NAME, TEST_ROOM_KEY)}`
 const CONTENT_FOLDER_FULL_URL = `s3://${join(TEST_BUCKET_NAME, TEST_ROOM_KEY, CONTENT_FOLDER_KEY)}`
 
@@ -70,6 +70,17 @@ When('I import last diory to first connection', async () => {
   await testApp.run('import', '/two-test-image.jpg')
 })
 
+When('I call importDioryFromFile with content', async () => {
+  const imageFilePath = join(
+    APP_DATA_PATH,
+    '..',
+    'demo-content-room',
+    'source',
+    'one-test-image.jpg',
+  )
+  await testApp.run('importDioryFromFile', imageFilePath, true)
+})
+
 /*
 When('I delete room', async () => {
   await testApp.run('deleteRoom')
@@ -84,17 +95,6 @@ When('I call importDioryFromFile', async () => {
     'one-test-image.jpg',
   )
   await testApp.run('importDioryFromFile', imageFilePath)
-})
-
-When('I call importDioryFromFile with content', async () => {
-  const imageFilePath = join(
-    APP_DATA_PATH,
-    '..',
-    'demo-content-room',
-    'source',
-    'one-test-image.jpg',
-  )
-  await testApp.run('importDioryFromFile', imageFilePath, true)
 })
 
 When('I import last diory to first connection with content', async () => {
@@ -175,11 +175,11 @@ Then('I receive a diory', async () => {
   assert.equal(response.text, 'Root diory')
 })
 
+*/
 
-Then('last diory has {word} as {word}', (value, property) => {
-  const diographContents = readFileSync(join(TEST_ROOM_KEY, 'diograph.json'), {
-    encoding: 'utf8',
-  })
+Then('last diory has {word} as {word}', async (value, property) => {
+  const diographContents = await client.readTextItem('diograph.json')
+
   const diograph = JSON.parse(diographContents)
   assert(diograph.diograph, 'Invalid diograph.json, diograph not found')
   const diories = Object.values(diograph.diograph)
@@ -191,4 +191,3 @@ Then('last diory has {word} as {word}', (value, property) => {
     assert.equal(lastDiory.data[0].encodingFormat, value)
   }
 })
-*/
