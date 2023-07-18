@@ -10,7 +10,8 @@ const APP_DATA_PATH = join(process.cwd(), 'tmp')
 
 const TEST_BUCKET_NAME = 'jvalanen-diory-test3'
 const TEST_ROOM_KEY = ''
-const CONTENT_FOLDER_KEY = 'Diory Content'
+// This MUST end with / in order to client.deleteFolder to succeed...
+const CONTENT_FOLDER_KEY = 'Diory Content/'
 const TEST_ROOM_FULL_URL = `s3://${join(TEST_BUCKET_NAME, TEST_ROOM_KEY)}`
 const CONTENT_FOLDER_FULL_URL = `s3://${join(TEST_BUCKET_NAME, TEST_ROOM_KEY, CONTENT_FOLDER_KEY)}`
 
@@ -28,10 +29,7 @@ Given('I have empty place for room', async () => {
     mkdirSync(APP_DATA_PATH)
   }
 
-  const contentFolderExists = await client.exists(CONTENT_FOLDER_KEY)
-  if (contentFolderExists) {
-    await client.deleteFolder(CONTENT_FOLDER_KEY)
-  }
+  await client.deleteFolder(CONTENT_FOLDER_KEY)
 })
 
 // WHEN
@@ -81,11 +79,6 @@ When('I call importDioryFromFile with content', async () => {
   await testApp.run('importDioryFromFile', imageFilePath, true)
 })
 
-/*
-When('I delete room', async () => {
-  await testApp.run('deleteRoom')
-})
-
 When('I call importDioryFromFile', async () => {
   const imageFilePath = join(
     APP_DATA_PATH,
@@ -95,6 +88,11 @@ When('I call importDioryFromFile', async () => {
     'one-test-image.jpg',
   )
   await testApp.run('importDioryFromFile', imageFilePath)
+})
+
+/*
+When('I delete room', async () => {
+  await testApp.run('deleteRoom')
 })
 
 When('I import last diory to first connection with content', async () => {
