@@ -4,9 +4,32 @@ const { join } = require('path')
 const { Given, When, Then } = require('@cucumber/cucumber')
 const { App } = require('../../../dist/testApp/test-app')
 const { S3Client } = require('@diograph/s3-client')
+const { LocalClient } = require('@diograph/local-client')
 
 const APP_DATA_PATH = join(process.cwd(), 'tmp')
 const CONTENT_SOURCE_FOLDER = join(process.cwd(), 'demo-content-room', 'source')
+
+function localClientVars() {
+  const TEST_ROOM_FULL_URL = APP_DATA_PATH
+  const CONTENT_FOLDER_FULL_URL = join(TEST_ROOM_FULL_URL, 'Diory Content')
+
+  const testApp = new App()
+  const client = new LocalClient(TEST_ROOM_FULL_URL)
+  const connectionClient = new LocalClient(CONTENT_FOLDER_FULL_URL)
+
+  return {
+    testApp,
+    client,
+    connectionClient,
+    TEST_ROOM_FULL_URL,
+    CONTENT_FOLDER_FULL_URL,
+    resetContentFolder: async () => {
+      console.log('asdf', CONTENT_FOLDER_FULL_URL)
+      // TODO: Execute this via client.deleteFolder
+      existsSync(CONTENT_FOLDER_FULL_URL) && rmSync(CONTENT_FOLDER_FULL_URL, { recursive: true })
+    },
+  }
+}
 
 function s3ClientVars() {
   const TEST_BUCKET_NAME = 'jvalanen-diory-test3'
@@ -41,7 +64,8 @@ const {
   TEST_ROOM_FULL_URL,
   CONTENT_FOLDER_FULL_URL,
   resetContentFolder,
-} = s3ClientVars()
+} = false ? localClientVars() : s3ClientVars()
+// TODO: Select local/s3 with and ENV/argument to test script
 
 Given('I have empty place for room', async () => {
   await testApp.init()
@@ -60,7 +84,7 @@ Given('I have empty place for room', async () => {
 
 When('I initiate a room', async () => {
   // If room already exists, this connects to it instead of initiating a new one
-  await testApp.run('addRoom', TEST_ROOM_FULL_URL, 'S3Client')
+  await testApp.run('addRoom', TEST_ROOM_FULL_URL, false ? 'LocalClient' : 'S3Client')
 })
 
 When('I add connection to {word}', async (destination) => {
