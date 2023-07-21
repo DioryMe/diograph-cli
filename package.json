@@ -7,8 +7,8 @@
   "license": "MIT",
   "dependencies": {
     "@diograph/file-generator": "0.0.4",
-    "@diograph/local-client": "0.1.0",
-    "@diograph/s3-client": "0.1.0",
+    "@diograph/local-client": "next",
+    "@diograph/s3-client": "next",
     "diograph-js": "next",
     "uuid": "^8.3.2"
   },

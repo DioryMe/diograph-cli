@@ -775,18 +775,18 @@
     sharp "0.31.2"
     uuid "^9.0.0"
 
-"@diograph/local-client@0.1.0":
-  version "0.1.0"
-  resolved "https://registry.yarnpkg.com/@diograph/local-client/-/local-client-0.1.0.tgz#f66d83e840d6ed4d6a889c8354fd33cfc67289ba"
-  integrity sha512-7AlKwA5DejcVIRtl9Mw6Om6r7NF/oAk68rGx5YopsX1qqOibQ8BMVVK/D57PrPPkdCPjq+PNVOpa4LIcAAPFxg==
+"@diograph/local-client@next":
+  version "0.1.1"
+  resolved "https://registry.yarnpkg.com/@diograph/local-client/-/local-client-0.1.1.tgz#f50986752d8f8d71a9f7a00663b696d705e1ee53"
+  integrity sha512-Sg12ymtVeIzW0/1kN8gC7vgIGWQjdQvxWMxgu0UvYdvwdKo2blJOg1u1rx5qkvFLGICSsqAkCyk9l11S5ncHfw==
 
-"@diograph/s3-client@0.1.0":
-  version "0.1.0"
-  resolved "https://registry.yarnpkg.com/@diograph/s3-client/-/s3-client-0.1.0.tgz#4a2984c949f2e148035e7cceb3f81223a1f556c5"
-  integrity sha512-Q8/UpvG0xjuEWr9FKWsKdXAIyu+aprceOKIQL6WNY04np5/9CUMjbmhyonE/pyM5ZYfP2fEMPQB20Abg4f38lA==
+"@diograph/s3-client@next":
+  version "0.1.1"
+  resolved "https://registry.yarnpkg.com/@diograph/s3-client/-/s3-client-0.1.1.tgz#a5dfcde8ffe170f7c63f3be1a19ee39e4ea01c76"
+  integrity sha512-pU7BctCHIrcBKXoiEDFg53KFcVggEak3aAvbmrY4ea8Fehw+XF/m1ZWx9wGvOMB0/M4W4EOB3NP/iO5VQa//0Q==
   dependencies:
     "@aws-sdk/client-s3" "^3.209.0"
-    diograph-js "0.0.4-rc1"
+    diograph-js next
 
 "@smithy/abort-controller@^1.0.2":
   version "1.0.2"
@@ -1409,10 +1409,10 @@ diograph-js@0.0.4-rc1:
     path-browserify "^1.0.1"
     uuid "^9.0.0"
 
-diograph-js@0.0.5:
-  version "0.0.5"
-  resolved "https://registry.yarnpkg.com/diograph-js/-/diograph-js-0.0.5.tgz#c10f11fade15cda6033fd49d7848c74968b65b1b"
-  integrity sha512-b/EpQF0YAaJsC5YRJ1EGHw56LSUpe2IcArsutD/mEkvRjMvZXjlD92mRLKOSAH6J8vHj6dj2CT+TM2LP65lOhQ==
+diograph-js@next:
+  version "0.0.7"
+  resolved "https://registry.yarnpkg.com/diograph-js/-/diograph-js-0.0.7.tgz#45cf528cd9e48d342a7ed98d218c53502a4316a9"
+  integrity sha512-l+q+9lPQFOQpRyc9FbLSlku3qaMfla6ql2UUl/0Yhhvv7K2THRG8QbBRqpV9hp5OkBQjXAbp1sYEBteBJMrh4A==
   dependencies:
     uuid "^8.3.2"
 
