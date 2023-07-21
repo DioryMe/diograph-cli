@@ -1,7 +1,39 @@
 import { readdirSync } from 'fs'
 import { join } from 'path'
 import { Generator, getDefaultImage } from '@diograph/file-generator'
-import { DiographObject } from 'diograph-js/types'
+
+// TODO: Import these from diograph-js
+export interface DiographObject {
+  [key: string]: DioryObject
+}
+
+export interface DioryObject extends DioryAttributes {
+  id: string
+  links?: DioryLinkObject
+}
+
+export interface DioryLinkObject {
+  [key: string]: DioryLink
+}
+
+export interface DioryLink {
+  id: string
+}
+
+export interface DioryAttributes {
+  text?: string
+  image?: string
+  latlng?: string
+  date?: string
+  data?: DataAttributes[]
+  style?: object
+  created?: string
+  modified?: string
+}
+
+export interface DataAttributes {
+  [key: string]: string
+}
 
 // TODO: This is still NOT OFFICIAL way but uses prohibited shortcuts & assumptions to do things
 // - Should use connection to define which client to use and initiate that client
