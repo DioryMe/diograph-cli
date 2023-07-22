@@ -1,7 +1,7 @@
 import { existsSync, mkdirSync } from 'fs'
 import { readFile, writeFile, rm } from 'fs/promises'
 import { join } from 'path'
-import { Connection, Diory, Room } from 'diograph-js'
+import { Connection, Diory, OldDiory, Room } from 'diograph-js'
 import { AppData, initiateAppData, saveAppData } from './app-data'
 import { localDiographGenerator } from './localDiographGenerator'
 import { Generator, getDefaultImage } from '@diograph/file-generator'
@@ -258,19 +258,19 @@ class App {
       }
     }
 
-    if (command === 'createDiory' && this.roomInFocus.diograph) {
-      await this.roomInFocus.diograph.createDiory({ text: 'Superia' })
-      await this.roomInFocus.saveRoom()
-      console.log('Diory created.')
-      return
-    }
+    // if (command === 'createDiory' && this.roomInFocus.diograph) {
+    //   await this.roomInFocus.diograph.createDiory({ text: 'Superia' })
+    //   await this.roomInFocus.saveRoom()
+    //   console.log('Diory created.')
+    //   return
+    // }
 
-    if (command === 'deleteDiory' && this.roomInFocus.diograph) {
-      await this.roomInFocus.diograph.deleteDiory(arg1)
-      await this.roomInFocus.saveRoom()
-      console.log('Diory deleted.')
-      return
-    }
+    // if (command === 'deleteDiory' && this.roomInFocus.diograph) {
+    //   await this.roomInFocus.diograph.deleteDiory(arg1)
+    //   await this.roomInFocus.saveRoom()
+    //   console.log('Diory deleted.')
+    //   return
+    // }
 
     if (command === 'importDioryFromFile' && this.roomInFocus.diograph) {
       const filePath = arg1
@@ -282,7 +282,7 @@ class App {
         ? `data:image/jpeg;base64,${thumbnailBuffer.toString('base64')}`
         : getDefaultImage()
       dioryObject.image = dataUrl
-      const diory = new Diory(dioryObject)
+      const diory = new OldDiory(dioryObject)
       if (copyContent) {
         const sourceFileContent = await readFile(filePath)
         await this.roomInFocus.addContent(sourceFileContent, cid || dioryObject.id)
@@ -303,7 +303,7 @@ class App {
       // 1. Import diory from connection's diograph to room's diograph
       const newDioryObject = sourceConnection.diograph.getDiory(dioryId).toObject()
       newDioryObject.id = uuid()
-      const newDiory = new Diory(newDioryObject)
+      const newDiory = new OldDiory(newDioryObject)
       this.roomInFocus.diograph?.addDiory(newDiory)
       if (copyContent) {
         // 2. Make content available also via native-connection

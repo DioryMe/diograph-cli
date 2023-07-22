@@ -9,7 +9,7 @@
     "@diograph/file-generator": "0.0.4",
     "@diograph/local-client": "next",
     "@diograph/s3-client": "next",
-    "diograph-js": "next",
+    "@diograph/diograph": "next",
     "uuid": "^8.3.2"
   },
   "devDependencies": {

@@ -763,6 +763,13 @@
   resolved "https://registry.yarnpkg.com/@cucumber/tag-expressions/-/tag-expressions-5.0.1.tgz#94ed2299eaa9085f113d71cb4da1186ad57b3de9"
   integrity sha512-N43uWud8ZXuVjza423T9ZCIJsaZhFekmakt7S9bvogTxqdVGbRobjR663s0+uW0Rz9e+Pa8I6jUuWtoBLQD2Mw==
 
+"@diograph/diograph@next":
+  version "0.0.2-rc9"
+  resolved "https://registry.yarnpkg.com/@diograph/diograph/-/diograph-0.0.2-rc9.tgz#ae5bb7d2786ec7ab78a2edcb929048f7be626ea3"
+  integrity sha512-Hg1efogpv+L82WCnYRbXuPpZkh8X+CPOq5k1A+hFrzK2DK6psG/2KEhMV4iSn5qU9cexKdC1XElLcOjbWA0jAg==
+  dependencies:
+    uuid "^8.3.2"
+
 "@diograph/file-generator@0.0.4":
   version "0.0.4"
   resolved "https://registry.yarnpkg.com/@diograph/file-generator/-/file-generator-0.0.4.tgz#3c1d6a6ab4d7b543ecef5668e93691f65c1de772"
