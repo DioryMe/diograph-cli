@@ -3,12 +3,13 @@ import { writeFile, rm } from 'fs/promises'
 import { join } from 'path'
 import { Connection, Diory, OldDiory, Room } from '@diograph/diograph'
 import { AppData, initiateAppData, saveAppData } from './app-data'
-// import { localDiographGenerator } from './localDiographGenerator'
+import { localDiographGenerator } from './localDiographGenerator'
 import { generateFileDiory } from '@diograph/file-generator'
 import { v4 as uuid } from 'uuid'
 import { addRoom } from '../src/addRoom'
 import { addConnection } from '../src/addConnection'
 import { setRoomInFocus } from '../src/appCommands/setRoomInFocus'
+import { getDefaultImage } from './utils'
 
 const appDataFolderPath = process.env['APP_DATA_FOLDER'] || join(process.cwd(), 'tmp')
 if (!existsSync(appDataFolderPath)) {
@@ -241,7 +242,7 @@ class App {
 
     // @diograph/diograph doesn't support these yet
     // - localDiographGenerator
-    /*
+
     if (command === 'listClientContents') {
       // const connection = this.connectionInFocus
       // if (!connection) {
@@ -275,31 +276,6 @@ class App {
       await this.roomInFocus.saveRoom()
       // TODO: This could print out something: list of files?
       return
-    }
-    */
-
-    // @diograph/diograph doesn't support these yet
-    // - new Generator()
-    // - generator.generateDioryFromFile
-
-    // Base64 colors are 1x1 png images generated with https://png-pixel.com/
-    const getRandom = (array: any[]) => array[Math.floor(Math.random() * array.length)]
-
-    const prefix = 'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42'
-    const suffix = 'AAAABJRU5ErkJggg=='
-
-    const colors = [
-      'mOMPvD6PwAGiwMHcHyXEA', // #5bc0eb
-      'mP8c43hPwAHewLTbrmJlA', // #fcd600
-      'mOcfdT2PwAGPgKeWQwJuA', // #9bc53d
-      'mN8GmnyHwAGEAJzBJT/2A', // #e55934
-      'mP8Van4HwAGngKVn65TsQ', // #fa7921
-      'mMUMgn7DwACmQGdtDFX8A', // #123456
-    ]
-
-    const getDefaultImage = () => {
-      const colorCode = getRandom(colors)
-      return `data:image/png;base64,${prefix}${colorCode}${suffix}`
     }
 
     if (command === 'importDioryFromFile' && this.roomInFocus.diograph) {

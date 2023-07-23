@@ -1,39 +1,8 @@
 import { readdirSync } from 'fs'
 import { join } from 'path'
-import { Generator, getDefaultImage } from '@diograph/file-generator'
-
-// TODO: Import these from diograph-js
-export interface DiographObject {
-  [key: string]: DioryObject
-}
-
-export interface DioryObject extends DioryAttributes {
-  id: string
-  links?: DioryLinkObject
-}
-
-export interface DioryLinkObject {
-  [key: string]: DioryLink
-}
-
-export interface DioryLink {
-  id: string
-}
-
-export interface DioryAttributes {
-  text?: string
-  image?: string
-  latlng?: string
-  date?: string
-  data?: DataAttributes[]
-  style?: object
-  created?: string
-  modified?: string
-}
-
-export interface DataAttributes {
-  [key: string]: string
-}
+import { generateFileDiory } from '@diograph/file-generator'
+import { getDefaultImage } from './utils'
+import { IDiographObject } from '@diograph/diograph'
 
 // TODO: This is still NOT OFFICIAL way but uses prohibited shortcuts & assumptions to do things
 // - Should use connection to define which client to use and initiate that client
@@ -47,21 +16,17 @@ const folderDefaultImage = () => {
 const localDiographGenerator = async (
   dioryId: string,
   contentSourceAddress: string,
-): Promise<DiographObject> => {
+): Promise<IDiographObject> => {
   const folderPath = join(contentSourceAddress, dioryId)
   const folderList = readdirSync(folderPath, { withFileTypes: true })
 
-  const generator = new Generator()
   const dioryArray = await Promise.all(
     folderList.map(async (dirent) => {
       const fileName = dirent.name
       const filePath = join(folderPath, fileName)
       if (dirent.isFile()) {
-        const { dioryObject, thumbnailBuffer } = await generator.generateDioryFromFile(filePath)
-        const dataUrl = thumbnailBuffer
-          ? `data:image/jpeg;base64,${thumbnailBuffer.toString('base64')}`
-          : getDefaultImage()
-        dioryObject.image = dataUrl
+        const dioryObject = await generateFileDiory(filePath, '')
+        dioryObject.image = dioryObject.image ? dioryObject.image : getDefaultImage()
         dioryObject.id = join(dioryId, fileName)
         return { [dioryObject.id]: dioryObject }
       }
@@ -81,7 +46,9 @@ const localDiographGenerator = async (
     }),
   )
 
-  return dioryArray.reduce((cum, current) => ({ ...current, ...cum }), {})
+  return dioryArray.reduce((cum: any, current: any) => {
+    return { ...current, ...cum }
+  }, {})
 }
 
 export { localDiographGenerator }

@@ -8,12 +8,5 @@
     "forceConsistentCasingInFileNames": true,
     "sourceMap": true
   },
-  "exclude": [
-    "node_modules",
-    "dist",
-    "s3-client",
-    "local-client",
-    "demo-content-room",
-    "testApp/localDiographGenerator.ts"
-  ]
+  "exclude": ["node_modules", "dist", "s3-client", "local-client", "demo-content-room"]
 }
