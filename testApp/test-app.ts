@@ -1,7 +1,7 @@
 import { existsSync, mkdirSync } from 'fs'
 import { readFile, writeFile, rm } from 'fs/promises'
 import { join } from 'path'
-import { Connection, Diory, OldDiory, Room } from '@diograph/diograph'
+import { Connection, Diory, Room } from '@diograph/diograph'
 import { AppData, initiateAppData, saveAppData } from './app-data'
 import { localDiographGenerator } from './localDiographGenerator'
 import { generateFileDiory } from '@diograph/file-generator'
