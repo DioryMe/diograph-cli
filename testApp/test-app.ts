@@ -1,7 +1,7 @@
 import { existsSync, mkdirSync } from 'fs'
 import { readFile, writeFile, rm } from 'fs/promises'
 import { join } from 'path'
-import { Connection, Diory, OldDiory, Room } from 'diograph-js'
+import { Connection, Diory, OldDiory, Room } from '@diograph/diograph'
 import { AppData, initiateAppData, saveAppData } from './app-data'
 import { localDiographGenerator } from './localDiographGenerator'
 import { Generator, getDefaultImage } from '@diograph/file-generator'
@@ -200,6 +200,48 @@ class App {
       return connections.map((connection) => connection.address)
     }
 
+    if (command === 'getDiograph' && this.roomInFocus.diograph) {
+      return this.roomInFocus.diograph.toObject()
+    }
+
+    if (command === 'getDiory' && this.roomInFocus.diograph) {
+      const dioryId = arg1 || 'some-diory-id'
+      const { id, links, text, latlng, date, data, created, modified } =
+        await this.roomInFocus.diograph.getDiory({ id: dioryId })
+      return {
+        id,
+        links,
+        text,
+        latlng,
+        date,
+        data,
+        created,
+        modified,
+        image: 'http://localhost:3000/diory/32540931-bb4a-4bd7-bf00-2fe0e2be0b38',
+        datobject: 'http://localhost:3000/content',
+      }
+    }
+
+    // Didn't want to fix old diograph-js to make these work
+    /*
+    if (command === 'createDiory' && this.roomInFocus.diograph) {
+      await this.roomInFocus.diograph.createDiory({ text: 'Superia' })
+      await this.roomInFocus.saveRoom()
+      console.log('Diory created.')
+      return
+    }
+
+    if (command === 'deleteDiory' && this.roomInFocus.diograph) {
+      await this.roomInFocus.diograph.deleteDiory(arg1)
+      await this.roomInFocus.saveRoom()
+      console.log('Diory deleted.')
+      return
+    }
+    */
+
+    // @diograph/diograph doesn't support these yet
+    // - localDiographGenerator
+    /*
     if (command === 'listClientContents') {
       // const connection = this.connectionInFocus
       // if (!connection) {
@@ -210,7 +252,7 @@ class App {
       console.log(`Listing contents of ${connection.address}`)
       const list = await localDiographGenerator('/', connection.address)
       connection.diograph.mergeDiograph(list)
-      connection.diograph.diories.forEach((diory) => {
+      connection.diograph.diories().forEach((diory) => {
         if (diory.data && diory.data[0].contentUrl) {
           connection.addContentUrl(diory.data[0].contentUrl, diory.id)
         }
@@ -225,7 +267,7 @@ class App {
       const connection = this.roomInFocus.connections[1]
       const list = await localDiographGenerator('/Subfolder', connection.address)
       connection.diograph.mergeDiograph(list)
-      connection.diograph.diories.forEach((diory) => {
+      connection.diograph.diories().forEach((diory) => {
         if (diory.data && diory.data[0].contentUrl) {
           connection.addContentUrl(diory.data[0].contentUrl, diory.id)
         }
@@ -234,44 +276,12 @@ class App {
       // TODO: This could print out something: list of files?
       return
     }
+    */
 
-    if (command === 'getDiograph' && this.roomInFocus.diograph) {
-      return this.roomInFocus.diograph.diories
-    }
-
-    if (command === 'getDiory' && this.roomInFocus.diograph) {
-      const dioryId = arg1 || 'some-diory-id'
-      const { id, links, text, latlng, date, data, style, created, modified } =
-        await this.roomInFocus.diograph.getDiory(dioryId)
-      return {
-        id,
-        links,
-        text,
-        latlng,
-        date,
-        data,
-        style,
-        created,
-        modified,
-        image: 'http://localhost:3000/diory/32540931-bb4a-4bd7-bf00-2fe0e2be0b38',
-        datobject: 'http://localhost:3000/content',
-      }
-    }
-
-    // if (command === 'createDiory' && this.roomInFocus.diograph) {
-    //   await this.roomInFocus.diograph.createDiory({ text: 'Superia' })
-    //   await this.roomInFocus.saveRoom()
-    //   console.log('Diory created.')
-    //   return
-    // }
-
-    // if (command === 'deleteDiory' && this.roomInFocus.diograph) {
-    //   await this.roomInFocus.diograph.deleteDiory(arg1)
-    //   await this.roomInFocus.saveRoom()
-    //   console.log('Diory deleted.')
-    //   return
-    // }
-
+    // @diograph/diograph doesn't support these yet
+    // - new Generator()
+    // - generator.generateDioryFromFile
+    /*
     if (command === 'importDioryFromFile' && this.roomInFocus.diograph) {
       const filePath = arg1
       const copyContent = arg2
@@ -327,6 +337,7 @@ class App {
       await this.roomInFocus.saveRoom()
       return
     }
+    */
 
     if (command === 'getContent') {
       return this.roomInFocus.getContent(arg1)

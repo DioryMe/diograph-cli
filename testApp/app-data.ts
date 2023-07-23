@@ -1,6 +1,6 @@
 import { existsSync } from 'fs'
 import { readFile, writeFile, rm } from 'fs/promises'
-import { Connection, Room, RoomClient } from 'diograph-js'
+import { Connection, Room, RoomClient } from '@diograph/diograph'
 import { LocalClient } from '@diograph/local-client'
 import { S3Client } from '@diograph/s3-client'
 

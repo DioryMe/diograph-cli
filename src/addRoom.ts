@@ -1,4 +1,4 @@
-import { Connection } from 'diograph-js'
+import { Connection } from '@diograph/diograph'
 import { initiateRoom } from '../testApp/app-data'
 
 export const addRoom = async (roomAddress: string, contentClientType: string) => {

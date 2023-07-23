@@ -1,4 +1,4 @@
-import { Room } from 'diograph-js'
+import { Room } from '@diograph/diograph'
 import { saveAppData } from '../../testApp/app-data'
 
 export const setRoomInFocus = async (rooms: Room[], roomIndex: number, appDataPath: string) => {
