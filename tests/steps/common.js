@@ -155,7 +155,6 @@ Then('room.json has {word} connection(s)', async (clientCount) => {
 Then('diograph.json has {word} diories', async (dioryCount) => {
   const diographContents = await client.readTextItem('diograph.json')
   const diograph = JSON.parse(diographContents)
-  // assert(diograph.diograph, 'Invalid diograph.json, diograph not found')
   assert.equal(Object.values(diograph).length, dioryCount === 'no' ? 0 : parseInt(dioryCount, 10))
 })
 
@@ -192,8 +191,7 @@ Then('last diory has {word} as {word}', async (value, property) => {
   const diographContents = await client.readTextItem('diograph.json')
 
   const diograph = JSON.parse(diographContents)
-  assert(diograph.diograph, 'Invalid diograph.json, diograph not found')
-  const diories = Object.values(diograph.diograph)
+  const diories = Object.values(diograph)
   const lastDiory = diories[diories.length - 1]
 
   if (property === 'contentUrl') {

@@ -22,8 +22,6 @@ Feature: Room
 
 ###
 
-  # @diograph/diograph doesn't support these yet
-  # - localDiographGenerator
   Scenario: Content source contents list
     When I add connection to content-source-folder
     And I call listClientContents operation
@@ -65,22 +63,19 @@ Feature: Room
 
 ###
 
-  # @diograph/diograph doesn't support these yet
-  # - new Generator()
-  # - generator.generateDioryFromFile
   Scenario: Import diory
     When I call importDioryFromFile
     Then diograph.json has 1 diories
     And room.json has 1 connection
     And last connection has 0 contentUrls
 
-  # Scenario: Import diory with content
-  #   When I call importDioryFromFile with content
-  #   Then diograph.json has 1 diories
-  #   And content folder has 1 file
-  #   And last connection has 1 contentUrls
-  #   And last diory has image/png as encodingFormat
-  #   And last diory has bafkreihoednm4s2g4vpame3mweewfq5of3hks2mbmkvoksxg3z4rhmweeu as contentUrl
+  Scenario: Import diory with content
+    When I call importDioryFromFile with content
+    Then diograph.json has 1 diories
+    And content folder has 1 file
+    And last connection has 1 contentUrls
+    And last diory has image/png as encodingFormat
+    And last diory has bafkreihoednm4s2g4vpame3mweewfq5of3hks2mbmkvoksxg3z4rhmweeu as contentUrl
 
 ###
 

@@ -1,5 +1,5 @@
 import { existsSync, mkdirSync } from 'fs'
-import { writeFile, rm } from 'fs/promises'
+import { readFile, writeFile, rm } from 'fs/promises'
 import { join } from 'path'
 import { Connection, Diory, OldDiory, Room } from '@diograph/diograph'
 import { AppData, initiateAppData, saveAppData } from './app-data'
@@ -285,11 +285,11 @@ class App {
       const dioryObject = await generateFileDiory(filePath, '')
       dioryObject.image = dioryObject.image ? dioryObject.image : getDefaultImage()
       const diory = new Diory(dioryObject)
-      // if (copyContent) {
-      //   const sourceFileContent = await readFile(filePath)
-      //   await this.roomInFocus.addContent(sourceFileContent, cid || dioryObject.id)
-      //   diory.changeContentUrl(cid || dioryObject.id)
-      // }
+      if (copyContent) {
+        const sourceFileContent = await readFile(filePath)
+        await this.roomInFocus.addContent(sourceFileContent, dioryObject.id)
+        diory.changeContentUrl(dioryObject.id)
+      }
       await this.roomInFocus.diograph.addDiory(diory)
       await this.roomInFocus.saveRoom()
       return
@@ -307,25 +307,25 @@ class App {
       newDioryObject.id = uuid()
       const newDiory = new Diory(newDioryObject)
       this.roomInFocus.diograph?.addDiory(newDiory)
-      // if (copyContent) {
-      //   // 2. Make content available also via native-connection
-      //   const contentUrl = newDiory.getContentUrl()
-      //   if (!contentUrl) {
-      //     return
-      //   }
-      //   const sourceConnectionContentClient = new this.roomInFocus.roomClient.client.constructor(
-      //     sourceConnection.address,
-      //   )
-      //   const fileContents = await sourceConnection.readContent(
-      //     contentUrl,
-      //     sourceConnectionContentClient,
-      //   )
-      //   const nativeConnectionContentClient = new this.roomInFocus.roomClient.client.constructor(
-      //     nativeConnection.address,
-      //   )
-      //   await nativeConnection.addContent(fileContents, contentUrl, nativeConnectionContentClient)
-      //   nativeConnection.addContentUrl(contentUrl, join(nativeConnection.address, contentUrl))
-      // }
+      if (copyContent) {
+        // 2. Make content available also via native-connection
+        const contentUrl = newDiory.getContentUrl()
+        if (!contentUrl) {
+          return
+        }
+        const sourceConnectionContentClient = new this.roomInFocus.roomClient.client.constructor(
+          sourceConnection.address,
+        )
+        const fileContents = await sourceConnection.readContent(
+          contentUrl,
+          sourceConnectionContentClient,
+        )
+        const nativeConnectionContentClient = new this.roomInFocus.roomClient.client.constructor(
+          nativeConnection.address,
+        )
+        await nativeConnection.addContent(fileContents, contentUrl, nativeConnectionContentClient)
+        nativeConnection.addContentUrl(contentUrl, join(nativeConnection.address, contentUrl))
+      }
       await this.roomInFocus.saveRoom()
       return
     }
