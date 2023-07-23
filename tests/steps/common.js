@@ -155,11 +155,8 @@ Then('room.json has {word} connection(s)', async (clientCount) => {
 Then('diograph.json has {word} diories', async (dioryCount) => {
   const diographContents = await client.readTextItem('diograph.json')
   const diograph = JSON.parse(diographContents)
-  assert(diograph.diograph, 'Invalid diograph.json, diograph not found')
-  assert.equal(
-    Object.values(diograph.diograph).length,
-    dioryCount === 'no' ? 0 : parseInt(dioryCount, 10),
-  )
+  // assert(diograph.diograph, 'Invalid diograph.json, diograph not found')
+  assert.equal(Object.values(diograph).length, dioryCount === 'no' ? 0 : parseInt(dioryCount, 10))
 })
 
 // TODO: Use connection in focus & app commands instead of parsing the room.json manually?
