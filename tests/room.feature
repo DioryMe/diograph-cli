@@ -68,11 +68,11 @@ Feature: Room
   # @diograph/diograph doesn't support these yet
   # - new Generator()
   # - generator.generateDioryFromFile
-  # Scenario: Import diory
-  #   When I call importDioryFromFile
-  #   Then diograph.json has 1 diories
-  #   And room.json has 1 connection
-  #   And last connection has 0 contentUrls
+  Scenario: Import diory
+    When I call importDioryFromFile
+    Then diograph.json has 1 diories
+    And room.json has 1 connection
+    And last connection has 0 contentUrls
 
   # Scenario: Import diory with content
   #   When I call importDioryFromFile with content

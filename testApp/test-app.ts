@@ -1,10 +1,10 @@
 import { existsSync, mkdirSync } from 'fs'
-import { readFile, writeFile, rm } from 'fs/promises'
+import { writeFile, rm } from 'fs/promises'
 import { join } from 'path'
 import { Connection, Diory, OldDiory, Room } from '@diograph/diograph'
 import { AppData, initiateAppData, saveAppData } from './app-data'
-import { localDiographGenerator } from './localDiographGenerator'
-import { Generator, getDefaultImage } from '@diograph/file-generator'
+// import { localDiographGenerator } from './localDiographGenerator'
+import { generateFileDiory } from '@diograph/file-generator'
 import { v4 as uuid } from 'uuid'
 import { addRoom } from '../src/addRoom'
 import { addConnection } from '../src/addConnection'
@@ -281,23 +281,39 @@ class App {
     // @diograph/diograph doesn't support these yet
     // - new Generator()
     // - generator.generateDioryFromFile
-    /*
+
+    // Base64 colors are 1x1 png images generated with https://png-pixel.com/
+    const getRandom = (array: any[]) => array[Math.floor(Math.random() * array.length)]
+
+    const prefix = 'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42'
+    const suffix = 'AAAABJRU5ErkJggg=='
+
+    const colors = [
+      'mOMPvD6PwAGiwMHcHyXEA', // #5bc0eb
+      'mP8c43hPwAHewLTbrmJlA', // #fcd600
+      'mOcfdT2PwAGPgKeWQwJuA', // #9bc53d
+      'mN8GmnyHwAGEAJzBJT/2A', // #e55934
+      'mP8Van4HwAGngKVn65TsQ', // #fa7921
+      'mMUMgn7DwACmQGdtDFX8A', // #123456
+    ]
+
+    const getDefaultImage = () => {
+      const colorCode = getRandom(colors)
+      return `data:image/png;base64,${prefix}${colorCode}${suffix}`
+    }
+
     if (command === 'importDioryFromFile' && this.roomInFocus.diograph) {
       const filePath = arg1
       const copyContent = arg2
 
-      const generator = new Generator()
-      const { dioryObject, thumbnailBuffer, cid } = await generator.generateDioryFromFile(filePath)
-      const dataUrl = thumbnailBuffer
-        ? `data:image/jpeg;base64,${thumbnailBuffer.toString('base64')}`
-        : getDefaultImage()
-      dioryObject.image = dataUrl
-      const diory = new OldDiory(dioryObject)
-      if (copyContent) {
-        const sourceFileContent = await readFile(filePath)
-        await this.roomInFocus.addContent(sourceFileContent, cid || dioryObject.id)
-        diory.changeContentUrl(cid || dioryObject.id)
-      }
+      const dioryObject = await generateFileDiory(filePath, '')
+      dioryObject.image = dioryObject.image ? dioryObject.image : getDefaultImage()
+      const diory = new Diory(dioryObject)
+      // if (copyContent) {
+      //   const sourceFileContent = await readFile(filePath)
+      //   await this.roomInFocus.addContent(sourceFileContent, cid || dioryObject.id)
+      //   diory.changeContentUrl(cid || dioryObject.id)
+      // }
       await this.roomInFocus.diograph.addDiory(diory)
       await this.roomInFocus.saveRoom()
       return
@@ -311,33 +327,32 @@ class App {
       const nativeConnection = this.roomInFocus.connections[0]
       const sourceConnection = this.roomInFocus.connections[1]
       // 1. Import diory from connection's diograph to room's diograph
-      const newDioryObject = sourceConnection.diograph.getDiory(dioryId).toObject()
+      const newDioryObject = sourceConnection.diograph.getDiory({ id: dioryId }).toObject()
       newDioryObject.id = uuid()
-      const newDiory = new OldDiory(newDioryObject)
+      const newDiory = new Diory(newDioryObject)
       this.roomInFocus.diograph?.addDiory(newDiory)
-      if (copyContent) {
-        // 2. Make content available also via native-connection
-        const contentUrl = newDiory.getContentUrl()
-        if (!contentUrl) {
-          return
-        }
-        const sourceConnectionContentClient = new this.roomInFocus.roomClient.client.constructor(
-          sourceConnection.address,
-        )
-        const fileContents = await sourceConnection.readContent(
-          contentUrl,
-          sourceConnectionContentClient,
-        )
-        const nativeConnectionContentClient = new this.roomInFocus.roomClient.client.constructor(
-          nativeConnection.address,
-        )
-        await nativeConnection.addContent(fileContents, contentUrl, nativeConnectionContentClient)
-        nativeConnection.addContentUrl(contentUrl, join(nativeConnection.address, contentUrl))
-      }
+      // if (copyContent) {
+      //   // 2. Make content available also via native-connection
+      //   const contentUrl = newDiory.getContentUrl()
+      //   if (!contentUrl) {
+      //     return
+      //   }
+      //   const sourceConnectionContentClient = new this.roomInFocus.roomClient.client.constructor(
+      //     sourceConnection.address,
+      //   )
+      //   const fileContents = await sourceConnection.readContent(
+      //     contentUrl,
+      //     sourceConnectionContentClient,
+      //   )
+      //   const nativeConnectionContentClient = new this.roomInFocus.roomClient.client.constructor(
+      //     nativeConnection.address,
+      //   )
+      //   await nativeConnection.addContent(fileContents, contentUrl, nativeConnectionContentClient)
+      //   nativeConnection.addContentUrl(contentUrl, join(nativeConnection.address, contentUrl))
+      // }
       await this.roomInFocus.saveRoom()
       return
     }
-    */
 
     if (command === 'getContent') {
       return this.roomInFocus.getContent(arg1)
