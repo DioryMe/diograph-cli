@@ -21,7 +21,7 @@
     "build": "tsc",
     "build-watch": "yarn build --watch",
     "prettier": "prettier --write .",
-    "test": "cucumber-js tests/room.feature"
+    "test": "cucumber-js tests/app.feature tests/room.feature "
   },
   "prettier": {
     "tabWidth": 2,

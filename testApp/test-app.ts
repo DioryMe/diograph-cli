@@ -148,6 +148,11 @@ class App {
       return
     }
 
+    if (command === 'dryRun') {
+      console.log('Dry run completed.')
+      return
+    }
+
     if (!this.roomInFocus || !this.roomInFocus.roomClient) {
       throw new Error('roomInFocus is missing')
     }
@@ -347,11 +352,6 @@ class App {
         nativeConnectionContentClient,
       )
       await writeFile(fileName, fileBuffer)
-      return
-    }
-
-    if (command === 'dryRun') {
-      console.log('Dry run completed.')
       return
     }
 
