@@ -1,7 +1,7 @@
 import { Connection } from '@diograph/diograph'
 import { initiateRoom } from '../testApp/app-data'
 
-export const addRoom = async (roomAddress: string, contentClientType: string) => {
+export const createRoom = async (roomAddress: string, contentClientType: string) => {
   const room = await initiateRoom(contentClientType, roomAddress)
 
   if (roomAddress[roomAddress.length - 1] == '/') {

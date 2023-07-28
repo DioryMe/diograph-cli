@@ -84,7 +84,7 @@ Given('I have empty place for room', async () => {
 
 When('I initiate a room', async () => {
   // If room already exists, this connects to it instead of initiating a new one
-  await testApp.run('addRoom', TEST_ROOM_FULL_URL, testType == 'S3' ? 'S3Client' : 'LocalClient')
+  await testApp.run('createRoom', TEST_ROOM_FULL_URL, testType == 'S3' ? 'S3Client' : 'LocalClient')
 })
 
 When('I add connection to {word}', async (destination) => {
@@ -93,7 +93,7 @@ When('I add connection to {word}', async (destination) => {
     case 'content-source-folder':
       connectionAddress = CONTENT_SOURCE_FOLDER
       break
-    case 'DioryContent': // <-- currently not in use, created automatically in addRoom
+    case 'DioryContent': // <-- currently not in use, created automatically in createRoom
       connectionAddress = CONTENT_FOLDER_FULL_URL
       break
     default:

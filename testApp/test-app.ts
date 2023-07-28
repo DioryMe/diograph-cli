@@ -6,7 +6,7 @@ import { AppData, initiateAppData, saveAppData } from './app-data'
 import { localDiographGenerator } from './localDiographGenerator'
 import { generateFileDiory } from '@diograph/file-generator'
 import { v4 as uuid } from 'uuid'
-import { addRoom } from '../src/addRoom'
+import { createRoom } from '../src/createRoom'
 import { addConnection } from '../src/addConnection'
 import { setRoomInFocus } from '../src/appCommands/setRoomInFocus'
 import { getDefaultImage } from './utils'
@@ -105,26 +105,26 @@ class App {
       return
     }
 
-    if (command === 'addRoom') {
+    if (command === 'createRoom') {
       const roomPath = arg1
       const contentClientType = arg2 || 'LocalClient'
 
       // Verify
       if (!roomPath) {
-        throw new Error('Arg1 (=roomPath) not provided for addRoom(), please provide one')
+        throw new Error('Arg1 (=roomPath) not provided for createRoom(), please provide one')
       }
 
       if (!['LocalClient', 'S3Client'].includes(contentClientType)) {
         throw new Error(
-          `addRoom error: contentClient type should be either LocalClient or S3Client`,
+          `createRoom error: contentClient type should be either LocalClient or S3Client`,
         )
       }
       if (this.rooms.find((existingRoom) => existingRoom.address === roomPath)) {
-        throw new Error(`addRoom error: Room with address ${roomPath} already exists`)
+        throw new Error(`createRoom error: Room with address ${roomPath} already exists`)
       }
 
       // Execute
-      const room = await addRoom(roomPath, contentClientType)
+      const room = await createRoom(roomPath, contentClientType)
 
       // App related stuff
       this.roomInFocus = room

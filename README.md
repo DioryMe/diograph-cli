@@ -5,7 +5,7 @@
 Create room to /tmp folder and save app state to ./tmp/app-data.json
 
 ```
-APP_DATA_PATH=./tmp/app-data.json node ./testApp/test-cli.js addRoom ./tmp
+APP_DATA_PATH=./tmp/app-data.json node ./testApp/test-cli.js createRoom ./tmp
 ```
 
 Import image diory to that room
@@ -39,11 +39,11 @@ dryRun
 resetApp()
 - removes App data (=app-data.json)
 
-addRoom(roomPath)
+createRoom(roomPath)
 - adds room to given path
 - creates LocalClient, RoomClient and Room
 - saves room address to app-data
-- e.g. ... addRoom /room/folder
+- e.g. ... createRoom /room/folder
 
 listRooms (or listAppRooms)
 - list available rooms in the app
