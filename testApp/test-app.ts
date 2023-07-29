@@ -50,8 +50,8 @@ class App {
       throw new Error('Command not provided to testApp(), please provide one')
     }
 
-    // TODO: Doesn't have any tests
-    // - should include listing room, listing connections, listing connection contents etc.
+    // TODO: Should print out available options
+    // - room list, connection list, connection contents etc.
     if (command === 'setRoomInFocus') {
       const roomIndex = parseInt(arg1)
       if (isNaN(roomIndex)) {
@@ -62,13 +62,20 @@ class App {
         throw new Error(`There's only ${this.rooms.length} room available, no index ${roomIndex}`)
       }
 
-      await setRoomInFocus(this.rooms, roomIndex, APP_DATA_PATH)
+      const { roomInFocus, connectionInFocus } = await setRoomInFocus(
+        this.rooms,
+        roomIndex,
+        APP_DATA_PATH,
+      )
+
+      this.roomInFocus = roomInFocus
+      this.connectionInFocus = connectionInFocus
 
       return
     }
 
-    // TODO: Doesn't have any tests
-    // - should include listing room, listing connections, listing connection contents etc.
+    // TODO: Should print out available options
+    // - room list, connection list, connection contents etc.
     if (command === 'setConnectionInFocus') {
       if (!this.roomInFocus) {
         console.log('setConnectionInFocus called but no room in focus!!')
@@ -86,7 +93,12 @@ class App {
         )
       }
 
-      await setConnectionInFocus(connectionIndex, this.roomInFocus, this.rooms, APP_DATA_PATH)
+      this.connectionInFocus = await setConnectionInFocus(
+        connectionIndex,
+        this.roomInFocus,
+        this.rooms,
+        APP_DATA_PATH,
+      )
 
       return
     }
@@ -120,17 +132,16 @@ class App {
       const room = await createRoom(roomPath, contentClientType)
 
       // Add room to app
-      this.roomInFocus = room
       this.rooms.push(room)
-      // NOTE: Saving not currently necessary in here as its done in setRoomInFocus
-      await saveAppData(this.roomInFocus, this.connectionInFocus, this.rooms, APP_DATA_PATH)
 
       // Set room in focus
-      // await setRoomInFocus(this.rooms, this.rooms.length - 1, APP_DATA_PATH)
-      this.connectionInFocus = this.roomInFocus.connections.length
-        ? this.roomInFocus.connections[0]
-        : null
-      await saveAppData(this.roomInFocus, this.connectionInFocus, this.rooms, APP_DATA_PATH)
+      const { roomInFocus, connectionInFocus } = await setRoomInFocus(
+        this.rooms,
+        this.rooms.length - 1,
+        APP_DATA_PATH,
+      )
+      this.roomInFocus = roomInFocus
+      this.connectionInFocus = connectionInFocus
 
       console.log('Room added.')
 
@@ -146,7 +157,8 @@ class App {
       this.rooms.shift()
 
       // Set first room in focus if exists
-      await setRoomInFocus(this.rooms, 0, APP_DATA_PATH)
+      const { roomInFocus } = await setRoomInFocus(this.rooms, 0, APP_DATA_PATH)
+      this.roomInFocus = roomInFocus
 
       await saveAppData(this.roomInFocus, this.connectionInFocus, this.rooms, APP_DATA_PATH)
       console.log('Room deleted.')
@@ -203,7 +215,7 @@ class App {
       await addConnection(this.roomInFocus, connectionAddress, contentClientType)
 
       // Set added connection in focus
-      await setConnectionInFocus(
+      this.connectionInFocus = await setConnectionInFocus(
         this.roomInFocus.connections.length - 1,
         this.roomInFocus,
         this.rooms,
@@ -261,11 +273,10 @@ class App {
     // - localDiographGenerator
 
     if (command === 'listClientContents') {
-      // const connection = this.connectionInFocus
-      // if (!connection) {
-      //   throw new Error('listClientContents: No connection in focus')
-      // }
-      const connection = this.roomInFocus.connections[1]
+      const connection = this.connectionInFocus
+      if (!connection) {
+        throw new Error('listClientContents: No connection in focus')
+      }
 
       console.log(`Listing contents of ${connection.address}`)
       const list = await localDiographGenerator('/', connection.address)

@@ -13,4 +13,6 @@ export const setConnectionInFocus = async (
   await saveAppData(roomInFocus, connectionInFocus, rooms, appDataPath)
 
   console.log(`SUCCESS: Set connection in focus: ${connectionInFocus && connectionInFocus.address}`)
+
+  return connectionInFocus
 }

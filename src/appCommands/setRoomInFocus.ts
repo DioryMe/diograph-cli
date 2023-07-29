@@ -8,4 +8,6 @@ export const setRoomInFocus = async (rooms: Room[], roomIndex: number, appDataPa
   await saveAppData(roomInFocus, connectionInFocus, rooms, appDataPath)
 
   console.log(`SUCCESS: Set room in focus: ${roomInFocus && roomInFocus.address}`)
+
+  return { roomInFocus, connectionInFocus }
 }
