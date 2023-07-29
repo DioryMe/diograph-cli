@@ -15,7 +15,7 @@ Feature: Room
   Scenario: Add connection to room
     When I add connection to content-source-folder
     Then room.json has 2 connections
-    # And app-data.json has 'CONTENT_SOURCE_CONNECTION' as connectionInFocus
+    And app-data.json has 'CONTENT_SOURCE_CONNECTION' as connectionInFocus
 
   # "Delete room" does nothing if no Room in focus
   # Scenario: Delete room

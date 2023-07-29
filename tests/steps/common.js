@@ -211,6 +211,7 @@ Then('app-data.json has {string} as {word}', async (constantName, property) => {
   } else if (constantName == 'DEFAULT_NATIVE_CONNECTION') {
     value = CONTENT_FOLDER_FULL_URL
   } else if (constantName == 'CONTENT_SOURCE_CONNECTION') {
+    value = CONTENT_SOURCE_FOLDER
   }
 
   assert.equal(appData[property], value)

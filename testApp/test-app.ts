@@ -10,6 +10,7 @@ import { createRoom } from '../src/createRoom'
 import { addConnection } from '../src/addConnection'
 import { setRoomInFocus } from '../src/appCommands/setRoomInFocus'
 import { getDefaultImage } from './utils'
+import { setConnectionInFocus } from '../src/appCommands/setConnectionInFocus'
 
 const appDataFolderPath = process.env['APP_DATA_FOLDER'] || join(process.cwd(), 'tmp')
 if (!existsSync(appDataFolderPath)) {
@@ -85,16 +86,8 @@ class App {
         )
       }
 
-      this.connectionInFocus = this.roomInFocus.connections.length
-        ? this.roomInFocus.connections[connectionIndex]
-        : null
-      await saveAppData(this.roomInFocus, this.connectionInFocus, this.rooms, APP_DATA_PATH)
+      await setConnectionInFocus(connectionIndex, this.roomInFocus, this.rooms, APP_DATA_PATH)
 
-      console.log(
-        `SUCCESS: Set connection in focus: ${
-          this.connectionInFocus && this.connectionInFocus.address
-        }`,
-      )
       return
     }
 
@@ -127,6 +120,7 @@ class App {
       const room = await createRoom(roomPath, contentClientType)
 
       // App related stuff
+      // - NOTE: This doesn't use setRoomInFocus method (on purpose...?)
       this.roomInFocus = room
       this.rooms.push(room)
       await saveAppData(this.roomInFocus, this.connectionInFocus, this.rooms, APP_DATA_PATH)
@@ -201,7 +195,14 @@ class App {
       }
       await addConnection(this.roomInFocus, connectionAddress, contentClientType)
 
-      console.log(`Connection added (${connectionAddress}) to room ${this.roomInFocus.address}`)
+      // Set added connection in focus
+      await setConnectionInFocus(
+        this.roomInFocus.connections.length - 1,
+        this.roomInFocus,
+        this.rooms,
+        APP_DATA_PATH,
+      )
+
       return
     }
 

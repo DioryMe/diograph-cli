@@ -11,6 +11,7 @@ Feature: Room
     And I createRoom 'SECOND_TEST_ROOM'
     And I call setRoomInFocus operation with '0'
     Then app-data.json has 'DEFAULT_TEST_ROOM' as roomInFocus
+    And app-data.json has 'DEFAULT_NATIVE_CONNECTION' as connectionInFocus
 
   # TODO:
   # Scenario: Set connection in focus
