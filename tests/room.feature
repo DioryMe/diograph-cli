@@ -12,6 +12,11 @@ Feature: Room
     And app-data.json has 'DEFAULT_TEST_ROOM' as roomInFocus
     And app-data.json has 'DEFAULT_NATIVE_CONNECTION' as connectionInFocus
 
+  Scenario: Create another room
+    When I createRoom 'SECOND_TEST_ROOM'
+    And app-data.json has 'SECOND_TEST_ROOM' as roomInFocus
+    And app-data.json has 'SECOND_NATIVE_CONNECTION' as connectionInFocus
+
   Scenario: Add connection to room
     When I add connection to content-source-folder
     Then room.json has 2 connections

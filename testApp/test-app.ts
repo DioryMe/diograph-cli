@@ -119,10 +119,17 @@ class App {
       // Execute
       const room = await createRoom(roomPath, contentClientType)
 
-      // App related stuff
-      // - NOTE: This doesn't use setRoomInFocus method (on purpose...?)
+      // Add room to app
       this.roomInFocus = room
       this.rooms.push(room)
+      // NOTE: Saving not currently necessary in here as its done in setRoomInFocus
+      await saveAppData(this.roomInFocus, this.connectionInFocus, this.rooms, APP_DATA_PATH)
+
+      // Set room in focus
+      // await setRoomInFocus(this.rooms, this.rooms.length - 1, APP_DATA_PATH)
+      this.connectionInFocus = this.roomInFocus.connections.length
+        ? this.roomInFocus.connections[0]
+        : null
       await saveAppData(this.roomInFocus, this.connectionInFocus, this.rooms, APP_DATA_PATH)
 
       console.log('Room added.')

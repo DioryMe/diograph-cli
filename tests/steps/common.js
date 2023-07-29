@@ -210,10 +210,15 @@ Then('app-data.json has {string} as {word}', async (constantName, property) => {
     value = TEST_ROOM_FULL_URL
   } else if (constantName == 'DEFAULT_NATIVE_CONNECTION') {
     value = CONTENT_FOLDER_FULL_URL
+  } else if (constantName == 'SECOND_TEST_ROOM') {
+    value = TEST_ROOM2_FULL_URL
+  } else if (constantName == 'SECOND_NATIVE_CONNECTION') {
+    value = CONTENT_FOLDER2_FULL_URL
   } else if (constantName == 'CONTENT_SOURCE_CONNECTION') {
     value = CONTENT_SOURCE_FOLDER
+  } else {
+    throw new Error('Unknown constantName when checking app-data.json contents')
   }
-
   assert.equal(appData[property], value)
 })
 
