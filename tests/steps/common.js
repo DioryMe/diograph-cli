@@ -65,7 +65,6 @@ const {
   CONTENT_FOLDER_FULL_URL,
   resetContentFolder,
 } = testType == 'S3' ? s3ClientVars() : localClientVars()
-// TODO: Select local/s3 with and ENV/argument to test script
 
 Given('I have empty place for room', async () => {
   await testApp.init()
@@ -81,11 +80,6 @@ Given('I have empty place for room', async () => {
 })
 
 // WHEN
-
-When('I initiate a room', async () => {
-  // If room already exists, this connects to it instead of initiating a new one
-  await testApp.run('createRoom', TEST_ROOM_FULL_URL, testType == 'S3' ? 'S3Client' : 'LocalClient')
-})
 
 When('I add connection to {word}', async (destination) => {
   let connectionAddress
@@ -110,6 +104,16 @@ When('I add connection to {word}', async (destination) => {
 
 When('I call {word} operation', async (operation) => {
   await testApp.run(operation)
+})
+
+When('I call createRoom operation with {word}', async (argument) => {
+  let roomPath
+  if (argument == 'TEST_ROOM_FULL_URL') {
+    roomPath = TEST_ROOM_FULL_URL
+  } else {
+    throw new Error('Unknown roomPath when calling createRoom operation')
+  }
+  await testApp.run('createRoom', roomPath, testType == 'S3' ? 'S3Client' : 'LocalClient')
 })
 
 When('I import last diory to first connection', async () => {
