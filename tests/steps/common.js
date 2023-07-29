@@ -84,6 +84,7 @@ const {
 Given('I have empty place for room', async () => {
   await testApp.init()
   await testApp.run('deleteRoom')
+  await testApp.run('deleteRoom')
 
   existsSync(join(APP_DATA_PATH, 'app-data.json')) &&
     (await rmSync(join(APP_DATA_PATH, 'app-data.json')))

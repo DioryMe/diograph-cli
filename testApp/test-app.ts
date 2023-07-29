@@ -143,6 +143,10 @@ class App {
       }
       await this.roomInFocus.deleteRoom()
       this.rooms.shift()
+
+      // Set first room in focus if exists
+      await setRoomInFocus(this.rooms, 0, APP_DATA_PATH)
+
       await saveAppData(this.roomInFocus, this.connectionInFocus, this.rooms, APP_DATA_PATH)
       console.log('Room deleted.')
       return
