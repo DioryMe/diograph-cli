@@ -108,10 +108,18 @@ Given('I have empty place for room', async () => {
 
 // WHEN
 
-When('I add connection to {word}', async (destination) => {
+When('I call {word} operation', async (operation) => {
+  await testApp.run(operation)
+})
+
+When('I call {word} operation with {string}', async (operation, argument) => {
+  await testApp.run(operation, argument)
+})
+
+When('I addConnection {string}', async (argument) => {
   let connectionAddress
-  switch (destination) {
-    case 'content-source-folder':
+  switch (argument) {
+    case 'CONTENT_SOURCE_CONNECTION':
       connectionAddress = CONTENT_SOURCE_FOLDER
       break
     case 'DioryContent': // <-- currently not in use, created automatically in createRoom
@@ -127,14 +135,6 @@ When('I add connection to {word}', async (destination) => {
   // }
 
   await testApp.run('addConnection', connectionAddress)
-})
-
-When('I call {word} operation', async (operation) => {
-  await testApp.run(operation)
-})
-
-When('I call {word} operation with {string}', async (operation, argument) => {
-  await testApp.run(operation, argument)
 })
 
 When('I createRoom {string}', async (argument) => {

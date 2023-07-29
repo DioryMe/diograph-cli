@@ -18,7 +18,7 @@ Feature: Room
     And app-data.json has 'SECOND_NATIVE_CONNECTION' as connectionInFocus
 
   Scenario: Add connection to room
-    When I add connection to content-source-folder
+    When I addConnection 'CONTENT_SOURCE_CONNECTION'
     Then room.json has 2 connections
     And app-data.json has 'CONTENT_SOURCE_CONNECTION' as connectionInFocus
 
@@ -31,26 +31,26 @@ Feature: Room
 ###
 
   Scenario: Content source contents list
-    When I add connection to content-source-folder
+    When I addConnection 'CONTENT_SOURCE_CONNECTION'
     And I call listClientContents operation
     Then last connection diograph has 3 diories
     And last connection has 1 contentUrls
 
   Scenario: Content source contents list 2
-    When I add connection to content-source-folder
+    When I addConnection 'CONTENT_SOURCE_CONNECTION'
     And I call listClientContents2 operation
     Then last connection diograph has 3 diories
     And last connection has 3 contentUrls
 
   Scenario: Content source contents list for both
-    When I add connection to content-source-folder
+    When I addConnection 'CONTENT_SOURCE_CONNECTION'
     And I call listClientContents operation
     And I call listClientContents2 operation
     Then last connection diograph has 6 diories
     And last connection has 4 contentUrls
 
   Scenario: Add diory from content source
-    When I add connection to content-source-folder
+    When I addConnection 'CONTENT_SOURCE_CONNECTION'
     And I call listClientContents operation
     And I import last diory to first connection
     Then diograph.json has 1 diories
