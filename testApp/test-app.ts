@@ -278,8 +278,10 @@ class App {
         throw new Error('listClientContents: No connection in focus')
       }
 
+      const contentSourceInternalPath = arg1 || '/'
+
       console.log(`Listing contents of ${connection.address}`)
-      const list = await localDiographGenerator('/', connection.address)
+      const list = await localDiographGenerator(contentSourceInternalPath, connection.address)
       connection.diograph.mergeDiograph(list)
       connection.diograph.diories().forEach((diory) => {
         if (diory.data && diory.data[0].contentUrl) {
@@ -289,20 +291,6 @@ class App {
       await this.roomInFocus.saveRoom()
       // TODO: This could print out something: list of files?
       console.log(connection.contentUrls)
-      return
-    }
-
-    if (command === 'listClientContents2') {
-      const connection = this.roomInFocus.connections[1]
-      const list = await localDiographGenerator('/Subfolder', connection.address)
-      connection.diograph.mergeDiograph(list)
-      connection.diograph.diories().forEach((diory) => {
-        if (diory.data && diory.data[0].contentUrl) {
-          connection.addContentUrl(diory.data[0].contentUrl, diory.id)
-        }
-      })
-      await this.roomInFocus.saveRoom()
-      // TODO: This could print out something: list of files?
       return
     }
 
