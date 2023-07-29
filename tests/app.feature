@@ -6,12 +6,11 @@ Feature: Room
   Scenario:
     When I call dryRun operation
 
-  # TODO:
   Scenario: Set room in focus
-    When I call createRoom operation with DEFAULT_TEST_ROOM
-    And I call createRoom operation with SECOND_TEST_ROOM
+    When I createRoom 'DEFAULT_TEST_ROOM'
+    And I createRoom 'SECOND_TEST_ROOM'
     And I call setRoomInFocus operation with '0'
-    # Then app-data.json has DEFAULT_TEST_ROOM as roomInFocus
+    Then app-data.json has 'DEFAULT_TEST_ROOM' as roomInFocus
 
   # TODO:
   # Scenario: Set connection in focus

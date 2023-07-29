@@ -5,6 +5,7 @@ const { Given, When, Then } = require('@cucumber/cucumber')
 const { App } = require('../../dist/testApp/test-app')
 const { S3Client } = require('@diograph/s3-client')
 const { LocalClient } = require('@diograph/local-client')
+const { readFile } = require('fs/promises')
 
 const APP_DATA_PATH = join(process.cwd(), 'tmp')
 const CONTENT_SOURCE_FOLDER = join(process.cwd(), 'demo-content-room', 'source')
@@ -136,7 +137,7 @@ When('I call {word} operation with {string}', async (operation, argument) => {
   await testApp.run(operation, argument)
 })
 
-When('I call createRoom operation with {word}', async (argument) => {
+When('I createRoom {string}', async (argument) => {
   let roomPath
   if (argument == 'DEFAULT_TEST_ROOM') {
     roomPath = TEST_ROOM_FULL_URL
@@ -192,6 +193,27 @@ Then('diograph.json has {word} diories', async (dioryCount) => {
   const diographContents = await client.readTextItem('diograph.json')
   const diograph = JSON.parse(diographContents)
   assert.equal(Object.values(diograph).length, dioryCount === 'no' ? 0 : parseInt(dioryCount, 10))
+})
+
+Then('app-data.json has {string} as {word}', async (constantName, property) => {
+  // Parse app-data.json
+  const appDataPath = join(APP_DATA_PATH, 'app-data.json')
+  if (!existsSync(appDataPath)) {
+    throw new Error("Couldn't find app-data.json...")
+  }
+  const appDataContents = await readFile(appDataPath, { encoding: 'utf8' })
+  const appData = JSON.parse(appDataContents)
+
+  // Convert constantName to value
+  let value
+  if (constantName == 'DEFAULT_TEST_ROOM') {
+    value = TEST_ROOM_FULL_URL
+  } else if (constantName == 'DEFAULT_NATIVE_CONNECTION') {
+    value = CONTENT_FOLDER_FULL_URL
+  } else if (constantName == 'CONTENT_SOURCE_CONNECTION') {
+  }
+
+  assert.equal(appData[property], value)
 })
 
 // TODO: Use connection in focus & app commands instead of parsing the room.json manually?
