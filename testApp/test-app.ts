@@ -272,10 +272,10 @@ class App {
     // @diograph/diograph doesn't support these yet
     // - localDiographGenerator
 
-    if (command === 'listClientContents') {
+    if (command === 'listConnectionContents') {
       const connection = this.connectionInFocus
       if (!connection) {
-        throw new Error('listClientContents: No connection in focus')
+        throw new Error('listConnectionContents: No connection in focus')
       }
 
       const contentSourceInternalPath = arg1 || '/'

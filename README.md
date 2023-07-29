@@ -88,10 +88,10 @@ importDioryFromContentSource(connectionInternalPathId, copyContent)
 getContent(contentUrl)
 - returns url for the content (room address + contentUrl)
 
-listClientContents
+listConnectionContents
 - uses listContentSource tool to list contents (in diograph)
 - should be: list content source contents
-- e.g. ... listClientContents
+- e.g. ... listConnectionContents
   - currently lists contents of the second connection in the room
   - should this return something?
 ```
