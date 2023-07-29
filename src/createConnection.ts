@@ -1,6 +1,6 @@
 import { Connection, Room } from '@diograph/diograph'
 
-export const addConnection = async (room: Room, address: string, contentClientType: string) => {
+export const createConnection = async (room: Room, address: string, contentClientType: string) => {
   const connection = new Connection({
     address,
     contentClientType,

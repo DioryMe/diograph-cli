@@ -116,7 +116,7 @@ When('I call {word} operation with {string}', async (operation, argument) => {
   await testApp.run(operation, argument)
 })
 
-When('I addConnection {string}', async (argument) => {
+When('I createConnection {string}', async (argument) => {
   let connectionAddress
   switch (argument) {
     case 'CONTENT_SOURCE_CONNECTION':
@@ -134,7 +134,7 @@ When('I addConnection {string}', async (argument) => {
   //   throw new Error(`ERROR: connectionAddress not found ${connectionAddress}`)
   // }
 
-  await testApp.run('addConnection', connectionAddress)
+  await testApp.run('createConnection', connectionAddress)
 })
 
 When('I createRoom {string}', async (argument) => {

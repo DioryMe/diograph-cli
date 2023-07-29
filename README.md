@@ -65,10 +65,10 @@ deleteRoom()
 - remove room.json and diograph.json from the room path
 - remove it also from app-data
 
-addConnection(connectionPath)
-- add connection to given (or current) path
+createConnection(connectionPath)
+- create connection to given (or current) path
 - add for room in focus
-- e.g. ... addConnection /path/to/source/folder
+- e.g. ... createConnection /path/to/source/folder
 
 importDioryFromFile
 - copy file to appTempFolder

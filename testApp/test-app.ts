@@ -7,7 +7,7 @@ import { localDiographGenerator } from './localDiographGenerator'
 import { generateFileDiory } from '@diograph/file-generator'
 import { v4 as uuid } from 'uuid'
 import { createRoom } from '../src/createRoom'
-import { addConnection } from '../src/addConnection'
+import { createConnection } from '../src/createConnection'
 import { setRoomInFocus } from '../src/appCommands/setRoomInFocus'
 import { getDefaultImage } from './utils'
 import { setConnectionInFocus } from '../src/appCommands/setConnectionInFocus'
@@ -187,19 +187,21 @@ class App {
       return this.roomInFocus.connections.map((connection) => ({ address: connection.address }))
     }
 
-    if (command === 'addConnection') {
+    if (command === 'createConnection') {
       if (!this.roomInFocus) {
-        throw new Error('addConnection called withouth having this.roomInFocus')
+        throw new Error('createConnection called withouth having this.roomInFocus')
       }
       if (!arg1) {
         console.log(
-          `Connection address (=arg1) not provided for addConnection(), using ${process.cwd()}`,
+          `Connection address (=arg1) not provided for createConnection(), using ${process.cwd()}`,
         )
       }
       const connectionAddress = arg1 || process.cwd()
 
       if (!arg2) {
-        console.log('ContentClientType (=arg2) not provided for addConnection(), using LocalClient')
+        console.log(
+          'ContentClientType (=arg2) not provided for createConnection(), using LocalClient',
+        )
       }
       const contentClientType = arg2 || 'LocalClient'
       // TODO: Verify connectionAddress properly
@@ -212,7 +214,7 @@ class App {
       ) {
         console.log('Connection already exists in room but added it anyway')
       }
-      await addConnection(this.roomInFocus, connectionAddress, contentClientType)
+      await createConnection(this.roomInFocus, connectionAddress, contentClientType)
 
       // Set added connection in focus
       this.connectionInFocus = await setConnectionInFocus(
