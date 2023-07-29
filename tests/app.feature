@@ -1,4 +1,4 @@
-Feature: Room
+Feature: App
 
   Background:
     Given I have empty place for room
@@ -13,10 +13,10 @@ Feature: Room
     Then app-data.json has 'DEFAULT_TEST_ROOM' as roomInFocus
     And app-data.json has 'DEFAULT_NATIVE_CONNECTION' as connectionInFocus
 
-  # TODO:
-  # Scenario: Set connection in focus
-  #   When I call createRoom operation with DEFAULT_TEST_ROOM
-  #   And I call addConnection operation with WTFWTF
-  #   And I call addConnection operation with WTFWTF2
-  #   And I call setConnectionInFocus with 0
-  #   Then app-data.json has WTFWTF as connectionInFocus
+  Scenario: Set connection in focus
+    When I createRoom 'DEFAULT_TEST_ROOM'
+    # And I call addConnection operation with 'CONTENT_SOURCE_CONNECTION'
+    # Remove this:
+    And I add connection to content-source-folder
+    And I call setConnectionInFocus operation with '0'
+    Then app-data.json has 'DEFAULT_NATIVE_CONNECTION' as connectionInFocus
