@@ -85,6 +85,7 @@ Given('I have empty place for room', async () => {
   await testApp.init()
   await testApp.run('deleteRoom')
   await testApp.run('deleteRoom')
+  await testApp.run('deleteRoom')
 
   existsSync(join(APP_DATA_PATH, 'app-data.json')) &&
     (await rmSync(join(APP_DATA_PATH, 'app-data.json')))
@@ -129,6 +130,10 @@ When('I add connection to {word}', async (destination) => {
 
 When('I call {word} operation', async (operation) => {
   await testApp.run(operation)
+})
+
+When('I call {word} operation with {string}', async (operation, argument) => {
+  await testApp.run(operation, argument)
 })
 
 When('I call createRoom operation with {word}', async (argument) => {
