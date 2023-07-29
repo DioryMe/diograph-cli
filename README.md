@@ -45,6 +45,10 @@ createRoom(roomPath)
 - saves room address to app-data
 - e.g. ... createRoom /room/folder
 
+removeRoom()
+- removes room from app-data
+- doesn't delete any files or folders
+
 listRooms (or listAppRooms)
 - list available rooms in the app
 

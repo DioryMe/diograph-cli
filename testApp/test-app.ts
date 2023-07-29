@@ -148,7 +148,11 @@ class App {
       return
     }
 
-    if (command === 'deleteRoom') {
+    // TODO: deleteRoom removes also files & folders
+    // if (command === 'deleteRoom') {
+    // }
+
+    if (command === 'removeRoom') {
       if (!this.roomInFocus) {
         console.log('deleteRoom called but no room in focus!!')
         return

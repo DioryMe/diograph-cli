@@ -18,3 +18,8 @@ Feature: App
     And I createConnection 'CONTENT_SOURCE_CONNECTION'
     And I call setConnectionInFocus operation with '0'
     Then app-data.json has 'DEFAULT_NATIVE_CONNECTION' as connectionInFocus
+
+  # Scenario: Remove room
+  #   When I createRoom 'DEFAULT_TEST_ROOM'
+  #   And I call deleteRoom operation
+  #   Then app-data.json has 0 rooms
