@@ -8,11 +8,13 @@ const { LocalClient } = require('@diograph/local-client')
 
 const APP_DATA_PATH = join(process.cwd(), 'tmp')
 const CONTENT_SOURCE_FOLDER = join(process.cwd(), 'demo-content-room', 'source')
-const testType = process.env['DIOGRAPH_CLI_TEST_TYPE']
+const testType = process.env['DIOGRAPH_CLI_TEST_TYPE'] || 'local'
 
 function localClientVars() {
-  const TEST_ROOM_FULL_URL = APP_DATA_PATH
+  const TEST_ROOM_FULL_URL = join(APP_DATA_PATH, 'room')
+  const TEST_ROOM2_FULL_URL = join(APP_DATA_PATH, 'room2')
   const CONTENT_FOLDER_FULL_URL = join(TEST_ROOM_FULL_URL, 'Diory Content')
+  const CONTENT_FOLDER2_FULL_URL = join(TEST_ROOM2_FULL_URL, 'Diory Content')
 
   const testApp = new App()
   const client = new LocalClient(TEST_ROOM_FULL_URL)
@@ -23,7 +25,9 @@ function localClientVars() {
     client,
     connectionClient,
     TEST_ROOM_FULL_URL,
+    TEST_ROOM2_FULL_URL,
     CONTENT_FOLDER_FULL_URL,
+    CONTENT_FOLDER2_FULL_URL,
     resetContentFolder: async () => {
       // TODO: Execute this via client.deleteFolder
       existsSync(CONTENT_FOLDER_FULL_URL) && rmSync(CONTENT_FOLDER_FULL_URL, { recursive: true })
@@ -33,13 +37,20 @@ function localClientVars() {
 
 function s3ClientVars() {
   const TEST_BUCKET_NAME = 'jvalanen-diory-test3'
-  const TEST_ROOM_KEY = ''
+  const TEST_ROOM_KEY = 'room'
+  const TEST_ROOM2_KEY = 'room2'
   // This MUST end with / in order to client.deleteFolder to succeed...
   const CONTENT_FOLDER_KEY = 'Diory Content/'
   const TEST_ROOM_FULL_URL = `s3://${join(TEST_BUCKET_NAME, TEST_ROOM_KEY)}`
+  const TEST_ROOM2_FULL_URL = `s3://${join(TEST_BUCKET_NAME, TEST_ROOM2_KEY)}`
   const CONTENT_FOLDER_FULL_URL = `s3://${join(
     TEST_BUCKET_NAME,
     TEST_ROOM_KEY,
+    CONTENT_FOLDER_KEY,
+  )}`
+  const CONTENT_FOLDER2_FULL_URL = `s3://${join(
+    TEST_BUCKET_NAME,
+    TEST_ROOM2_KEY,
     CONTENT_FOLDER_KEY,
   )}`
 
@@ -52,7 +63,9 @@ function s3ClientVars() {
     client,
     connectionClient,
     TEST_ROOM_FULL_URL,
+    TEST_ROOM2_FULL_URL,
     CONTENT_FOLDER_FULL_URL,
+    CONTENT_FOLDER2_FULL_URL,
     resetContentFolder: () => client.deleteFolder(CONTENT_FOLDER_KEY),
   }
 }
@@ -62,7 +75,9 @@ const {
   client,
   connectionClient,
   TEST_ROOM_FULL_URL,
+  TEST_ROOM2_FULL_URL,
   CONTENT_FOLDER_FULL_URL,
+  CONTENT_FOLDER2_FULL_URL,
   resetContentFolder,
 } = testType == 'S3' ? s3ClientVars() : localClientVars()
 
@@ -74,6 +89,15 @@ Given('I have empty place for room', async () => {
     (await rmSync(join(APP_DATA_PATH, 'app-data.json')))
   if (!existsSync(APP_DATA_PATH)) {
     mkdirSync(APP_DATA_PATH)
+  }
+
+  if (testType == 'local') {
+    if (!existsSync(TEST_ROOM_FULL_URL)) {
+      mkdirSync(TEST_ROOM_FULL_URL)
+    }
+    if (!existsSync(TEST_ROOM2_FULL_URL)) {
+      mkdirSync(TEST_ROOM2_FULL_URL)
+    }
   }
 
   await resetContentFolder()
@@ -108,8 +132,10 @@ When('I call {word} operation', async (operation) => {
 
 When('I call createRoom operation with {word}', async (argument) => {
   let roomPath
-  if (argument == 'TEST_ROOM_FULL_URL') {
+  if (argument == 'DEFAULT_TEST_ROOM') {
     roomPath = TEST_ROOM_FULL_URL
+  } else if (argument == 'SECOND_TEST_ROOM') {
+    roomPath = TEST_ROOM2_FULL_URL
   } else {
     throw new Error('Unknown roomPath when calling createRoom operation')
   }

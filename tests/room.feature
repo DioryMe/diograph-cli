@@ -2,23 +2,27 @@ Feature: Room
 
   Background:
     Given I have empty place for room
-    And I call createRoom operation with TEST_ROOM_FULL_URL
+    And I call createRoom operation with DEFAULT_TEST_ROOM
 
   Scenario: Initiate room
     Then room.json does exists
     And room.json has 1 connections
     And diograph.json does exists
     And diograph.json has 0 diories
+    # TODO:
+    # And app-data.json has initiated room as roomInFocus
+
+  Scenario: Add connection to room
+    When I add connection to content-source-folder
+    Then room.json has 2 connections
+    # TODO:
+    # And app-data-.json has added connection as connectionInFocus
 
   # "Delete room" does nothing if no Room in focus
   # Scenario: Delete room
   #   When I delete room
   #   Then room.json not exists
   #   And diograph.json not exists
-
-  Scenario: Add connection to room
-    When I add connection to content-source-folder
-    Then room.json has 2 connections
 
 ###
 
