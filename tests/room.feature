@@ -5,9 +5,9 @@ Feature: Room
     And I createRoom 'DEFAULT_TEST_ROOM'
 
   Scenario: Create room
-    Then room.json does exists
+    Then 'room.json' does exists
     And room.json has 1 connections
-    And diograph.json does exists
+    And 'diograph.json' does exists
     And diograph.json has 0 diories
     And app-data.json has 'DEFAULT_TEST_ROOM' as roomInFocus
     And app-data.json has 'DEFAULT_NATIVE_CONNECTION' as connectionInFocus
@@ -23,9 +23,10 @@ Feature: Room
     And app-data.json has 'CONTENT_SOURCE_CONNECTION' as connectionInFocus
 
   Scenario: Delete room
-    When I call removeRoom operation
-    Then room.json not exists
-    And diograph.json not exists
+    When I call deleteRoom operation
+    Then 'room.json' not exists
+    And 'diograph.json' not exists
+    And 'CONTENT_SOURCE_CONNECTION' not exists
 
 ###
 

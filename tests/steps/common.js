@@ -20,11 +20,15 @@ function localClientVars() {
   const testApp = new App()
   const client = new LocalClient(TEST_ROOM_FULL_URL)
   const connectionClient = new LocalClient(CONTENT_FOLDER_FULL_URL)
+  const client2 = new LocalClient(TEST_ROOM2_FULL_URL)
+  const connectionClient2 = new LocalClient(CONTENT_FOLDER2_FULL_URL)
 
   return {
     testApp,
     client,
     connectionClient,
+    client2,
+    connectionClient2,
     TEST_ROOM_FULL_URL,
     TEST_ROOM2_FULL_URL,
     CONTENT_FOLDER_FULL_URL,
@@ -58,11 +62,15 @@ function s3ClientVars() {
   const testApp = new App()
   const client = new S3Client(TEST_ROOM_FULL_URL)
   const connectionClient = new S3Client(CONTENT_FOLDER_FULL_URL)
+  const client2 = new S3Client(TEST_ROOM2_FULL_URL)
+  const connectionClient2 = new S3Client(CONTENT_FOLDER2_FULL_URL)
 
   return {
     testApp,
     client,
     connectionClient,
+    client2,
+    connectionClient2,
     TEST_ROOM_FULL_URL,
     TEST_ROOM2_FULL_URL,
     CONTENT_FOLDER_FULL_URL,
@@ -75,6 +83,8 @@ const {
   testApp,
   client,
   connectionClient,
+  client2,
+  connectionClient2,
   TEST_ROOM_FULL_URL,
   TEST_ROOM2_FULL_URL,
   CONTENT_FOLDER_FULL_URL,
@@ -177,9 +187,17 @@ When('I call importDioryFromFile with content', async () => {
 
 // THEN
 
-Then('{word} {word} exists', async (fileName, doesOrNot) => {
-  const existsResponse = await client.exists(fileName)
-  assert.equal(existsResponse, doesOrNot === 'does')
+Then('{string} {word} exists', async (fileName, doesOrNot) => {
+  if (fileName == 'DEFAULT_NATIVE_CONNECTION') {
+    const existsResponse = await connectionClient.exists(CONTENT_FOLDER_FULL_URL)
+    assert.equal(existsResponse, doesOrNot === 'does')
+  } else if (fileName == 'SECOND_NATIVE_CONNECTION') {
+    const existsResponse = await connectionClient2.exists(CONTENT_FOLDER2_FULL_URL)
+    assert.equal(existsResponse, doesOrNot === 'does')
+  } else {
+    const existsResponse = await client.exists(fileName)
+    assert.equal(existsResponse, doesOrNot === 'does')
+  }
 })
 
 Then('room.json has {word} connection(s)', async (clientCount) => {

@@ -152,7 +152,7 @@ class App {
     // if (command === 'deleteRoom') {
     // }
 
-    if (command === 'removeRoom') {
+    if (command === 'deleteRoom' || command === 'removeRoom') {
       if (!this.roomInFocus) {
         console.log('deleteRoom called but no room in focus!!')
         return
