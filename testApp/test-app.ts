@@ -157,15 +157,30 @@ class App {
         console.log('deleteRoom called but no room in focus!!')
         return
       }
+
+      // Delete connections
+      await Promise.all(
+        this.roomInFocus.connections.map((connection) => {
+          return connection.deleteConnection(this.roomInFocus?.roomClient?.client)
+        }),
+      )
+
+      // Delete room
       await this.roomInFocus.deleteRoom()
+
+      // Remove room from app-data
       this.rooms.shift()
 
       // Set first room in focus if exists
       const { roomInFocus } = await setRoomInFocus(this.rooms, 0, APP_DATA_PATH)
       this.roomInFocus = roomInFocus
 
+      // Save app-data
       await saveAppData(this.roomInFocus, this.connectionInFocus, this.rooms, APP_DATA_PATH)
+
+      // Inform user
       console.log('Room deleted.')
+
       return
     }
 

@@ -93,17 +93,22 @@ const {
 } = testType == 'S3' ? s3ClientVars() : localClientVars()
 
 Given('I have empty place for room', async () => {
+  // Load app-data.json
   await testApp.init()
+
+  // Delete rooms
   await testApp.run('removeRoom')
   await testApp.run('removeRoom')
   await testApp.run('removeRoom')
 
+  // Delete app-data.json
   existsSync(join(APP_DATA_PATH, 'app-data.json')) &&
     (await rmSync(join(APP_DATA_PATH, 'app-data.json')))
   if (!existsSync(APP_DATA_PATH)) {
     mkdirSync(APP_DATA_PATH)
   }
 
+  // Prepare room folders for local client
   if (testType == 'local') {
     if (!existsSync(TEST_ROOM_FULL_URL)) {
       mkdirSync(TEST_ROOM_FULL_URL)
