@@ -22,10 +22,10 @@ Feature: Room
     Then room.json has 2 connections
     And app-data.json has 'CONTENT_SOURCE_CONNECTION' as connectionInFocus
 
-  # Scenario: Delete room
-  #   When I call deleteRoom operation
-  #   Then room.json not exists
-  #   And diograph.json not exists
+  Scenario: Delete room
+    When I call removeRoom operation
+    Then room.json not exists
+    And diograph.json not exists
 
 ###
 

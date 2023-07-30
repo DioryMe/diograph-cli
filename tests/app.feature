@@ -21,5 +21,7 @@ Feature: App
 
   # Scenario: Remove room
   #   When I createRoom 'DEFAULT_TEST_ROOM'
-  #   And I call deleteRoom operation
+  #   And I call removeRoom operation
   #   Then app-data.json has 0 rooms
+  #   Then room.json exists
+  #   And diograph.json exists
