@@ -306,7 +306,7 @@ class App {
       connection.diograph.mergeDiograph(list)
       connection.diograph.diories().forEach((diory) => {
         if (diory.data && diory.data[0].contentUrl) {
-          connection.addContentUrl(diory.data[0].contentUrl, diory.id)
+          connection.addContentUrl(diory.data[0].contentUrl)
         }
       })
       await this.roomInFocus.saveRoom()
@@ -361,7 +361,7 @@ class App {
           nativeConnection.address,
         )
         await nativeConnection.addContent(fileContents, contentUrl, nativeConnectionContentClient)
-        nativeConnection.addContentUrl(contentUrl, join(nativeConnection.address, contentUrl))
+        nativeConnection.addContentUrl(contentUrl)
       }
       await this.roomInFocus.saveRoom()
       return
