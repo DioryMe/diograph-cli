@@ -39,6 +39,21 @@ dryRun
 resetApp()
 - removes App data (=app-data.json)
 
+listRooms (or listAppRooms)
+- list available rooms in the app
+
+setRoomInFocus(roomIndex)
+- set room with given into focus in app
+
+listAppConnections()
+- list all the available connections in the app
+
+listConnections()
+- list available connections in the room in focus
+
+setConnectionInFocus(connectionIndex)
+- set connection with given into focus in app
+
 createRoom(roomPath)
 - adds room to given path
 - creates LocalClient, RoomClient and Room
@@ -48,12 +63,6 @@ createRoom(roomPath)
 removeRoom()
 - removes room from app-data
 - doesn't delete any files or folders
-
-listRooms (or listAppRooms)
-- list available rooms in the app
-
-listAppConnections()
-- list all the available connections in the app
 
 writeFileFromContent(contentId, fileName)
 - write given content to disk with chosen fileName
@@ -68,6 +77,15 @@ listConnections() (or listRoomConnections)
 deleteRoom()
 - remove room.json and diograph.json from the room path
 - remove it also from app-data
+
+removeConnection()
+- removes connection from room.json
+- set other connection to focus in app
+
+deleteConnection()
+- removes the connection folder contents (=`rm -rf`)
+- removes connection from room.json
+- set other connection to focus in app
 
 createConnection(connectionPath)
 - create connection to given (or current) path

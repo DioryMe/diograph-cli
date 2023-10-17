@@ -148,28 +148,64 @@ class App {
       return
     }
 
-    // TODO: deleteRoom removes also files & folders
-    // if (command === 'deleteRoom') {
-    // }
-
-    if (command === 'deleteRoom' || command === 'removeRoom') {
-      if (!this.roomInFocus) {
-        console.log('deleteRoom called but no room in focus!!')
+    if (command === 'removeConnection' || command === 'deleteConnection') {
+      if (!this.connectionInFocus || !this.roomInFocus) {
+        console.log('No room or connection in focus')
         return
       }
 
-      // Delete connections
-      await Promise.all(
-        this.roomInFocus.connections.map((connection) => {
-          return connection.deleteConnection(this.roomInFocus?.roomClient?.client)
-        }),
+      const succeeded = this.roomInFocus?.removeConnection(this.connectionInFocus)
+
+      console.log(
+        succeeded
+          ? `SUCCESS: Connection ${this.connectionInFocus.address} removed from room.json`
+          : 'FAIL: Connection removal failed',
       )
 
-      // Delete room
-      await this.roomInFocus.deleteRoom()
+      if (command === 'deleteConnection') {
+        this.connectionInFocus.deleteConnection(this.roomInFocus.roomClient?.client)
+
+        return
+      }
+
+      // Set first connection in focus if exists
+      this.connectionInFocus = await setConnectionInFocus(
+        0,
+        this.roomInFocus,
+        this.rooms,
+        APP_DATA_PATH,
+      )
+
+      await saveAppData(this.roomInFocus, this.connectionInFocus, this.rooms, APP_DATA_PATH)
+      await this.roomInFocus.saveRoom()
+
+      return
+    }
+
+    if (command === 'deleteRoom' || command === 'removeRoom') {
+      if (!this.roomInFocus) {
+        console.log('deleteRoom or removeRoom called but no room in focus!!')
+        return
+      }
+
+      if (command == 'deleteRoom') {
+        // Delete connections
+        await Promise.all(
+          this.roomInFocus.connections.map((connection) => {
+            return connection.deleteConnection(this.roomInFocus?.roomClient?.client)
+          }),
+        )
+
+        // Delete room
+        await this.roomInFocus.deleteRoom()
+      }
 
       // Remove room from app-data
-      this.rooms.shift()
+      const address = this.roomInFocus.address
+      this.rooms = this.rooms.filter((existingRoom) => existingRoom.address !== address)
+
+      // Take connection off from focus
+      this.connectionInFocus = null
 
       // Set first room in focus if exists
       const { roomInFocus } = await setRoomInFocus(this.rooms, 0, APP_DATA_PATH)
@@ -204,6 +240,12 @@ class App {
 
     if (command === 'listConnections') {
       return this.roomInFocus.connections.map((connection) => ({ address: connection.address }))
+    }
+
+    if (command === 'listAppConnections') {
+      return this.rooms.map((availableRoom) => {
+        return availableRoom.connections.map((connection) => ({ address: connection.address }))
+      })
     }
 
     if (command === 'createConnection') {
