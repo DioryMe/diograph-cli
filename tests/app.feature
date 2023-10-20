@@ -38,3 +38,13 @@ Feature: App
     And 'DEFAULT_TEST_ROOM' not exists
     And 'room.json' not exists
     And 'diograph.json' not exists
+
+  ###
+
+  Scenario: Remove connection
+    When I call removeConnection operation
+    And app-data.json has 'null' as connectionInFocus
+
+  Scenario: Delete connection
+    When I call deleteConnection operation
+    And app-data.json has 'null' as connectionInFocus
