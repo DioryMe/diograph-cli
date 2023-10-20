@@ -210,11 +210,14 @@ When('I call importDioryFromFile with content', async () => {
 // THEN
 
 Then('{string} {word} exists', async (fileName, doesOrNot) => {
-  if (fileName == 'DEFAULT_NATIVE_CONNECTION') {
-    const existsResponse = await connectionClient.exists(TEST_ROOM_NATIVE_CONNECTION_URL)
+  if (fileName == 'DEFAULT_TEST_ROOM') {
+    const existsResponse = await client.exists('')
+    assert.equal(existsResponse, doesOrNot === 'does')
+  } else if (fileName == 'DEFAULT_NATIVE_CONNECTION') {
+    const existsResponse = await connectionClient.exists('')
     assert.equal(existsResponse, doesOrNot === 'does')
   } else if (fileName == 'SECOND_NATIVE_CONNECTION') {
-    const existsResponse = await connectionClient2.exists(TEST_ROOM2_NATIVE_CONNECTION_URL)
+    const existsResponse = await connectionClient2.exists('')
     assert.equal(existsResponse, doesOrNot === 'does')
   } else {
     const existsResponse = await client.exists(fileName)
@@ -233,6 +236,18 @@ Then('diograph.json has {word} diories', async (dioryCount) => {
   const diographContents = await client.readTextItem('diograph.json')
   const diograph = JSON.parse(diographContents)
   assert.equal(Object.values(diograph).length, dioryCount === 'no' ? 0 : parseInt(dioryCount, 10))
+})
+
+Then('app-data.json has {word} rooms', async (roomCount) => {
+  // Parse app-data.json
+  const appDataPath = join(APP_DATA_PATH, 'app-data.json')
+  if (!existsSync(appDataPath)) {
+    throw new Error("Couldn't find app-data.json...")
+  }
+  const appDataContents = await readFile(appDataPath, { encoding: 'utf8' })
+  const appData = JSON.parse(appDataContents)
+
+  assert.equal(appData.rooms.length, roomCount === 'no' ? 0 : parseInt(roomCount, 10))
 })
 
 Then('app-data.json has {string} as {word}', async (constantName, property) => {
