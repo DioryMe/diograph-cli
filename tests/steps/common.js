@@ -14,14 +14,16 @@ const testType = process.env['DIOGRAPH_CLI_TEST_TYPE'] || 'local'
 function localClientVars() {
   const TEST_ROOM_FULL_URL = join(APP_DATA_PATH, 'room')
   const TEST_ROOM2_FULL_URL = join(APP_DATA_PATH, 'room2')
-  const CONTENT_FOLDER_FULL_URL = join(TEST_ROOM_FULL_URL, 'Diory Content')
-  const CONTENT_FOLDER2_FULL_URL = join(TEST_ROOM2_FULL_URL, 'Diory Content')
+  const TEST_ROOM_NATIVE_CONNECTION_URL = join(APP_DATA_PATH, 'room', 'Diory Content')
+  const TEST_ROOM2_NATIVE_CONNECTION_URL = join(APP_DATA_PATH, 'room2', 'Diory Content')
+  const CONTENT_FOLDER_FULL_URL = join(APP_DATA_PATH, 'ContentFolder')
+  const CONTENT_FOLDER2_FULL_URL = join(APP_DATA_PATH, 'ContentFolder')
 
   const testApp = new App()
   const client = new LocalClient(TEST_ROOM_FULL_URL)
-  const connectionClient = new LocalClient(CONTENT_FOLDER_FULL_URL)
+  const connectionClient = new LocalClient(TEST_ROOM_NATIVE_CONNECTION_URL)
   const client2 = new LocalClient(TEST_ROOM2_FULL_URL)
-  const connectionClient2 = new LocalClient(CONTENT_FOLDER2_FULL_URL)
+  const connectionClient2 = new LocalClient(TEST_ROOM2_NATIVE_CONNECTION_URL)
 
   return {
     testApp,
@@ -31,6 +33,8 @@ function localClientVars() {
     connectionClient2,
     TEST_ROOM_FULL_URL,
     TEST_ROOM2_FULL_URL,
+    TEST_ROOM_NATIVE_CONNECTION_URL,
+    TEST_ROOM2_NATIVE_CONNECTION_URL,
     CONTENT_FOLDER_FULL_URL,
     CONTENT_FOLDER2_FULL_URL,
     resetContentFolder: async () => {
@@ -45,25 +49,28 @@ function s3ClientVars() {
   const TEST_ROOM_KEY = 'room'
   const TEST_ROOM2_KEY = 'room2'
   // This MUST end with / in order to client.deleteFolder to succeed...
-  const CONTENT_FOLDER_KEY = 'Diory Content/'
-  const TEST_ROOM_FULL_URL = `s3://${join(TEST_BUCKET_NAME, TEST_ROOM_KEY)}`
-  const TEST_ROOM2_FULL_URL = `s3://${join(TEST_BUCKET_NAME, TEST_ROOM2_KEY)}`
-  const CONTENT_FOLDER_FULL_URL = `s3://${join(
+  const CONTENT_FOLDER_KEY = 'ContentFolder'
+  const NATIVE_CONNECTION_FOLDER_KEY = 'Diory Content'
+  const TEST_ROOM_FULL_URL = `s3://${join(TEST_BUCKET_NAME, TEST_ROOM_KEY)}/`
+  const TEST_ROOM2_FULL_URL = `s3://${join(TEST_BUCKET_NAME, TEST_ROOM2_KEY)}/`
+  const TEST_ROOM_NATIVE_CONNECTION_URL = `s3://${join(
     TEST_BUCKET_NAME,
     TEST_ROOM_KEY,
-    CONTENT_FOLDER_KEY,
-  )}`
-  const CONTENT_FOLDER2_FULL_URL = `s3://${join(
+    NATIVE_CONNECTION_FOLDER_KEY,
+  )}/`
+  const TEST_ROOM2_NATIVE_CONNECTION_URL = `s3://${join(
     TEST_BUCKET_NAME,
     TEST_ROOM2_KEY,
-    CONTENT_FOLDER_KEY,
-  )}`
+    NATIVE_CONNECTION_FOLDER_KEY,
+  )}/`
+  const CONTENT_FOLDER_FULL_URL = `s3://${join(TEST_BUCKET_NAME, CONTENT_FOLDER_KEY)}/`
+  const CONTENT_FOLDER2_FULL_URL = `s3://${join(TEST_BUCKET_NAME, CONTENT_FOLDER_KEY)}/`
 
   const testApp = new App()
   const client = new S3Client(TEST_ROOM_FULL_URL)
-  const connectionClient = new S3Client(CONTENT_FOLDER_FULL_URL)
+  const connectionClient = new S3Client(TEST_ROOM_NATIVE_CONNECTION_URL)
   const client2 = new S3Client(TEST_ROOM2_FULL_URL)
-  const connectionClient2 = new S3Client(CONTENT_FOLDER2_FULL_URL)
+  const connectionClient2 = new S3Client(TEST_ROOM2_NATIVE_CONNECTION_URL)
 
   return {
     testApp,
@@ -73,6 +80,8 @@ function s3ClientVars() {
     connectionClient2,
     TEST_ROOM_FULL_URL,
     TEST_ROOM2_FULL_URL,
+    TEST_ROOM_NATIVE_CONNECTION_URL,
+    TEST_ROOM2_NATIVE_CONNECTION_URL,
     CONTENT_FOLDER_FULL_URL,
     CONTENT_FOLDER2_FULL_URL,
     resetContentFolder: () => client.deleteFolder(CONTENT_FOLDER_KEY),
@@ -87,6 +96,8 @@ const {
   connectionClient2,
   TEST_ROOM_FULL_URL,
   TEST_ROOM2_FULL_URL,
+  TEST_ROOM_NATIVE_CONNECTION_URL,
+  TEST_ROOM2_NATIVE_CONNECTION_URL,
   CONTENT_FOLDER_FULL_URL,
   CONTENT_FOLDER2_FULL_URL,
   resetContentFolder,
@@ -108,13 +119,19 @@ Given('I have empty place for room', async () => {
     mkdirSync(APP_DATA_PATH)
   }
 
-  // Prepare room folders for local client
+  // Prepare room and nativeConnection folders
   if (testType == 'local') {
     if (!existsSync(TEST_ROOM_FULL_URL)) {
       mkdirSync(TEST_ROOM_FULL_URL)
     }
+    if (!existsSync(TEST_ROOM_NATIVE_CONNECTION_URL)) {
+      mkdirSync(TEST_ROOM_NATIVE_CONNECTION_URL)
+    }
     if (!existsSync(TEST_ROOM2_FULL_URL)) {
       mkdirSync(TEST_ROOM2_FULL_URL)
+    }
+    if (!existsSync(TEST_ROOM2_NATIVE_CONNECTION_URL)) {
+      mkdirSync(TEST_ROOM2_NATIVE_CONNECTION_URL)
     }
   }
 
@@ -194,10 +211,10 @@ When('I call importDioryFromFile with content', async () => {
 
 Then('{string} {word} exists', async (fileName, doesOrNot) => {
   if (fileName == 'DEFAULT_NATIVE_CONNECTION') {
-    const existsResponse = await connectionClient.exists(CONTENT_FOLDER_FULL_URL)
+    const existsResponse = await connectionClient.exists(TEST_ROOM_NATIVE_CONNECTION_URL)
     assert.equal(existsResponse, doesOrNot === 'does')
   } else if (fileName == 'SECOND_NATIVE_CONNECTION') {
-    const existsResponse = await connectionClient2.exists(CONTENT_FOLDER2_FULL_URL)
+    const existsResponse = await connectionClient2.exists(TEST_ROOM2_NATIVE_CONNECTION_URL)
     assert.equal(existsResponse, doesOrNot === 'does')
   } else {
     const existsResponse = await client.exists(fileName)
@@ -232,11 +249,11 @@ Then('app-data.json has {string} as {word}', async (constantName, property) => {
   if (constantName == 'DEFAULT_TEST_ROOM') {
     value = TEST_ROOM_FULL_URL
   } else if (constantName == 'DEFAULT_NATIVE_CONNECTION') {
-    value = CONTENT_FOLDER_FULL_URL
+    value = TEST_ROOM_NATIVE_CONNECTION_URL
   } else if (constantName == 'SECOND_TEST_ROOM') {
     value = TEST_ROOM2_FULL_URL
   } else if (constantName == 'SECOND_NATIVE_CONNECTION') {
-    value = CONTENT_FOLDER2_FULL_URL
+    value = TEST_ROOM2_NATIVE_CONNECTION_URL
   } else if (constantName == 'CONTENT_SOURCE_CONNECTION') {
     value = CONTENT_SOURCE_FOLDER
   } else {

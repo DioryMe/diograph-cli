@@ -162,8 +162,9 @@ class App {
           : 'FAIL: Connection removal failed',
       )
 
+      // TODO: Add own client for connection in order to delete it...
       if (command === 'deleteConnection') {
-        this.connectionInFocus.deleteConnection(this.roomInFocus.roomClient?.client)
+        this.connectionInFocus.deleteConnection() // this.roomInFocus.roomClient?.client)
 
         return
       }
@@ -192,7 +193,7 @@ class App {
         // Delete connections
         await Promise.all(
           this.roomInFocus.connections.map((connection) => {
-            return connection.deleteConnection(this.roomInFocus?.roomClient?.client)
+            return connection.deleteConnection() // this.roomInFocus?.roomClient?.client)
           }),
         )
 
@@ -392,17 +393,17 @@ class App {
         if (!contentUrl) {
           return
         }
-        const sourceConnectionContentClient = new this.roomInFocus.roomClient.client.constructor(
-          sourceConnection.address,
-        )
+        // const sourceConnectionContentClient = new this.roomInFocus.roomClient.client.constructor(
+        //   sourceConnection.address,
+        // )
         const fileContents = await sourceConnection.readContent(
           contentUrl,
-          sourceConnectionContentClient,
+          // sourceConnectionContentClient,
         )
-        const nativeConnectionContentClient = new this.roomInFocus.roomClient.client.constructor(
-          nativeConnection.address,
-        )
-        await nativeConnection.addContent(fileContents, contentUrl, nativeConnectionContentClient)
+        // const nativeConnectionContentClient = new this.roomInFocus.roomClient.client.constructor(
+        //   nativeConnection.address,
+        // )
+        await nativeConnection.addContent(fileContents, contentUrl) // , nativeConnectionContentClient)
         nativeConnection.addContentUrl(contentUrl)
       }
       await this.roomInFocus.saveRoom()
@@ -418,12 +419,12 @@ class App {
       const contentId = arg1
       const fileName = arg2
       const nativeConnection = this.roomInFocus.connections[0]
-      const nativeConnectionContentClient = new this.roomInFocus.roomClient.client.constructor(
-        nativeConnection.address,
-      )
+      // const nativeConnectionContentClient = new this.roomInFocus.roomClient.client.constructor(
+      //   nativeConnection.address,
+      // )
       const fileBuffer = await nativeConnection.readContent(
         contentId,
-        nativeConnectionContentClient,
+        // nativeConnectionContentClient,
       )
       await writeFile(fileName, fileBuffer)
       return
