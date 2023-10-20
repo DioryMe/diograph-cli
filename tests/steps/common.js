@@ -154,6 +154,8 @@ When('I createConnection {string}', async (argument) => {
     case 'CONTENT_SOURCE_CONNECTION':
       connectionAddress = CONTENT_SOURCE_FOLDER
       break
+    case 'SECOND_NATIVE_CONNECTION':
+      connectionAddress = SECOND_NATIVE_CONNECTION
     case 'DioryContent': // <-- currently not in use, created automatically in createRoom
       connectionAddress = CONTENT_FOLDER_FULL_URL
       break
@@ -209,7 +211,7 @@ When('I call importDioryFromFile with content', async () => {
 
 // THEN
 
-Then('{string} {word} exists', async (fileName, doesOrNot) => {
+Then('{string} {word} exist(s)', async (fileName, doesOrNot) => {
   if (fileName == 'DEFAULT_TEST_ROOM') {
     const existsResponse = await client.exists('')
     assert.equal(existsResponse, doesOrNot === 'does')

@@ -164,9 +164,7 @@ class App {
 
       // TODO: Add own client for connection in order to delete it...
       if (command === 'deleteConnection') {
-        this.connectionInFocus.deleteConnection() // this.roomInFocus.roomClient?.client)
-
-        return
+        await this.connectionInFocus.deleteConnection() // this.roomInFocus.roomClient?.client)
       }
 
       // Set first connection in focus if exists

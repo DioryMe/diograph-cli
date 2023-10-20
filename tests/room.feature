@@ -30,6 +30,20 @@ Feature: Room
 
 ###
 
+  Scenario: Remove connection
+    Given room.json has 1 connection
+    When I call removeConnection operation
+    Then room.json has no connections
+    And 'DEFAULT_NATIVE_CONNECTION' does exist
+
+  Scenario: Delete connection
+    Given room.json has 1 connection
+    When I call deleteConnection operation
+    Then room.json has no connections
+    And 'DEFAULT_NATIVE_CONNECTION' not exists
+
+###
+
   Scenario: Content source contents list
     When I createConnection 'CONTENT_SOURCE_CONNECTION'
     And I call listConnectionContents operation with '/'
