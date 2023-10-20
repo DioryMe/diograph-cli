@@ -156,6 +156,7 @@ When('I createConnection {string}', async (argument) => {
       break
     case 'SECOND_NATIVE_CONNECTION':
       connectionAddress = SECOND_NATIVE_CONNECTION
+      break
     case 'DioryContent': // <-- currently not in use, created automatically in createRoom
       connectionAddress = CONTENT_FOLDER_FULL_URL
       break
@@ -240,7 +241,7 @@ Then('diograph.json has {word} diories', async (dioryCount) => {
   assert.equal(Object.values(diograph).length, dioryCount === 'no' ? 0 : parseInt(dioryCount, 10))
 })
 
-Then('app-data.json has {word} rooms', async (roomCount) => {
+Then('app-data.json has {word} room(s)', async (roomCount) => {
   // Parse app-data.json
   const appDataPath = join(APP_DATA_PATH, 'app-data.json')
   if (!existsSync(appDataPath)) {
@@ -273,6 +274,8 @@ Then('app-data.json has {string} as {word}', async (constantName, property) => {
     value = TEST_ROOM2_NATIVE_CONNECTION_URL
   } else if (constantName == 'CONTENT_SOURCE_CONNECTION') {
     value = CONTENT_SOURCE_FOLDER
+  } else if (constantName == 'null') {
+    value = null
   } else {
     throw new Error('Unknown constantName when checking app-data.json contents')
   }
