@@ -296,6 +296,14 @@ class App {
       return this.roomInFocus.diograph.toObject()
     }
 
+    if (
+      command === 'getConnectionDiograph' &&
+      this.connectionInFocus &&
+      this.connectionInFocus.diograph
+    ) {
+      return this.connectionInFocus.diograph.toObject()
+    }
+
     if (command === 'getDiory' && this.roomInFocus.diograph) {
       const dioryId = arg1 || 'some-diory-id'
       const { id, links, text, latlng, date, data, created, modified } =
@@ -378,6 +386,7 @@ class App {
     if (command === 'import') {
       const dioryId = arg1 // same as internalPath...
       const copyContent = arg2
+      // TODO: How to define connections? Which is connectionInFocus?
       const nativeConnection = this.roomInFocus.connections[0]
       const sourceConnection = this.roomInFocus.connections[1]
       // 1. Import diory from connection's diograph to room's diograph
@@ -391,16 +400,7 @@ class App {
         if (!contentUrl) {
           return
         }
-        // const sourceConnectionContentClient = new this.roomInFocus.roomClient.client.constructor(
-        //   sourceConnection.address,
-        // )
-        const fileContents = await sourceConnection.readContent(
-          contentUrl,
-          // sourceConnectionContentClient,
-        )
-        // const nativeConnectionContentClient = new this.roomInFocus.roomClient.client.constructor(
-        //   nativeConnection.address,
-        // )
+        const fileContents = await sourceConnection.readContent(contentUrl)
         await nativeConnection.addContent(fileContents, contentUrl) // , nativeConnectionContentClient)
         nativeConnection.addContentUrl(contentUrl)
       }
@@ -413,17 +413,11 @@ class App {
     }
 
     // TODO: This doesn't have any tests...
-    if (command === 'writeFile') {
+    if (command === 'writeFileFromContent') {
       const contentId = arg1
       const fileName = arg2
       const nativeConnection = this.roomInFocus.connections[0]
-      // const nativeConnectionContentClient = new this.roomInFocus.roomClient.client.constructor(
-      //   nativeConnection.address,
-      // )
-      const fileBuffer = await nativeConnection.readContent(
-        contentId,
-        // nativeConnectionContentClient,
-      )
+      const fileBuffer = await nativeConnection.readContent(contentId)
       await writeFile(fileName, fileBuffer)
       return
     }

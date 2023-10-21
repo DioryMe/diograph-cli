@@ -45,6 +45,9 @@ listRooms (or listAppRooms)
 setRoomInFocus(roomIndex)
 - set room with given into focus in app
 
+getDiograph()
+- show room in focus diograph contents
+
 listAppConnections()
 - list all the available connections in the app
 
@@ -53,6 +56,9 @@ listConnections()
 
 setConnectionInFocus(connectionIndex)
 - set connection with given into focus in app
+
+getConnectionDiograph()
+- show connection in focus diograph contents
 
 createRoom(roomPath)
 - adds room to given path
