@@ -402,7 +402,6 @@ class App {
         }
         const fileContents = await sourceConnection.readContent(contentUrl)
         await nativeConnection.addContent(fileContents, contentUrl) // , nativeConnectionContentClient)
-        nativeConnection.addContentUrl(contentUrl)
       }
       await this.roomInFocus.saveRoom()
       return
