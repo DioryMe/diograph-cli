@@ -162,9 +162,8 @@ class App {
           : 'FAIL: Connection removal failed',
       )
 
-      // TODO: Add own client for connection in order to delete it...
       if (command === 'deleteConnection') {
-        await this.connectionInFocus.deleteConnection() // this.roomInFocus.roomClient?.client)
+        await this.connectionInFocus.deleteConnection()
       }
 
       // Set first connection in focus if exists
@@ -191,7 +190,7 @@ class App {
         // Delete connections
         await Promise.all(
           this.roomInFocus.connections.map((connection) => {
-            return connection.deleteConnection() // this.roomInFocus?.roomClient?.client)
+            return connection.deleteConnection()
           }),
         )
 
@@ -264,9 +263,6 @@ class App {
         )
       }
       const contentClientType = arg2 || 'LocalClient'
-      // TODO: Verify connectionAddress properly
-      // - e.g. LocalClient.verify(connectionAddress)
-      // - requires dynamic definition of Local/S3Client though...
 
       // Execute
       if (
@@ -339,9 +335,6 @@ class App {
     }
     */
 
-    // @diograph/diograph doesn't support these yet
-    // - localDiographGenerator
-
     if (command === 'listConnectionContents') {
       const connection = this.connectionInFocus
       if (!connection) {
@@ -351,6 +344,7 @@ class App {
       const contentSourceInternalPath = arg1 || '/'
 
       console.log(`Listing contents of ${connection.address}`)
+      // NOTE: @diograph/diograph doesn't support localDiographGenerator yet => uses old one...
       const list = await localDiographGenerator(contentSourceInternalPath, connection.address)
       connection.diograph.mergeDiograph(list)
       connection.diograph.diories().forEach((diory) => {
@@ -401,7 +395,7 @@ class App {
           return
         }
         const fileContents = await sourceConnection.readContent(contentUrl)
-        await nativeConnection.addContent(fileContents, contentUrl) // , nativeConnectionContentClient)
+        await nativeConnection.addContent(fileContents, contentUrl)
       }
       await this.roomInFocus.saveRoom()
       return
