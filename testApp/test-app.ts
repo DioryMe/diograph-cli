@@ -38,10 +38,9 @@ class App {
         this.connectionInFocus = connectionInFocus
         this.appData = initiatedAppData
 
-        if (this.rooms.length) {
-          return setRoomInFocus(this.rooms, 0, APP_DATA_PATH)
+        if (!this.rooms) {
+          console.log('No rooms to initiate...')
         }
-        console.log('No rooms to initiate...')
       },
     )
 
@@ -223,11 +222,22 @@ class App {
       return
     }
 
+    if (command === 'status') {
+      console.log(`
+roomInFocus: ${JSON.stringify(this.roomInFocus?.roomClient.client, null, 2)}
+
+connectionInFocus: ${JSON.stringify(this.connectionInFocus?.client, null, 2)}
+
+app-data path: ${APP_DATA_PATH}
+      `)
+      return
+    }
+
     if (!this.roomInFocus || !this.roomInFocus.roomClient) {
       throw new Error('roomInFocus is missing')
     }
 
-    if (command === 'listRooms') {
+    if (command === 'listRooms' || command === 'listAppRooms') {
       return this.appData.rooms
     }
 

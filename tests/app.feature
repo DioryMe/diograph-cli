@@ -5,8 +5,17 @@ Feature: App
     And I createRoom 'DEFAULT_TEST_ROOM'
     And app-data.json has 1 room
 
-  Scenario:
+  Scenario: Call dryRun, status, listRooms, listAppRooms, getDiograph, listAppConnections, listConnections, getConnectionDiograph
     When I call dryRun operation
+    When I call status operation
+    And I call listRooms operation
+    And I call listAppRooms operation
+    And I call getDiograph operation
+    And I call listAppConnections operation
+    And I call listConnections operation
+    And I call getConnectionDiograph operation
+
+###
 
   Scenario: Set room in focus
     And I createRoom 'SECOND_TEST_ROOM'

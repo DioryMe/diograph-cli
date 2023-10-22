@@ -39,6 +39,9 @@ dryRun
 resetApp()
 - removes App data (=app-data.json)
 
+status()
+- shows app-data path, room in focus, connection in focus
+
 listRooms (or listAppRooms)
 - list available rooms in the app
 
