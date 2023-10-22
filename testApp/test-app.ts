@@ -355,7 +355,7 @@ class App {
       connection.diograph.mergeDiograph(list)
       connection.diograph.diories().forEach((diory) => {
         if (diory.data && diory.data[0].contentUrl) {
-          connection.addContentUrl(diory.data[0].contentUrl)
+          connection.addContentUrl(diory.data[0].contentUrl, diory.id)
         }
       })
       await this.roomInFocus.saveRoom()
