@@ -224,7 +224,7 @@ class App {
 
     if (command === 'status') {
       console.log(`
-roomInFocus: ${JSON.stringify(this.roomInFocus?.roomClient.client, null, 2)}
+roomInFocus: ${JSON.stringify(this.roomInFocus?.roomClient?.client, null, 2)}
 
 connectionInFocus: ${JSON.stringify(this.connectionInFocus?.client, null, 2)}
 
@@ -413,6 +413,10 @@ app-data path: ${APP_DATA_PATH}
 
     if (command === 'getContent') {
       return this.roomInFocus.getContent(arg1)
+    }
+
+    if (command === 'readContent') {
+      return this.roomInFocus.readContent(arg1)
     }
 
     // TODO: This doesn't have any tests...

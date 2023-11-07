@@ -34,7 +34,7 @@ DIOGRAPH_CLI_TEST_TYPE=S3 aws-vault exec ***** -- yarn test
 
 ```
 dryRun
-- runs app and exists without error without doing anything
+- runs app and exits without doing anything
 
 resetApp()
 - removes App data (=app-data.json)
@@ -48,6 +48,9 @@ listRooms (or listAppRooms)
 setRoomInFocus(roomIndex)
 - set room with given into focus in app
 
+setConnectionInFocus(connectionIndex)
+- set connection with given into focus in app
+
 getDiograph()
 - show room in focus diograph contents
 
@@ -56,9 +59,6 @@ listAppConnections()
 
 listConnections()
 - list available connections in the room in focus
-
-setConnectionInFocus(connectionIndex)
-- set connection with given into focus in app
 
 getConnectionDiograph()
 - show connection in focus diograph contents
