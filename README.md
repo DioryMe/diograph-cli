@@ -116,8 +116,8 @@ importDioryFromContentSource(connectionInternalPathId, copyContent)
 - boolean to define if content should be made available also on native-connection
 - e.g. ... import /two-test-image.jpg true
 
-getContent(contentUrl)
-- returns url for the content (room address + contentUrl)
+readContent(contentUrl)
+- reads buffer of the content from connection where it is available
 
 listConnectionContents
 - uses listContentSource tool to list contents (in diograph)

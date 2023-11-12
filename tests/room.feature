@@ -63,13 +63,12 @@ Feature: Room
     Then last connection diograph has 6 diories
     And last connection has 4 contentUrls
 
-  Scenario: Add diory from content source
+  Scenario: Add diory to content source
     When I createConnection 'CONTENT_SOURCE_CONNECTION'
     And I call listConnectionContents operation with '/'
     And I import last diory to first connection
     Then diograph.json has 1 diories
     And content folder has 0 file
-    And I get url from getContent with 'bafkreihoednm4s2g4vpame3mweewfq5of3hks2mbmkvoksxg3z4rhmweeu'
 
 ###
 
@@ -81,7 +80,6 @@ Feature: Room
   #   And I import last diory to first connection with content
   #   Then diograph.json has 1 diories
   #   And content folder has 1 file
-  #   And I get url from getContent with 'bafkreihoednm4s2g4vpame3mweewfq5of3hks2mbmkvoksxg3z4rhmweeu'
 
 ###
 

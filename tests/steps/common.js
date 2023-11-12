@@ -301,11 +301,6 @@ Then('last connection has {int} contentUrls', async (value) => {
   assert.equal(Object.values(lastConnection.contentUrls).length, value)
 })
 
-Then('I get url from getContent with {string}', async (contentId) => {
-  const response = await testApp.run('getContent', contentId)
-  assert.ok(response, "getContent() didn't return anything")
-})
-
 Then('content folder has {int} file(s)', async (count) => {
   const list = await connectionClient.list('')
   assert.equal(list.length, count)

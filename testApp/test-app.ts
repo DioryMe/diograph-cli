@@ -412,10 +412,6 @@ app-data path: ${APP_DATA_PATH}
       return
     }
 
-    if (command === 'getContent') {
-      return this.roomInFocus.getContent(arg1)
-    }
-
     if (command === 'readContent') {
       return this.roomInFocus.readContent(arg1)
     }
