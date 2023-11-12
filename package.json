@@ -6,7 +6,7 @@
   "author": "Jouni Alanen <jouni@diory.me>",
   "license": "MIT",
   "dependencies": {
-    "@diograph/file-generator": "0.0.4",
+    "@diograph/file-generator": "next",
     "@diograph/local-client": "next",
     "@diograph/s3-client": "next",
     "@diograph/diograph": "next",
