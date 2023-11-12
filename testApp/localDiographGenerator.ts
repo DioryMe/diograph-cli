@@ -1,6 +1,6 @@
 import { readdirSync } from 'fs'
 import { join } from 'path'
-import { generateFileDiory } from '@diograph/file-generator'
+import { generateDiory } from '@diograph/file-generator'
 import { getDefaultImage } from './utils'
 import { IDiographObject } from '@diograph/diograph'
 
@@ -25,7 +25,7 @@ const localDiographGenerator = async (
       const fileName = dirent.name
       const filePath = join(folderPath, fileName)
       if (dirent.isFile()) {
-        const dioryObject = await generateFileDiory(filePath, '')
+        const dioryObject = await generateDiory(filePath, '')
         dioryObject.image = dioryObject.image ? dioryObject.image : getDefaultImage()
         dioryObject.id = join(dioryId, fileName)
         return { [dioryObject.id]: dioryObject }

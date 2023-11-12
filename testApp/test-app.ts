@@ -4,7 +4,7 @@ import { join } from 'path'
 import { Connection, Diory, Room } from '@diograph/diograph'
 import { AppData, initiateAppData, saveAppData } from './app-data'
 import { localDiographGenerator } from './localDiographGenerator'
-import { generateFileDiory } from '@diograph/file-generator'
+import { generateDiory } from '@diograph/file-generator'
 import { v4 as uuid } from 'uuid'
 import { createRoom } from '../src/createRoom'
 import { createConnection } from '../src/createConnection'
@@ -372,7 +372,7 @@ app-data path: ${APP_DATA_PATH}
       const filePath = arg1
       const copyContent = arg2
 
-      const dioryObject = await generateFileDiory(filePath, '')
+      const dioryObject = (await generateDiory(filePath, '')).toObject()
       dioryObject.image = dioryObject.image ? dioryObject.image : getDefaultImage()
       const diory = new Diory(dioryObject)
       if (copyContent) {
