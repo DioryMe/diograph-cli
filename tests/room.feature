@@ -98,6 +98,7 @@ Feature: Room
     And last connection has 1 contentUrls
     And last diory has image/png as encodingFormat
     And last diory has bafkreihoednm4s2g4vpame3mweewfq5of3hks2mbmkvoksxg3z4rhmweeu as contentUrl
+    And last connection diograph has 1 diories
 
 ###
 

@@ -380,6 +380,7 @@ app-data path: ${APP_DATA_PATH}
         await this.roomInFocus.addContent(sourceFileContent, dioryObject.id)
         diory.changeContentUrl(dioryObject.id)
       }
+      await this.roomInFocus.connections[0].diograph.addDiory(diory)
       await this.roomInFocus.diograph.addDiory(diory)
       await this.roomInFocus.saveRoom()
       return
