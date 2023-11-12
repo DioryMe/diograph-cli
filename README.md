@@ -5,7 +5,7 @@
 Create room to /tmp folder and save app state to ./tmp/app-data.json
 
 ```
-APP_DATA_PATH=./tmp/app-data.json node ./testApp/test-cli.js addRoom ./tmp
+APP_DATA_PATH=./tmp/app-data.json node ./testApp/test-cli.js createRoom ./tmp
 ```
 
 Import image diory to that room
@@ -34,22 +34,44 @@ DIOGRAPH_CLI_TEST_TYPE=S3 aws-vault exec ***** -- yarn test
 
 ```
 dryRun
-- runs app and exists without error without doing anything
+- runs app and exits without doing anything
 
 resetApp()
 - removes App data (=app-data.json)
 
-addRoom(roomPath)
-- adds room to given path
-- creates LocalClient, RoomClient and Room
-- saves room address to app-data
-- e.g. ... addRoom /room/folder
+status()
+- shows app-data path, room in focus, connection in focus
 
 listRooms (or listAppRooms)
 - list available rooms in the app
 
+setRoomInFocus(roomIndex)
+- set room with given into focus in app
+
+setConnectionInFocus(connectionIndex)
+- set connection with given into focus in app
+
+getDiograph()
+- show room in focus diograph contents
+
 listAppConnections()
 - list all the available connections in the app
+
+listConnections()
+- list available connections in the room in focus
+
+getConnectionDiograph()
+- show connection in focus diograph contents
+
+createRoom(roomPath)
+- adds room to given path
+- creates LocalClient, RoomClient and Room
+- saves room address to app-data
+- e.g. ... createRoom /room/folder
+
+removeRoom()
+- removes room from app-data
+- doesn't delete any files or folders
 
 writeFileFromContent(contentId, fileName)
 - write given content to disk with chosen fileName
@@ -65,10 +87,19 @@ deleteRoom()
 - remove room.json and diograph.json from the room path
 - remove it also from app-data
 
-addConnection(connectionPath)
-- add connection to given (or current) path
+removeConnection()
+- removes connection from room.json
+- set other connection to focus in app
+
+deleteConnection()
+- removes the connection folder contents (=`rm -rf`)
+- removes connection from room.json
+- set other connection to focus in app
+
+createConnection(connectionPath)
+- create connection to given (or current) path
 - add for room in focus
-- e.g. ... addConnection /path/to/source/folder
+- e.g. ... createConnection /path/to/source/folder
 
 importDioryFromFile
 - copy file to appTempFolder
@@ -85,13 +116,13 @@ importDioryFromContentSource(connectionInternalPathId, copyContent)
 - boolean to define if content should be made available also on native-connection
 - e.g. ... import /two-test-image.jpg true
 
-getContent(contentUrl)
-- returns url for the content (room address + contentUrl)
+readContent(contentUrl)
+- reads buffer of the content from connection where it is available
 
-listClientContents
+listConnectionContents
 - uses listContentSource tool to list contents (in diograph)
 - should be: list content source contents
-- e.g. ... listClientContents
+- e.g. ... listConnectionContents
   - currently lists contents of the second connection in the room
   - should this return something?
 ```

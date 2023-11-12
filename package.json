@@ -6,10 +6,10 @@
   "author": "Jouni Alanen <jouni@diory.me>",
   "license": "MIT",
   "dependencies": {
-    "@diograph/file-generator": "0.0.4",
+    "@diograph/file-generator": "next",
     "@diograph/local-client": "next",
     "@diograph/s3-client": "next",
-    "diograph-js": "next",
+    "@diograph/diograph": "next",
     "uuid": "^8.3.2"
   },
   "devDependencies": {
@@ -21,7 +21,7 @@
     "build": "tsc",
     "build-watch": "yarn build --watch",
     "prettier": "prettier --write .",
-    "test": "cucumber-js tests/room.feature"
+    "test": "cucumber-js tests/app.feature tests/room.feature"
   },
   "prettier": {
     "tabWidth": 2,

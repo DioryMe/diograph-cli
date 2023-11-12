@@ -1,6 +1,6 @@
 import { existsSync } from 'fs'
 import { readFile, writeFile, rm } from 'fs/promises'
-import { Connection, Room, RoomClient } from 'diograph-js'
+import { ConnectionClient, Connection, Room, RoomClient } from '@diograph/diograph'
 import { LocalClient } from '@diograph/local-client'
 import { S3Client } from '@diograph/s3-client'
 
@@ -15,14 +15,12 @@ export interface AppData {
   connectionInFocus: string | null
 }
 
-export const getClientAndVerify = async (clientType: string, address: string) => {
-  // TODO: Define common BaseClient class/interface and implement/inherit it
-  // - part of diograph-js? Or its own package?!?
-  // - verify, readTextItem, readitem, writeTextItem, writeItem
-  // - deleteItem, itemExists
-  // - address is always just one url
+export const getClientAndVerify = async (
+  clientType: string,
+  address: string,
+): Promise<ConnectionClient> => {
   console.log(`Verifying address for ${clientType}:`, address)
-  let client
+  let client: ConnectionClient
   if (clientType == 'LocalClient') {
     client = new LocalClient(address)
     await client.verify()
@@ -66,7 +64,7 @@ const initiateAppData = async (appDataPath: string) => {
         )
       }
       rooms.push(room)
-      return room.loadRoom()
+      return room.loadRoom({ LocalClient: LocalClient, S3Client: S3Client })
     }),
   )
 
