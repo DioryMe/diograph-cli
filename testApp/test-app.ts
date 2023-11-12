@@ -356,7 +356,7 @@ app-data path: ${APP_DATA_PATH}
       console.log(`Listing contents of ${connection.address}`)
       // NOTE: @diograph/diograph doesn't support localDiographGenerator yet => uses old one...
       const list = await localDiographGenerator(contentSourceInternalPath, connection.address)
-      connection.diograph.mergeDiograph(list)
+      connection.diograph.addDiograph(list)
       connection.diograph.diories().forEach((diory) => {
         if (diory.data && diory.data[0].contentUrl) {
           connection.addContentUrl(diory.data[0].contentUrl, diory.id)
