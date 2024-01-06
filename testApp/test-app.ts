@@ -422,7 +422,7 @@ app-data path: ${APP_DATA_PATH}
       const fileName = arg2
       const nativeConnection = this.roomInFocus.connections[0]
       const fileBuffer = await nativeConnection.readContent(contentId)
-      await writeFile(fileName, fileBuffer)
+      await writeFile(fileName, Buffer.from(fileBuffer))
       return
     }
 

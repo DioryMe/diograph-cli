@@ -64,7 +64,10 @@ const initiateAppData = async (appDataPath: string) => {
         )
       }
       rooms.push(room)
-      return room.loadRoom({ LocalClient: LocalClient, S3Client: S3Client })
+      return room.loadRoom({
+        LocalClient: { clientConstructor: LocalClient },
+        S3Client: { clientConstructor: S3Client },
+      })
     }),
   )
 

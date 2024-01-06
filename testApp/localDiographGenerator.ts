@@ -2,7 +2,6 @@ import { readdirSync } from 'fs'
 import { join } from 'path'
 import { generateDiory } from '@diograph/file-generator'
 import { getDefaultImage } from './utils'
-import { IDiographObject } from '@diograph/diograph'
 
 // TODO: This is still NOT OFFICIAL way but uses prohibited shortcuts & assumptions to do things
 // - Should use connection to define which client to use and initiate that client
@@ -16,7 +15,7 @@ const folderDefaultImage = () => {
 const localDiographGenerator = async (
   dioryId: string,
   contentSourceAddress: string,
-): Promise<IDiographObject> => {
+): Promise<any> => {
   const folderPath = join(contentSourceAddress, dioryId)
   const folderList = readdirSync(folderPath, { withFileTypes: true })
 
