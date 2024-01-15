@@ -31,7 +31,7 @@ NOTE: You need ffmpeg dependency and FFMPEG_PATH if you have videos in the MyPic
 FFMPEG_PATH=/opt/homebrew/bin/ffmpeg APP_DATA_FOLDER=~/PhotoRoom/app-data node ./testApp/test-cli.js listConnectionContents
 ```
 
-6. Import all (TODO: select chosen ones) into room (=native connection)
+1. Import chosen one diory into room (=native connection) with content
 
 ```
 APP_DATA_FOLDER=~/PhotoRoom/app-data node ./testApp/test-cli.js import "/2022-07-20 19.32.33.png" true
