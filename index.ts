@@ -7,6 +7,7 @@ import { dioryCommand } from './src/dioryCommand'
 import { statusCommand } from './src/statusCommand'
 import { listCommand } from './src/listCommand'
 import { exportCommand } from './src/exportCommand'
+import { importCommand } from './src/importCommand'
 
 const bootstrap = async () => {
   program
@@ -14,7 +15,6 @@ const bootstrap = async () => {
     .description('Execute Diograph commands from CLI')
     .usage('<command> [options]')
     .helpOption('-h, --help', 'Output usage information.')
-    .option('--dry-run', 'Dry run')
     .action((opts) => {
       if (opts['dryRun']) {
         console.log('Dry run completed.')
@@ -23,22 +23,67 @@ const bootstrap = async () => {
     })
 
   program.command('status').description('Show status').action(statusCommand)
-  program.command('list <type>').description('List resources').action(listCommand)
 
-  program.command('room <command>').description('Manage rooms').action(roomCommand)
+  program
+    .command('list <resource>')
+    .description('List resources')
+    .option('rooms', 'List all rooms')
+    .option('connections', 'List all connections')
+    .option('connectionContents', 'List all connection contents')
+    .action(listCommand)
+
+  program
+    .command('room <command>')
+    .description('Manage rooms')
+    .option('create', 'Create a new room')
+    .option('remove', 'Remove a room')
+    .option('delete', 'Delete a room')
+    .option('focus', 'Focus on a room')
+    .action(roomCommand)
+
   program
     .command('connection <command>')
     .description('Manage connections')
+    .option('create', 'Create a new connection')
+    .option('remove', 'Remove a connection')
+    .option('delete', 'Delete a connection')
+    .option('focus', 'Focus on a connection')
     .action(connectionCommand)
-  program.command('diory <command>').description('Manage diories').action(dioryCommand)
 
-  program.command('import <type>').description('Import resources').action(exportCommand)
-  program.command('export <type>').description('Export resources').action(exportCommand)
+  program
+    .command('diory <command>')
+    .description('Manage diories')
+    .option('create', 'Create a new diory')
+    .option('delete', 'Delete a diory')
+    .option('link', 'Link a diory')
+    .option('focus', 'Focus on a diory')
+    .action(dioryCommand)
+
+  program
+    .command('import <type>')
+    .description('Import resources')
+    .option('file', 'Import from a file')
+    .option('folder', 'Import from a folder')
+    .action(importCommand)
+
+  program
+    .command('export <type>')
+    .description('Export resources')
+    .option('diory', 'Export a diory')
+    .option('diograph', 'Export a diograph')
+    .option('content', 'Export content')
+    .option('room', 'Export a room')
+    .action(exportCommand)
 
   program.parse()
 
+  const knownCommands = program.commands.map((cmd) => cmd.name())
   if (!process.argv.slice(2).length) {
     program.outputHelp()
+  } else if (!process.argv.slice(2).length || !knownCommands.includes(process.argv[2])) {
+    console.error(`error: unknown command '${process.argv[2]}'`)
+    console.log(`Available commands: ${knownCommands.join(', ')}`)
+    process.exitCode = 1
   }
 }
 
