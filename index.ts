@@ -23,17 +23,17 @@ const bootstrap = async () => {
     })
 
   program.command('status').description('Show status').action(statusCommand)
-  program.command('list <resource>').description('List resources').action(listCommand)
+  program.command('list <type>').description('List resources').action(listCommand)
 
-  program.command('room <resource>').description('Manage rooms').action(roomCommand)
+  program.command('room <command>').description('Manage rooms').action(roomCommand)
   program
-    .command('connection <resource>')
+    .command('connection <command>')
     .description('Manage connections')
     .action(connectionCommand)
-  program.command('diory <resource>').description('Manage diories').action(dioryCommand)
+  program.command('diory <command>').description('Manage diories').action(dioryCommand)
 
-  program.command('import <resource>').description('Import resources').action(exportCommand)
-  program.command('export <resource>').description('Export resources').action(exportCommand)
+  program.command('import <type>').description('Import resources').action(exportCommand)
+  program.command('export <type>').description('Export resources').action(exportCommand)
 
   program.parse()
 
