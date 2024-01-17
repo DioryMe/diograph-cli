@@ -1,4 +1,6 @@
-const roomCommand = (commandName: string) => {
+import { createRoom } from './createRoom'
+
+const roomCommand = async (commandName: string, arg1: any, arg2: any) => {
   const validCommands = ['create', 'remove', 'delete', 'focus']
 
   if (!validCommands.includes(commandName)) {
@@ -10,7 +12,13 @@ const roomCommand = (commandName: string) => {
 
   switch (commandName) {
     case 'create':
-      // Handle 'create' command
+      if (!arg1 || !arg2) {
+        console.error(
+          `Invalid arguments: ${arg1}, ${arg2}. Arguments should be: roomAddress, contentClientType.`,
+        )
+        process.exit(1)
+      }
+      await createRoom(arg1, arg2)
       break
     case 'remove':
       // Handle 'remove' command

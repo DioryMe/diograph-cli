@@ -33,12 +33,12 @@ const bootstrap = async () => {
     .action(listCommand)
 
   program
-    .command('room <command>')
+    .command('room <command> [arg1] [arg2]')
     .description('Manage rooms')
-    .option('create', 'Create a new room')
-    .option('remove', 'Remove a room')
-    .option('delete', 'Delete a room')
-    .option('focus', 'Focus on a room')
+    .option('create', 'Create a new room (arg1: roomAddress, arg2: contentClientType)')
+    .option('remove', 'Remove a room (arg1: roomAddress)')
+    .option('delete', 'Delete a room (arg1: roomAddress)')
+    .option('focus', 'Focus on a room (arg1: roomAddress)')
     .action(roomCommand)
 
   program

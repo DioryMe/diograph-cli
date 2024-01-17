@@ -24,7 +24,7 @@ export const getClientAndVerify = async (
   if (clientType == 'LocalClient') {
     client = new LocalClient(address)
     await client.verify()
-  } else if ('S3Client') {
+  } else if (clientType == 'S3Client') {
     client = new S3Client(address)
     await client.verify()
   } else {
