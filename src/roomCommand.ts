@@ -1,4 +1,4 @@
-import { listRooms } from './configManager.js'
+import { addRoom, listRooms } from './configManager.js'
 import { createRoom } from './createRoom.js'
 import chalk from 'chalk'
 
@@ -29,7 +29,7 @@ const roomCommand = async (commandName: string, arg1: any, arg2: any) => {
       const contentClientType = arg2
 
       if (
-        Object.values(listRooms())
+        Object.values(await listRooms())
           .map((r) => r.address)
           .find((existingRoomAddress) => existingRoomAddress === roomAddress)
       ) {
@@ -46,8 +46,7 @@ const roomCommand = async (commandName: string, arg1: any, arg2: any) => {
         process.exit(1)
       }
 
-      // Add room to app
-      // this.rooms.push(room)
+      await addRoom(roomAddress, contentClientType)
 
       // // Set room in focus
       // const { roomInFocus, connectionInFocus } = await setRoomInFocus(
