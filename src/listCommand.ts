@@ -1,9 +1,9 @@
 const listCommand = (resourceName: string) => {
-  const validResources = ['rooms', 'connections', 'connectionContents']
+  const validResources = ['rooms', 'connections']
 
   if (!validResources.includes(resourceName)) {
     console.error(
-      `Invalid resource: ${resourceName}. Resource should be either 'rooms', 'connections' or 'connectionContents'.`,
+      `Invalid resource: ${resourceName}. Resource should be either 'rooms' or 'connections'`,
     )
     process.exit(1)
   }
@@ -12,8 +12,6 @@ const listCommand = (resourceName: string) => {
     case 'rooms':
       break
     case 'connections':
-      break
-    case 'connectionContents':
       break
     default:
       break

@@ -1,9 +1,9 @@
 const connectionCommand = (commandName: string) => {
-  const validCommands = ['create', 'remove', 'delete', 'focus']
+  const validCommands = ['create', 'remove', 'delete', 'focus', 'listContents']
 
   if (!validCommands.includes(commandName)) {
     console.error(
-      `Invalid command: ${commandName}. Command should be one of the following: 'create', 'remove', 'delete', 'focus'.`,
+      `Invalid command: ${commandName}. Command should be one of the following: 'create', 'remove', 'delete', 'focus', 'listContents'.`,
     )
     process.exit(1)
   }
@@ -21,6 +21,7 @@ const connectionCommand = (commandName: string) => {
     case 'focus':
       // Handle 'focus' command
       break
+    case 'listContents':
     default:
       break
   }

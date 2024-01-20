@@ -29,7 +29,6 @@ const bootstrap = async () => {
     .description('List resources')
     .option('rooms', 'List all rooms')
     .option('connections', 'List all connections')
-    .option('connectionContents', 'List all connection contents')
     .action(listCommand)
 
   program
@@ -48,6 +47,7 @@ const bootstrap = async () => {
     .option('remove', 'Remove a connection')
     .option('delete', 'Delete a connection')
     .option('focus', 'Focus on a connection')
+    .option('listContents', 'List connection contents')
     .action(connectionCommand)
 
   program
