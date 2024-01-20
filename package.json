@@ -10,6 +10,7 @@
     "@diograph/file-generator": "next",
     "@diograph/local-client": "next",
     "@diograph/s3-client": "next",
+    "chalk": "^4",
     "commander": "^11.1.0",
     "uuid": "^8.3.2"
   },
