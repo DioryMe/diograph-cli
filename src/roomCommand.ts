@@ -1,3 +1,4 @@
+import { listRooms } from './configManager.js'
 import { createRoom } from './createRoom.js'
 import chalk from 'chalk'
 
@@ -23,16 +24,27 @@ const roomCommand = async (commandName: string, arg1: any, arg2: any) => {
         )
         process.exit(1)
       }
-      try {
-        await createRoom(arg1, arg2)
-      } catch (error) {
-        console.error(chalk.red(`createRoom error: ${error}`))
-        break
+
+      const roomAddress = arg1
+      const contentClientType = arg2
+
+      if (
+        Object.values(listRooms())
+          .map((r) => r.address)
+          .find((existingRoomAddress) => existingRoomAddress === roomAddress)
+      ) {
+        console.error(
+          chalk.red(`createRoom error: Room with address ${roomAddress} already exists`),
+        )
+        process.exit(1)
       }
 
-      // if (this.rooms.find((existingRoom) => existingRoom.address === roomPath)) {
-      //   throw new Error(`createRoom error: Room with address ${roomPath} already exists`)
-      // }
+      try {
+        await createRoom(roomAddress, contentClientType)
+      } catch (error) {
+        console.error(chalk.red(`createRoom error: ${error}`))
+        process.exit(1)
+      }
 
       // Add room to app
       // this.rooms.push(room)

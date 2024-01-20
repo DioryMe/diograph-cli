@@ -15,7 +15,7 @@ export interface ConfigObject {
   }
 }
 
-const listRooms = (): object => {
+const listRooms = () => {
   const configObject = readConfig()
   return configObject.rooms
 }
