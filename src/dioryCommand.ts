@@ -1,9 +1,13 @@
+import chalk from 'chalk'
+
 const dioryCommand = (commandName: string) => {
   const validCommands = ['create', 'delete', 'link', 'focus']
 
   if (!validCommands.includes(commandName)) {
     console.error(
-      `Invalid command: ${commandName}. Command should be one of the following: 'create', 'delete', 'link', 'focus'.`,
+      chalk.red(
+        `Invalid command: ${commandName}. Command should be one of the following: 'create', 'delete', 'link', 'focus'.`,
+      ),
     )
     process.exit(1)
   }

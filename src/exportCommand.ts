@@ -1,9 +1,13 @@
+import chalk from 'chalk'
+
 const exportCommand = (commandName: string) => {
   const validCommands = ['diory', 'diograph', 'content', 'room']
 
   if (!validCommands.includes(commandName)) {
     console.error(
-      `Invalid command: ${commandName}. Command should be one of the following: 'diory', 'diograph', 'content', 'room'.`,
+      chalk.red(
+        `Invalid command: ${commandName}. Command should be one of the following: 'diory', 'diograph', 'content', 'room'.`,
+      ),
     )
     process.exit(1)
   }

@@ -3,7 +3,9 @@ const getCommand = (commandName: string) => {
 
   if (!validCommands.includes(commandName)) {
     console.error(
-      `Invalid command: ${commandName}. Command should be one of the following: 'diory', 'room', 'connection', 'content'.`,
+      chalk.red(
+        `Invalid command: ${commandName}. Command should be one of the following: 'diory', 'room', 'connection', 'content'.`,
+      ),
     )
     process.exit(1)
   }

@@ -6,7 +6,9 @@ const roomCommand = async (commandName: string, arg1: any, arg2: any) => {
 
   if (!validCommands.includes(commandName)) {
     console.error(
-      `Invalid command: ${commandName}. Command should be one of the following: 'create', 'remove', 'delete', 'focus'.`,
+      chalk.red(
+        `Invalid command: ${commandName}. Command should be one of the following: 'create', 'remove', 'delete', 'focus'.`,
+      ),
     )
     process.exit(1)
   }
@@ -15,7 +17,9 @@ const roomCommand = async (commandName: string, arg1: any, arg2: any) => {
     case 'create':
       if (!arg1 || !arg2) {
         console.error(
-          `Invalid arguments: ${arg1}, ${arg2}. Arguments should be: roomAddress, contentClientType.`,
+          chalk.red(
+            `Invalid arguments: ${arg1}, ${arg2}. Arguments should be: roomAddress, contentClientType.`,
+          ),
         )
         process.exit(1)
       }

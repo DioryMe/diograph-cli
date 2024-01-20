@@ -1,9 +1,13 @@
+import chalk from 'chalk'
+
 const connectionCommand = (commandName: string) => {
   const validCommands = ['create', 'remove', 'delete', 'focus', 'listContents']
 
   if (!validCommands.includes(commandName)) {
     console.error(
-      `Invalid command: ${commandName}. Command should be one of the following: 'create', 'remove', 'delete', 'focus', 'listContents'.`,
+      chalk.red(
+        `Invalid command: ${commandName}. Command should be one of the following: 'create', 'remove', 'delete', 'focus', 'listContents'.`,
+      ),
     )
     process.exit(1)
   }

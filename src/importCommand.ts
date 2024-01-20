@@ -1,9 +1,13 @@
+import chalk from 'chalk'
+
 const importCommand = (commandName: string) => {
   const validCommands = ['file', 'folder']
 
   if (!validCommands.includes(commandName)) {
     console.error(
-      `Invalid command: ${commandName}. Command should be one of the following: 'file', 'folder'.`,
+      chalk.red(
+        `Invalid command: ${commandName}. Command should be one of the following: 'file', 'folder'.`,
+      ),
     )
     process.exit(1)
   }
