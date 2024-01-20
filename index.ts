@@ -1,13 +1,13 @@
 #!/usr/bin/env node
 
 import { program } from 'commander'
-import { connectionCommand } from './src/connectionCommand'
-import { roomCommand } from './src/roomCommand'
-import { dioryCommand } from './src/dioryCommand'
-import { statusCommand } from './src/statusCommand'
-import { listCommand } from './src/listCommand'
-import { exportCommand } from './src/exportCommand'
-import { importCommand } from './src/importCommand'
+import { connectionCommand } from './src/connectionCommand.js'
+import { roomCommand } from './src/roomCommand.js'
+import { dioryCommand } from './src/dioryCommand.js'
+import { statusCommand } from './src/statusCommand.js'
+import { listCommand } from './src/listCommand.js'
+import { exportCommand } from './src/exportCommand.js'
+import { importCommand } from './src/importCommand.js'
 
 const bootstrap = async () => {
   program

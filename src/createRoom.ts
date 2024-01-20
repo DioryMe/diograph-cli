@@ -1,5 +1,5 @@
 import { Connection } from '@diograph/diograph'
-import { getClientAndVerify, initiateRoom } from '../testApp/app-data'
+import { getClientAndVerify, initiateRoom } from '../testApp/app-data.js'
 
 export const createRoom = async (roomAddress: string, contentClientType: string) => {
   const room = await initiateRoom(contentClientType, roomAddress)

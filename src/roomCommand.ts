@@ -1,5 +1,5 @@
-import { createRoom } from './createRoom'
-import * as chalk from 'chalk'
+import { createRoom } from './createRoom.js'
+import chalk from 'chalk'
 
 const roomCommand = async (commandName: string, arg1: any, arg2: any) => {
   const validCommands = ['create', 'remove', 'delete', 'focus']
