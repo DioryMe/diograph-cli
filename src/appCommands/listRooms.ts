@@ -1,31 +1,4 @@
-import fs from 'fs'
-import ini from 'ini'
-import { dcliConfigPath } from '../config.js'
-
-interface ConfigObject {
-  focus: {
-    connectionInFocus: string
-    roomInFocus: string
-  }
-  rooms: {
-    [key: string]: {
-      address: string
-      roomClientType: string
-    }
-  }
-}
-
-const readConfig = (configPath: string): ConfigObject => {
-  const iniContent = fs.readFileSync(configPath, 'utf-8')
-  const parsedConfigObject = ini.parse(iniContent)
-  // TODO: Validate parsed configObject to verify that it has the correct structure
-  return parsedConfigObject as ConfigObject
-}
-
-const listRooms = (): object => {
-  const configObject: ConfigObject = readConfig(dcliConfigPath)
-  return configObject.rooms
-}
+import { listRooms } from '../configManager.js'
 
 const outputListRooms = (): void => {
   const rooms = listRooms()
@@ -39,4 +12,4 @@ const generateOutput = (rooms: object): string => {
     .join('\n')
 }
 
-export { outputListRooms, listRooms }
+export { outputListRooms }
