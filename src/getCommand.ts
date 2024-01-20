@@ -1,3 +1,5 @@
+import chalk from 'chalk'
+
 const getCommand = (commandName: string) => {
   const validCommands = ['diory', 'room', 'connection', 'content']
 

@@ -1,4 +1,5 @@
 import chalk from 'chalk'
+import { outputListRooms } from './appCommands/listRooms.js'
 
 const listCommand = (resourceName: string) => {
   const validResources = ['rooms', 'connections']
@@ -14,7 +15,7 @@ const listCommand = (resourceName: string) => {
 
   switch (resourceName) {
     case 'rooms':
-      console.log('this is a list of rooms')
+      outputListRooms()
       break
     case 'connections':
       break
