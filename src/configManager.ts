@@ -15,12 +15,32 @@ export interface ConfigObject {
   }
 }
 
+const defaultConfigObject: ConfigObject = {
+  focus: {
+    connectionInFocus: '',
+    roomInFocus: '',
+  },
+  rooms: {},
+}
+
 const addRoom = async (roomAddress: string, roomClientType: string): Promise<void> => {
   const configObject = await readConfig()
   configObject.rooms[roomAddress] = {
     address: roomAddress,
     roomClientType: roomClientType,
   }
+  await writeConfig(configObject)
+}
+
+const setRoomInFocus = async (roomAddress: string): Promise<void> => {
+  const configObject = await readConfig()
+  configObject.focus.roomInFocus = roomAddress
+  await writeConfig(configObject)
+}
+
+const setConnectionInFocus = async (connectionAddress: string): Promise<void> => {
+  const configObject = await readConfig()
+  configObject.focus.connectionInFocus = connectionAddress
   await writeConfig(configObject)
 }
 
@@ -49,7 +69,17 @@ const readConfig = async (): Promise<ConfigObject> => {
   const iniContent = await fs.readFile(dcliConfigPath, 'utf-8')
   const parsedConfigObject = ini.parse(iniContent)
   // TODO: Validate parsed configObject to verify that it has the correct structure
+  if (Object.keys(parsedConfigObject).length === 0) {
+    return defaultConfigObject
+  }
   return parsedConfigObject as ConfigObject
 }
 
-export { addRoom, listRooms, connectionInFocusId, roomInFocusId }
+export {
+  addRoom,
+  setRoomInFocus,
+  setConnectionInFocus,
+  listRooms,
+  connectionInFocusId,
+  roomInFocusId,
+}

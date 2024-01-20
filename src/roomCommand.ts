@@ -1,3 +1,4 @@
+import { setRoomInFocus } from './appCommands/setRoomInFocus.js'
 import { addRoom, listRooms } from './configManager.js'
 import { createRoom } from './createRoom.js'
 import chalk from 'chalk'
@@ -16,48 +17,7 @@ const roomCommand = async (commandName: string, arg1: any, arg2: any) => {
 
   switch (commandName) {
     case 'create':
-      if (!arg1 || !arg2) {
-        console.error(
-          chalk.red(
-            `Invalid arguments: ${arg1}, ${arg2}. Arguments should be: roomAddress, contentClientType.`,
-          ),
-        )
-        process.exit(1)
-      }
-
-      const roomAddress = arg1
-      const contentClientType = arg2
-
-      if (
-        Object.values(await listRooms())
-          .map((r) => r.address)
-          .find((existingRoomAddress) => existingRoomAddress === roomAddress)
-      ) {
-        console.error(
-          chalk.red(`createRoom error: Room with address ${roomAddress} already exists`),
-        )
-        process.exit(1)
-      }
-
-      try {
-        await createRoom(roomAddress, contentClientType)
-      } catch (error) {
-        console.error(chalk.red(`createRoom error: ${error}`))
-        process.exit(1)
-      }
-
-      await addRoom(roomAddress, contentClientType)
-
-      // // Set room in focus
-      // const { roomInFocus, connectionInFocus } = await setRoomInFocus(
-      //   this.rooms,
-      //   this.rooms.length - 1,
-      //   APP_DATA_PATH,
-      // )
-      // this.roomInFocus = roomInFocus
-      // this.connectionInFocus = connectionInFocus
-
-      console.log('Room added.')
+      await createRoomCommand(arg1, arg2)
       break
     case 'remove':
       // Handle 'remove' command
@@ -71,6 +31,39 @@ const roomCommand = async (commandName: string, arg1: any, arg2: any) => {
     default:
       break
   }
+}
+
+const createRoomCommand = async (roomAddress: string, contentClientType: string) => {
+  if (!roomAddress || !contentClientType) {
+    console.error(
+      chalk.red(
+        `Invalid arguments: ${roomAddress}, ${contentClientType}. Arguments should be: roomAddress, contentClientType.`,
+      ),
+    )
+    process.exit(1)
+  }
+
+  const roomList = await listRooms()
+
+  if (
+    Object.values(roomList)
+      .map((r) => r.address)
+      .find((existingRoomAddress) => existingRoomAddress === roomAddress)
+  ) {
+    console.error(chalk.red(`createRoom error: Room with address ${roomAddress} already exists`))
+    process.exit(1)
+  }
+
+  try {
+    const room = await createRoom(roomAddress, contentClientType)
+    await addRoom(roomAddress, contentClientType)
+    await setRoomInFocus(room)
+  } catch (error) {
+    console.error(chalk.red(`createRoom error: ${error}`))
+    process.exit(1)
+  }
+
+  console.log('Room added.')
 }
 
 export { roomCommand }
