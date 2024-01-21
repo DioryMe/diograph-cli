@@ -33,16 +33,10 @@ const roomCommand = async (commandName: string, arg1: any, arg2: any) => {
   }
 }
 
-const createRoomCommand = async (roomAddress: string, contentClientType: string) => {
-  if (!roomAddress || !contentClientType) {
-    console.error(
-      chalk.red(
-        `Invalid arguments: ${roomAddress}, ${contentClientType}. Arguments should be: roomAddress, contentClientType.`,
-      ),
-    )
-    process.exit(1)
-  }
-
+const createRoomCommand = async (
+  roomAddress: string = process.cwd(),
+  contentClientType: string = 'LocalClient',
+) => {
   const roomList = await listRooms()
 
   if (
