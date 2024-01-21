@@ -2,7 +2,7 @@ import fs from 'fs/promises'
 import ini from 'ini'
 import { dcliConfigPath } from './appConfig.js'
 import { getClientAndVerify } from './createRoom.js'
-import { Room, RoomClient } from '@diograph/diograph/index.js'
+import { Room, RoomClient } from '@diograph/diograph'
 import { LocalClient } from '@diograph/local-client'
 
 export interface ConfigObject {
