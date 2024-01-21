@@ -8,7 +8,7 @@ import { generateDiory } from '@diograph/file-generator'
 import { v4 as uuid } from 'uuid'
 import { createRoom } from '../src/createRoom.js'
 import { createConnection } from '../src/createConnection.js'
-import { setRoomInFocus2 as setRoomInFocus } from '../src/appCommands/setRoomInFocus.js'
+import { setRoomInFocus2 as setRoomInFocus } from '../src/appCommands/setInFocus.js'
 import { getDefaultImage } from './utils.js'
 import { setConnectionInFocus } from '../src/appCommands/setConnectionInFocus.js'
 

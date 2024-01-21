@@ -19,7 +19,6 @@
     "uuid": "^8.3.2"
   },
   "devDependencies": {
-    "@cucumber/cucumber": "^8.0.0",
     "@types/ini": "^4.1.0",
     "@types/node": "^20.4.0",
     "typescript": "^4.5.5"
@@ -28,8 +27,7 @@
     "build": "tsc",
     "build-watch": "yarn build --watch",
     "prettier": "prettier --write .",
-    "dcli": "node dist/index.js",
-    "test": "cucumber-js tests/app.feature tests/room.feature"
+    "dcli": "node dist/index.js"
   },
   "prettier": {
     "tabWidth": 2,

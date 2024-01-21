@@ -1,4 +1,4 @@
-import { setRoomInFocus } from './appCommands/setRoomInFocus.js'
+import { setRoomInFocus } from './appCommands/setInFocus.js'
 import { addRoom, listRooms } from './configManager.js'
 import { createRoom } from './createRoom.js'
 import chalk from 'chalk'
