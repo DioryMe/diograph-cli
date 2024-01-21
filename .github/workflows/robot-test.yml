@@ -26,7 +26,10 @@ jobs:
           node-version-file: '.nvmrc'
 
       - name: Install dcli
-        run: npm install && npm link && dcli --version
+        run: yarn && yarn build
+
+      - name: Link dcli globally
+        run: npm link && dcli --version
 
       - name: Prepare room folders
         run: mkdir /tmp/Diory\ Content && touch ~/.dcli
