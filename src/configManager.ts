@@ -1,6 +1,9 @@
 import fs from 'fs/promises'
 import ini from 'ini'
 import { dcliConfigPath } from './appConfig.js'
+import { getClientAndVerify } from './createRoom.js'
+import { Room, RoomClient } from '@diograph/diograph/index.js'
+import { LocalClient } from '@diograph/local-client'
 
 export interface ConfigObject {
   focus: {
@@ -63,6 +66,32 @@ const connectionInFocusId = async (): Promise<string> => {
 const roomInFocusId = async (): Promise<string> => {
   const configObject = await readConfig()
   return configObject.focus.roomInFocus
+}
+
+// TODO: Credentials missing here...
+const findRoom = async (roomAddress: string): Promise<Room> => {
+  const configObject = await readConfig()
+  const address = configObject.rooms[roomAddress].address
+  const roomClientType = configObject.rooms[roomAddress].roomClientType
+
+  const client = await getClientAndVerify(roomClientType, address)
+  const roomClient = new RoomClient(client)
+  return new Room(roomClient)
+}
+
+export const roomInFocus = async (): Promise<Room> => {
+  const roomId = await roomInFocusId()
+  const room = await findRoom(roomId)
+  await room.loadRoom({
+    LocalClient: {
+      clientConstructor: LocalClient,
+    },
+    // S3Client: {
+    //   clientConstructor: S3Client,
+    //   credentials: { region: 'eu-west-1', credentials },
+    // },
+  })
+  return room
 }
 
 const readConfig = async (): Promise<ConfigObject> => {
