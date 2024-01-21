@@ -1,0 +1,35 @@
+name: Robot test
+
+on: [push]
+
+jobs:
+  robot_framework_tests:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
+      - name: Install Robot Framework dependencies
+        run: pip install robotframework robotframework-requests robotframework-browser
+
+      - name: Verify Python installation
+        run: echo $(robot --version)
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: '.nvmrc'
+
+      - name: Install dcli
+        run: npm install && npm link && dcli --version
+
+      - name: Prepare room folders
+        run: mkdir /tmp/Diory\ Content && touch ~/.dcli
+
+      - name: Run Robot Framework tests
+        run: robot tests/main.robot

@@ -11,7 +11,7 @@ import { importCommand } from './src/importCommand.js'
 
 const bootstrap = async () => {
   program
-    .version('0.0.1')
+    .version('0.1.0')
     .description('Execute Diograph commands from CLI')
     .usage('<command> [options]')
     .helpOption('-h, --help', 'Output usage information.')

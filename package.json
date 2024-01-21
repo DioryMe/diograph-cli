@@ -1,11 +1,14 @@
 {
   "name": "diograph-cli",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "exports": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "author": "Jouni Alanen <jouni@diory.me>",
   "type": "module",
   "license": "MIT",
+  "bin": {
+    "dcli": "./dist/index.js"
+  },
   "dependencies": {
     "@diograph/diograph": "next",
     "@diograph/file-generator": "next",
