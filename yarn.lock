@@ -596,9 +596,9 @@
     uuid "8.3.2"
 
 "@diograph/diograph@next":
-  version "0.2.1-rc1"
-  resolved "https://registry.yarnpkg.com/@diograph/diograph/-/diograph-0.2.1-rc1.tgz#729e69873ec6767627ca1cbe23c8c147cbfd028e"
-  integrity sha512-KNIZ2yZCUjPBd2WAj0xNA08+wdPZ0+rpjc2nuxFCRROhG1y7fi4pnQe+uGAbYhGm4QOWPNAF9s+eJxE66+QzZw==
+  version "0.2.1-rc3"
+  resolved "https://registry.yarnpkg.com/@diograph/diograph/-/diograph-0.2.1-rc3.tgz#1cb803fea592801d1b6743b0da4372c763ac717c"
+  integrity sha512-aMU4uUYScWyoL5P827LCsXIyyU5jI2oFwB6h8/1BPoXdqFOg+1K36heMfYkBbk6/4JxRDsz28gG36MVOKTkicg==
   dependencies:
     "@types/path-browserify" "^1.0.0"
     "@types/uuid" "8.3.2"
