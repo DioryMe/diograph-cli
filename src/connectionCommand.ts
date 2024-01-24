@@ -58,13 +58,12 @@ const createConnectionCommand = async (
   const connection = await createConnection(room, connectionAddress, contentClientType)
   // await addConnection(connectionAddress, contentClientType)
   // await setConnectionInFocus(connection)
-  console.log('connection create123', connection)
 
   return
 }
 
 export const createConnection = async (room: Room, address: string, contentClientType: string) => {
-  const connectionClient = await getClientAndVerify(address, contentClientType)
+  const connectionClient = await getClientAndVerify(contentClientType, address)
   const connection = new Connection(connectionClient)
   room.addConnection(connection)
   await room.saveRoom()

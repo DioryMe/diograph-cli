@@ -41,7 +41,7 @@ const bootstrap = async () => {
     .action(roomCommand)
 
   program
-    .command('connection <command>')
+    .command('connection <command> [arg1] [arg2]')
     .description('Manage connections')
     .option('create', 'Create a new connection')
     .option('remove', 'Remove a connection')

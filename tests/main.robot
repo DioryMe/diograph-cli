@@ -5,7 +5,7 @@ Library  OperatingSystem
 Library  ./get_config_file_path.py
 Library  ./run_dcli_command.py
 
-Test Setup  Clean Up Files  /tmp
+Suite Setup  Clean Up Files  /tmp
 
 *** Test Cases ***
 Test CLI Output --version
@@ -15,7 +15,7 @@ Test CLI Output --version
     Should Be Equal  ${output.strip()}  0.1.0
 
 Create Room
-    ${exit_code}  ${output}=  Run Dcli Command  room create /tmp LocalClient
+    ${exit_code}  ${output}=  Run Dcli Command  room create /tmp
     Log  ${output}
     Should Be Equal As Integers  ${exit_code}  0
 
@@ -34,7 +34,7 @@ Create Room
     Should Be Equal  ${file_content.strip()}  ${expected_output.strip()}
 
 Create Connection
-    ${exit_code}  ${output}=  Run Dcli Command  connection create
+    ${exit_code}  ${output}=  Run Dcli Command  connection create /tmp
     Log  ${output}
     Should Be Equal As Integers  ${exit_code}  0
 
