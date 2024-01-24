@@ -1,8 +1,11 @@
 *** Settings ***
+Resource  keywords.robot
 Library  Process
 Library  OperatingSystem
 Library  ./get_user_home.py
 Library  ./run_dcli_command.py
+
+Test Setup  Clean Up Files  /tmp
 
 *** Test Cases ***
 Test CLI Output --version
@@ -27,6 +30,7 @@ Create Room
 
 Create Connection
     Run Dcli Command  connection create
+
     ${config_file_path}=  Join With User Home  .dcli
 
     ${file_content}=  Get File  ${config_file_path}
