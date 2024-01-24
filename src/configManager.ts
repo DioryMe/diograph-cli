@@ -60,17 +60,36 @@ const listRooms = async () => {
 
 const connectionInFocusId = async (): Promise<string> => {
   const configObject = await readConfig()
+
+  if (!configObject.focus.connectionInFocus) {
+    throw new Error('No connectionInFocus defined in config file')
+  }
+
   return configObject.focus.connectionInFocus
 }
 
 const roomInFocusId = async (): Promise<string> => {
   const configObject = await readConfig()
+
+  if (!configObject.focus.roomInFocus) {
+    throw new Error('No roomInFocus defined in config file')
+  }
+
   return configObject.focus.roomInFocus
 }
 
 // TODO: Credentials missing here...
 const findRoom = async (roomAddress: string): Promise<Room> => {
   const configObject = await readConfig()
+
+  if (Object.keys(configObject.rooms).length === 0) {
+    throw new Error('No rooms found')
+  }
+
+  if (!configObject.rooms[roomAddress]) {
+    throw new Error(`Room with address ${roomAddress} not found`)
+  }
+
   const address = configObject.rooms[roomAddress].address
   const roomClientType = configObject.rooms[roomAddress].roomClientType
 
@@ -82,6 +101,7 @@ const findRoom = async (roomAddress: string): Promise<Room> => {
 export const roomInFocus = async (): Promise<Room> => {
   const roomId = await roomInFocusId()
   const room = await findRoom(roomId)
+
   await room.loadRoom({
     LocalClient: {
       clientConstructor: LocalClient,

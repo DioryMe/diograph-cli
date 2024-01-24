@@ -14,11 +14,9 @@ const connectionCommand = (commandName: string, arg1: any, arg2: any) => {
     )
     process.exit(1)
   }
-  console.log('BOOOO')
 
   switch (commandName) {
     case 'create':
-      console.log('connection create')
       createConnectionCommand(arg1, arg2)
       break
     case 'remove':
@@ -40,7 +38,13 @@ const createConnectionCommand = async (
   connectionAddress: string = process.cwd(),
   contentClientType: string = 'LocalClient',
 ) => {
-  const room = await roomInFocus()
+  let room: Room
+  try {
+    room = await roomInFocus()
+  } catch (error) {
+    console.error(chalk.red(`createConnection failed: ${error}`))
+    process.exit(1)
+  }
 
   if (room.connections.find((connection) => connectionAddress == connection.address)) {
     console.error(
