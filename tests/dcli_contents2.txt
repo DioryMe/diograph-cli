@@ -1,0 +1,7 @@
+[focus]
+connectionInFocus=/tmp/Diory Content
+roomInFocus=/tmp
+
+[rooms./tmp]
+address=/tmp
+roomClientType=LocalClient
