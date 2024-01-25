@@ -1,7 +1,7 @@
 import { listRooms } from '../configManager.js'
 
-const outputListRooms = (): void => {
-  const rooms = listRooms()
+const outputListRooms = async (): Promise<void> => {
+  const rooms = await listRooms()
   console.log(generateOutput(rooms))
 }
 

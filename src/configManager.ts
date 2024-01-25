@@ -5,16 +5,18 @@ import { getClientAndVerify } from './createRoom.js'
 import { Room, RoomClient } from '@diograph/diograph'
 import { LocalClient } from '@diograph/local-client'
 
+export interface RoomConfig {
+  address: string
+  roomClientType: string
+}
+
 export interface ConfigObject {
   focus: {
     connectionInFocus: string
     roomInFocus: string
   }
   rooms: {
-    [key: string]: {
-      address: string
-      roomClientType: string
-    }
+    [key: string]: RoomConfig
   }
 }
 
@@ -79,7 +81,7 @@ const roomInFocusId = async (): Promise<string> => {
 }
 
 // TODO: Credentials missing here...
-const findRoom = async (roomAddress: string): Promise<Room> => {
+const findRoom = async (roomAddress: string): Promise<RoomConfig> => {
   const configObject = await readConfig()
 
   if (Object.keys(configObject.rooms).length === 0) {
@@ -90,18 +92,17 @@ const findRoom = async (roomAddress: string): Promise<Room> => {
     throw new Error(`Room with address ${roomAddress} not found`)
   }
 
-  const address = configObject.rooms[roomAddress].address
-  const roomClientType = configObject.rooms[roomAddress].roomClientType
+  return configObject.rooms[roomAddress]
+}
 
+const constructRoom = async (address: string, roomClientType: string): Promise<Room> => {
   const client = await getClientAndVerify(roomClientType, address)
   const roomClient = new RoomClient(client)
   return new Room(roomClient)
 }
 
-export const roomInFocus = async (): Promise<Room> => {
-  const roomId = await roomInFocusId()
-  const room = await findRoom(roomId)
-
+const constructAndLoadRoom = async (address: string, roomClientType: string): Promise<Room> => {
+  const room = await constructRoom(address, roomClientType)
   await room.loadRoom({
     LocalClient: {
       clientConstructor: LocalClient,
@@ -111,6 +112,14 @@ export const roomInFocus = async (): Promise<Room> => {
     //   credentials: { region: 'eu-west-1', credentials },
     // },
   })
+  return room
+}
+
+const roomInFocus = async (): Promise<Room> => {
+  const roomId = await roomInFocusId()
+  const roomConfig = await findRoom(roomId)
+
+  const room = constructAndLoadRoom(roomConfig.address, roomConfig.roomClientType)
   return room
 }
 
@@ -131,4 +140,7 @@ export {
   listRooms,
   connectionInFocusId,
   roomInFocusId,
+  roomInFocus,
+  constructRoom,
+  constructAndLoadRoom,
 }
