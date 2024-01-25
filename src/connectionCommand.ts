@@ -1,7 +1,7 @@
 import chalk from 'chalk'
 import { Connection, Room } from '@diograph/diograph'
 import { getClientAndVerify } from './createRoom.js'
-import { roomInFocus } from './configManager.js'
+import { roomInFocus, setConnectionInFocus } from './configManager.js'
 
 const connectionCommand = (commandName: string, arg1: any, arg2: any) => {
   const validCommands = ['create', 'remove', 'delete', 'focus', 'listContents']
@@ -56,8 +56,7 @@ const createConnectionCommand = async (
   }
 
   const connection = await createConnection(room, connectionAddress, contentClientType)
-  // await addConnection(connectionAddress, contentClientType)
-  // await setConnectionInFocus(connection)
+  await setConnectionInFocus(connection.address)
 
   return
 }

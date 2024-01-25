@@ -1,5 +1,5 @@
 [focus]
-connectionInFocus=/tmp/Diory Content
+connectionInFocus=/tmp
 roomInFocus=/tmp
 
 [rooms./tmp]
