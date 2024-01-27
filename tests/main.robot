@@ -51,3 +51,8 @@ Create Connection
     ${file_content}=  Get File  /tmp/diograph.json
     ${expected_output}=  Get File  ${SUITE_SOURCE}/../diograph_json_contents.txt
     Should Be Equal  ${file_content.strip()}  ${expected_output.strip()}
+
+Import File
+    ${exit_code}  ${output}=  Run Dcli Command  import file ${SUITE_SOURCE}/../demo-content-room/demo-content.png
+    Log  ${output}
+    Should Be Equal As Integers  ${exit_code}  0

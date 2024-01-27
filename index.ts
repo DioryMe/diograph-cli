@@ -60,7 +60,7 @@ const bootstrap = async () => {
     .action(dioryCommand)
 
   program
-    .command('import <type>')
+    .command('import <type> <filePath>')
     .description('Import resources')
     .option('file', 'Import from a file')
     .option('folder', 'Import from a folder')

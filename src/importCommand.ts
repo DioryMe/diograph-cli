@@ -1,6 +1,7 @@
 import chalk from 'chalk'
+import { generateDiory } from '@diograph/file-generator'
 
-const importCommand = (commandName: string) => {
+const importCommand = async (commandName: string, filePath: string) => {
   const validCommands = ['file', 'folder']
 
   if (!validCommands.includes(commandName)) {
@@ -14,7 +15,8 @@ const importCommand = (commandName: string) => {
 
   switch (commandName) {
     case 'file':
-      // Handle 'file' command
+      const diory = await generateDiory('', filePath)
+      console.log('Hello diory!', diory.toObject())
       break
     case 'folder':
       // Handle 'folder' command

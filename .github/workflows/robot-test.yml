@@ -9,6 +9,12 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - name: Checkout demo-content-room
+        uses: actions/checkout@v4
+        with:
+          path: 'tests/demo-content-room'
+          repository: 'DioryMe/demo-content-room'
+
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
