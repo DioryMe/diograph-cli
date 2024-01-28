@@ -56,3 +56,8 @@ Import File
     ${exit_code}  ${output}=  Run Dcli Command  import file ${SUITE_SOURCE}/../demo-content-room/demo-content.png
     Log  ${output}
     Should Be Equal As Integers  ${exit_code}  0
+
+Import Folder
+    ${exit_code}  ${output}=  Run Dcli Command  import folder ${SUITE_SOURCE}/../demo-content-room/source
+    Log  ${output}
+    Should Be Equal As Integers  ${exit_code}  0
