@@ -17,11 +17,26 @@ const importCommand = async (commandName: string, filePath: string) => {
   switch (commandName) {
     case 'file':
       const diory = await generateDiory('', filePath)
-      console.log('Hello diory!', diory.toObject())
+      const dioryObject = diory.toObject()
+      dioryObject.image = '[omitted]'
+      console.log('Hello diory!', dioryObject)
       break
     case 'folder':
-      const diograph = await generateDiograph(filePath)
-      console.log('Hello diograph!', diograph.toObject())
+      let diograph
+      try {
+        diograph = await generateDiograph(filePath)
+      } catch (error: any) {
+        if (/^FFMPEG_PATH not defined/.test(error.message)) {
+          console.error(
+            chalk.red(
+              `Folder includes a video file which requires FFMPEG for diory generation. \nPlease use \`dcli config set FFMPEG_PATH [path to ffmpeg]\` to set it.`,
+            ),
+          )
+          break
+        }
+        throw error
+      }
+      console.log('Hello diograph!', Object.keys(diograph.toObject()))
       break
     default:
       break
