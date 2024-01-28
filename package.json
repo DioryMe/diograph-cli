@@ -10,7 +10,7 @@
     "dcli": "./dist/index.js"
   },
   "dependencies": {
-    "@diograph/diograph": "next",
+    "@diograph/diograph": "^0.2.1-rc3",
     "@diograph/file-generator": "^0.1.2-rc3",
     "@diograph/folder-generator": "^0.1.1-rc6",
     "@diograph/local-client": "next",
