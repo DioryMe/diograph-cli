@@ -58,6 +58,10 @@ Import File
     Should Be Equal As Integers  ${exit_code}  0
 
 Import Folder
+    # ${exit_code}  ${output}=  Run Dcli Command  config set FFMPEG_PATH ${FFMPEG_PATH}
+    # Log  ${output}
+    # Should Be Equal As Integers  ${exit_code}  0
+
     ${exit_code}  ${output}=  Run Dcli Command  import folder ${SUITE_SOURCE}/../demo-content-room/source
     Log  ${output}
     Should Be Equal As Integers  ${exit_code}  0

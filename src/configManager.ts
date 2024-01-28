@@ -18,6 +18,7 @@ export interface ConfigObject {
   rooms: {
     [key: string]: RoomConfig
   }
+  ffmpegPath?: string
 }
 
 const defaultConfigObject: ConfigObject = {
@@ -49,12 +50,6 @@ const setConnectionInFocus = async (connectionAddress: string): Promise<void> =>
   await writeConfig(configObject)
 }
 
-const writeConfig = async (configObject: ConfigObject): Promise<void> => {
-  // TODO: Validate configObject to verify that it has the correct structure before writing it to file
-  await fs.writeFile(dcliConfigPath, ini.stringify(configObject))
-  console.log(`Configuration written to: ${dcliConfigPath}`)
-}
-
 const listRooms = async () => {
   const configObject = await readConfig()
   return configObject.rooms
@@ -78,21 +73,6 @@ const roomInFocusId = async (): Promise<string> => {
   }
 
   return configObject.focus.roomInFocus
-}
-
-// TODO: Credentials missing here...
-const findRoom = async (roomAddress: string): Promise<RoomConfig> => {
-  const configObject = await readConfig()
-
-  if (Object.keys(configObject.rooms).length === 0) {
-    throw new Error('No rooms found')
-  }
-
-  if (!configObject.rooms[roomAddress]) {
-    throw new Error(`Room with address ${roomAddress} not found`)
-  }
-
-  return configObject.rooms[roomAddress]
 }
 
 const constructRoom = async (address: string, roomClientType: string): Promise<Room> => {
@@ -123,6 +103,39 @@ const roomInFocus = async (): Promise<Room> => {
   return room
 }
 
+const setFfmpegPath = async (ffmpegPath: string): Promise<void> => {
+  const configObject = await readConfig()
+  configObject.ffmpegPath = ffmpegPath
+  await writeConfig(configObject)
+}
+
+const getFfmpegPath = async (): Promise<string> => {
+  const configObject = await readConfig()
+
+  if (!configObject.ffmpegPath) {
+    throw new Error('No ffmpegPath defined in config file')
+  }
+
+  return configObject.ffmpegPath
+}
+
+// private
+
+// TODO: Credentials missing here...
+const findRoom = async (roomAddress: string): Promise<RoomConfig> => {
+  const configObject = await readConfig()
+
+  if (Object.keys(configObject.rooms).length === 0) {
+    throw new Error('No rooms found')
+  }
+
+  if (!configObject.rooms[roomAddress]) {
+    throw new Error(`Room with address ${roomAddress} not found`)
+  }
+
+  return configObject.rooms[roomAddress]
+}
+
 const readConfig = async (): Promise<ConfigObject> => {
   const iniContent = await fs.readFile(dcliConfigPath, 'utf-8')
   const parsedConfigObject = ini.parse(iniContent)
@@ -131,6 +144,12 @@ const readConfig = async (): Promise<ConfigObject> => {
     return defaultConfigObject
   }
   return parsedConfigObject as ConfigObject
+}
+
+const writeConfig = async (configObject: ConfigObject): Promise<void> => {
+  // TODO: Validate configObject to verify that it has the correct structure before writing it to file
+  await fs.writeFile(dcliConfigPath, ini.stringify(configObject))
+  console.log(`Configuration written to: ${dcliConfigPath}`)
 }
 
 export {
@@ -143,4 +162,6 @@ export {
   roomInFocus,
   constructRoom,
   constructAndLoadRoom,
+  setFfmpegPath,
+  getFfmpegPath,
 }

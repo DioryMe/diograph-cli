@@ -8,8 +8,14 @@ import { statusCommand } from './src/statusCommand.js'
 import { listCommand } from './src/listCommand.js'
 import { exportCommand } from './src/exportCommand.js'
 import { importCommand } from './src/importCommand.js'
+import { configCommand } from './src/configCommand.js'
+import { getFfmpegPath } from './src/configManager.js'
 
 const bootstrap = async () => {
+  try {
+    process.env.FFMPEG_PATH = await getFfmpegPath()
+  } catch (error: any) {}
+
   program
     .version('0.1.0')
     .description('Execute Diograph commands from CLI')
@@ -23,6 +29,12 @@ const bootstrap = async () => {
     })
 
   program.command('status').description('Show status').action(statusCommand)
+
+  program
+    .command('config <command> <envKey> <envValue>')
+    .description('Set config values')
+    .option('set', 'Set a config value')
+    .action(configCommand)
 
   program
     .command('list <resource>')
