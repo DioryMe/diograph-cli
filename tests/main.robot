@@ -58,6 +58,8 @@ Import File
     Should Be Equal As Integers  ${exit_code}  0
 
 Import Folder
+    # SKIP / TODO: Doesn't work on Github Actions until FFMPEG is installed and FFMPEG_PATH is set
+    # ${FFMPEG_PATH}=  Get Environment Variable  FFMPEG_PATH  /opt/homebrew/bin/ffmpeg
     # ${exit_code}  ${output}=  Run Dcli Command  config set FFMPEG_PATH ${FFMPEG_PATH}
     # Log  ${output}
     # Should Be Equal As Integers  ${exit_code}  0
