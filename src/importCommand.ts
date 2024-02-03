@@ -1,6 +1,7 @@
 import chalk from 'chalk'
 import { generateDiory } from '@diograph/file-generator'
 import { generateDiograph } from '@diograph/folder-generator'
+import { roomInFocus } from './configManager.js'
 
 const importCommand = async (commandName: string, filePath: string) => {
   const validCommands = ['file', 'folder']
@@ -14,15 +15,20 @@ const importCommand = async (commandName: string, filePath: string) => {
     process.exit(1)
   }
 
+  let diograph
   switch (commandName) {
     case 'file':
       const diory = await generateDiory('', filePath)
-      const dioryObject = diory.toObject()
-      dioryObject.image = '[omitted]'
-      console.log('Hello diory!', dioryObject)
+      const room = await roomInFocus()
+      room.diograph.addDiory(diory)
+
+      // TODO: Update to latest folder-generator
+      // TODO: Copy content to Content folder / connection (in focus)
+
+      await room.saveRoom()
+
       break
     case 'folder':
-      let diograph
       try {
         diograph = await generateDiograph(filePath)
       } catch (error: any) {
