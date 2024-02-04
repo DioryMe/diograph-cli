@@ -24,14 +24,18 @@ const queryAction = async (options: queryActionOptions) => {
   console.log('searchResult', Object.keys(searchResult.toObject()))
 }
 
-const showAction = async () => {
+const showAction = async (dioryId: string) => {
   const room = await roomInFocus()
   const diograph = room.diograph
 
-  const diory = diograph.getDiory({
-    id: 'bafkreihvgvtqocownctpbskgrwsdtr3l6z3yp4w2rirs32ny2u7epz7ona',
-  })
-  console.log('diory', diory.toObjectWithoutImage())
+  try {
+    const diory = diograph.getDiory({
+      id: dioryId,
+    })
+    console.log('diory', diory.toObjectWithoutImage())
+  } catch (error: any) {
+    console.log(chalk.red(error.message))
+  }
 }
 
 const dioryQueryCommand = program
@@ -39,6 +43,6 @@ const dioryQueryCommand = program
   .option('--text <value>', 'Query from text field')
   .option('--all', 'List all')
   .action(queryAction)
-const dioryShowCommand = program.command('show').action(showAction)
+const dioryShowCommand = program.command('show <diory-id>').action(showAction)
 
 export { dioryShowCommand, dioryQueryCommand }

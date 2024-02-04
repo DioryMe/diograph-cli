@@ -77,7 +77,7 @@ Query Diograph
     # Should Be Equal  ${output.strip()}  ${expected_output.strip()}
 
 Show Diory
-    ${exit_code}  ${output}=  Run Dcli Command  diory show
+    ${exit_code}  ${output}=  Run Dcli Command  diory show bafkreihvgvtqocownctpbskgrwsdtr3l6z3yp4w2rirs32ny2u7epz7ona
     Log  ${output}
     Should Be Equal As Integers  ${exit_code}  0
 
