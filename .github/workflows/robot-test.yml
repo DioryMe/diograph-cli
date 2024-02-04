@@ -40,5 +40,10 @@ jobs:
       - name: Prepare room folders
         run: mkdir /tmp/Diory\ Content && touch ~/.dcli
 
+      - name: Install ffmpeg
+        run: sudo apt-get update && sudo apt-get install -y ffmpeg
+
       - name: Run Robot Framework tests
+        env:
+          FFMPEG_PATH: /usr/bin/ffmpeg
         run: robot tests/main.robot
