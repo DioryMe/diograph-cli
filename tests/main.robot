@@ -67,3 +67,19 @@ Import Folder
     ${exit_code}  ${output}=  Run Dcli Command  import folder ${SUITE_SOURCE}/../demo-content-room/source
     Log  ${output}
     Should Be Equal As Integers  ${exit_code}  0
+
+Query Diograph
+    ${exit_code}  ${output}=  Run Dcli Command  diory query
+    Log  ${output}
+    Should Be Equal As Integers  ${exit_code}  0
+
+    # ${expected_output}=  Get File  ${SUITE_SOURCE}/../diory_query_output.txt
+    # Should Be Equal  ${output.strip()}  ${expected_output.strip()}
+
+Show Diory
+    ${exit_code}  ${output}=  Run Dcli Command  diory show
+    Log  ${output}
+    Should Be Equal As Integers  ${exit_code}  0
+
+    # ${expected_output}=  Get File  ${SUITE_SOURCE}/../diory_show_output.txt
+    # Should Be Equal  ${output.strip()}  ${expected_output.strip()}

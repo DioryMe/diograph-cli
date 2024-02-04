@@ -63,12 +63,14 @@ const bootstrap = async () => {
     .action(connectionCommand)
 
   program
-    .command('diory <command>')
+    .command('diory <command> [arg1]')
     .description('Manage diories')
     .option('create', 'Create a new diory')
     .option('delete', 'Delete a diory')
     .option('link', 'Link a diory')
     .option('focus', 'Focus on a diory')
+    .option('query', 'Query diories from diograph')
+    .option('show', 'Show diory')
     .action(dioryCommand)
 
   program
