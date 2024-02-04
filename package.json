@@ -11,8 +11,8 @@
   },
   "dependencies": {
     "@diograph/diograph": "^0.2.2-rc2",
-    "@diograph/file-generator": "^0.1.2-rc3",
-    "@diograph/folder-generator": "^0.1.1-rc6",
+    "@diograph/file-generator": "^0.1.2-rc4",
+    "@diograph/folder-generator": "^0.1.1-rc8",
     "@diograph/local-client": "next",
     "@diograph/s3-client": "next",
     "chalk": "^5.3.0",

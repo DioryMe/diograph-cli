@@ -578,13 +578,6 @@
     "@smithy/types" "^2.9.1"
     tslib "^2.5.0"
 
-"@diograph/diograph@^0.1.1":
-  version "0.1.1"
-  resolved "https://registry.yarnpkg.com/@diograph/diograph/-/diograph-0.1.1.tgz#2ee1a4970e9fbc9b2148623e27a05b91fef3e80d"
-  integrity sha512-AyQaVjhxEu4vootrDuT20jkw/FepRri91mMI4pvTuFLI0F6Dvz3MP06eWYGw9d+NjwwA8AF7gVoapJPd176gnA==
-  dependencies:
-    uuid "^8.3.2"
-
 "@diograph/diograph@^0.2.0-rc4":
   version "0.2.0"
   resolved "https://registry.yarnpkg.com/@diograph/diograph/-/diograph-0.2.0.tgz#4d03a765d9f374e005e12aeef7208e4d9c418928"
@@ -606,12 +599,12 @@
     path-browserify "^1.0.1"
     uuid "8.3.2"
 
-"@diograph/file-generator@^0.1.2-rc3", "@diograph/file-generator@next":
-  version "0.1.2-rc3"
-  resolved "https://registry.yarnpkg.com/@diograph/file-generator/-/file-generator-0.1.2-rc3.tgz#b165ddcbef3d75ef51e72437172bf36dcfbbe2b1"
-  integrity sha512-bFakrfqjSnsqUpar/10WyhV2ag2ZmglmYiLwjOD1CEZVTeLADdB3vblYuTwvjEGotbszFW8SIoqrfyViDbB6LA==
+"@diograph/file-generator@^0.1.2-rc4":
+  version "0.1.2-rc4"
+  resolved "https://registry.yarnpkg.com/@diograph/file-generator/-/file-generator-0.1.2-rc4.tgz#2a56dd2b63212af62088a14c9ac85b3d5c53376d"
+  integrity sha512-tX+KcZ6Adr6vJAQUy7ddTwHUMWIff/1Tw8fuuESY/6uQ/T0023mWT3iAwCXMigrCd/HnhaQkew8Tel5hElN2qQ==
   dependencies:
-    "@diograph/diograph" "^0.1.1"
+    "@diograph/diograph" "^0.2.2-rc2"
     "@types/sharp" "0.31.0"
     "@types/uuid" "^9.0.0"
     exifreader "^4.8.1"
@@ -620,13 +613,13 @@
     sharp "0.31.2"
     uuid "^9.0.0"
 
-"@diograph/folder-generator@^0.1.1-rc6":
-  version "0.1.1-rc6"
-  resolved "https://registry.yarnpkg.com/@diograph/folder-generator/-/folder-generator-0.1.1-rc6.tgz#2b58e44617370ee47d89d44235918bba16343fb4"
-  integrity sha512-TMl+jcGyjJfTiBWN/jA88cetgkLRWTD8XmQUlYIR+2K1B+C+t8GV0Qr/s7Tkg1hidDMPEZKWqYAjiijunwduIQ==
+"@diograph/folder-generator@^0.1.1-rc8":
+  version "0.1.1-rc8"
+  resolved "https://registry.yarnpkg.com/@diograph/folder-generator/-/folder-generator-0.1.1-rc8.tgz#aed61970c1190da708583b54de9b00d0d8fceefb"
+  integrity sha512-AuKcGTe5e4rjHoZKYrCfg6Lkp0O2huI11RKhqjk3GI3sBVhCj6rw5p+6gzaIS9DulmqIBlX1Y+zct2uIEeGO9w==
   dependencies:
-    "@diograph/diograph" "^0.1.1"
-    "@diograph/file-generator" next
+    "@diograph/diograph" "^0.2.2-rc2"
+    "@diograph/file-generator" "^0.1.2-rc4"
     uuid "^8.3.2"
 
 "@diograph/local-client@next":
