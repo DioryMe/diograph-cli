@@ -1,45 +1,44 @@
 import chalk from 'chalk'
 import { roomInFocus } from './configManager.js'
+import { program } from 'commander'
 
-const dioryCommand = async (commandName: string) => {
-  const validCommands = ['create', 'delete', 'link', 'focus', 'query', 'show']
+interface queryActionOptions {
+  text?: string
+  all?: boolean
+}
 
-  if (!validCommands.includes(commandName)) {
-    console.error(
-      chalk.red(
-        `Invalid command: ${commandName}. Command should be one of the following: 'create', 'delete', 'link', 'focus', 'query', 'show'.`,
-      ),
-    )
-    process.exit(1)
+const queryAction = async (options: queryActionOptions) => {
+  if (Object.keys(options).length === 0) {
+    console.log(chalk.red('Please provide an option or --all'))
+    return
+  }
+
+  if (options.all) {
+    options = {}
   }
 
   const room = await roomInFocus()
   const diograph = room.diograph
 
-  switch (commandName) {
-    case 'create':
-      // Handle 'create' command
-      break
-    case 'delete':
-      // Handle 'delete' command
-      break
-    case 'link':
-      // Handle 'link' command
-      break
-    case 'focus':
-    // Handle 'focus' command
-    case 'query':
-      const searchResult = diograph.queryDiograph({ text: 'super' })
-      console.log('searchResult', Object.keys(searchResult.toObject()))
-      break
-    case 'show':
-      const diory = diograph.getDiory({
-        id: 'bafkreihvgvtqocownctpbskgrwsdtr3l6z3yp4w2rirs32ny2u7epz7ona',
-      })
-      console.log('diory', diory.toObjectWithoutImage())
-    default:
-      break
-  }
+  const searchResult = diograph.queryDiograph(options)
+  console.log('searchResult', Object.keys(searchResult.toObject()))
 }
 
-export { dioryCommand }
+const showAction = async () => {
+  const room = await roomInFocus()
+  const diograph = room.diograph
+
+  const diory = diograph.getDiory({
+    id: 'bafkreihvgvtqocownctpbskgrwsdtr3l6z3yp4w2rirs32ny2u7epz7ona',
+  })
+  console.log('diory', diory.toObjectWithoutImage())
+}
+
+const dioryQueryCommand = program
+  .command('query')
+  .option('--text <value>', 'Query from text field')
+  .option('--all', 'List all')
+  .action(queryAction)
+const dioryShowCommand = program.command('show').action(showAction)
+
+export { dioryShowCommand, dioryQueryCommand }

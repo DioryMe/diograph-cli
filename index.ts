@@ -3,7 +3,7 @@
 import { program } from 'commander'
 import { connectionCommand } from './src/connectionCommand.js'
 import { roomCommand } from './src/roomCommand.js'
-import { dioryCommand } from './src/dioryCommand.js'
+import { dioryQueryCommand, dioryShowCommand } from './src/dioryCommand.js'
 import { statusCommand } from './src/statusCommand.js'
 import { listCommand } from './src/listCommand.js'
 import { exportCommand } from './src/exportCommand.js'
@@ -63,15 +63,15 @@ const bootstrap = async () => {
     .action(connectionCommand)
 
   program
-    .command('diory <command> [arg1]')
+    .command('diory')
     .description('Manage diories')
-    .option('create', 'Create a new diory')
-    .option('delete', 'Delete a diory')
-    .option('link', 'Link a diory')
-    .option('focus', 'Focus on a diory')
-    .option('query', 'Query diories from diograph')
-    .option('show', 'Show diory')
-    .action(dioryCommand)
+    .action(program.help)
+    .addCommand(dioryQueryCommand)
+    .addCommand(dioryShowCommand)
+  // .option('create', 'Create a new diory')
+  // .option('delete', 'Delete a diory')
+  // .option('link', 'Link a diory')
+  // .option('focus', 'Focus on a diory')
 
   program
     .command('import <type> <filePath>')

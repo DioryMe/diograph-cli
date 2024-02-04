@@ -69,7 +69,7 @@ Import Folder
     Should Be Equal As Integers  ${exit_code}  0
 
 Query Diograph
-    ${exit_code}  ${output}=  Run Dcli Command  diory query
+    ${exit_code}  ${output}=  Run Dcli Command  diory query --all
     Log  ${output}
     Should Be Equal As Integers  ${exit_code}  0
 
