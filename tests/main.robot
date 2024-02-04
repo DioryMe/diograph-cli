@@ -59,7 +59,7 @@ Import Two Files
     ${exit_code}  ${output}=  Run Dcli Command  import file ${SUITE_SOURCE}/../demo-content-room/demo-content.png
     Should Be Equal As Integers  ${exit_code}  0
 
-    ${exit_code}  ${output}=  Run Dcli Command  import file ${SUITE_SOURCE}/../demo-content-room/source/subsource/some-video.mov
+    ${exit_code}  ${output}=  Run Dcli Command  import file ${SUITE_SOURCE}/../demo-content-room/source/subsource/some-video.mp4
     Should Be Equal As Integers  ${exit_code}  0
 
 Import Folder
