@@ -47,3 +47,13 @@ jobs:
         env:
           FFMPEG_PATH: /usr/bin/ffmpeg
         run: robot tests/main.robot
+
+      - name: Upload test artifacts
+        if: always()
+        uses: actions/upload-artifact@v2
+        with:
+          name: robot-framework-outputs
+          path: |
+            /home/runner/work/diograph-cli/diograph-cli/output.xml
+            /home/runner/work/diograph-cli/diograph-cli/log.html
+            /home/runner/work/diograph-cli/diograph-cli/report.html
