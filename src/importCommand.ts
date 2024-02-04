@@ -15,18 +15,34 @@ const importCommand = async (commandName: string, filePath: string) => {
     process.exit(1)
   }
 
+  const room = await roomInFocus()
   let diograph
   switch (commandName) {
     case 'file':
-      const diory = await generateDiory('', filePath)
-      const room = await roomInFocus()
+      let diory
+      try {
+        diory = await generateDiory('', filePath)
+      } catch (error: any) {
+        if (/^FFMPEG_PATH not defined/.test(error.message)) {
+          console.error(
+            chalk.red(
+              `Folder includes a video file which requires FFMPEG for diory generation. \nPlease use \`dcli config set FFMPEG_PATH [path to ffmpeg]\` to set it.`,
+            ),
+          )
+          break
+        }
+        console.log(error.message)
+        throw error
+      }
       room.diograph.addDiory(diory)
 
-      // TODO: Update to latest folder-generator
+      // TODO: Update to latest file-generator
       // TODO: Copy content to Content folder / connection (in focus)
 
       await room.saveRoom()
 
+      console.log(diory.toObject())
+      chalk.green('Import file success!')
       break
     case 'folder':
       try {
@@ -40,9 +56,18 @@ const importCommand = async (commandName: string, filePath: string) => {
           )
           break
         }
+        console.log(error.message)
         throw error
       }
-      console.log('Hello diograph!', Object.keys(diograph.toObject()))
+      room.diograph.addDiograph(diograph.toObject())
+
+      // TODO: Update to latest file-generator
+      // TODO: Copy content to Content folder / connection (in focus)
+
+      await room.saveRoom()
+
+      console.log(Object.keys(diograph.toObject()))
+      chalk.green('Import folder success!')
       break
     default:
       break
