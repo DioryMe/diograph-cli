@@ -595,10 +595,10 @@
     path-browserify "^1.0.1"
     uuid "8.3.2"
 
-"@diograph/diograph@^0.2.2-rc1":
-  version "0.2.2-rc1"
-  resolved "https://registry.yarnpkg.com/@diograph/diograph/-/diograph-0.2.2-rc1.tgz#f8aeb0f95433b72ff6099add930f1195276bfab7"
-  integrity sha512-U01OKndFM23zkjsxLkU1rwxxZEW7f7y4uyOsxG769FLW7pg4crm2mP+QP0C1qudqTAv63mF/sJP5si3I2eh2Pw==
+"@diograph/diograph@^0.2.2-rc2":
+  version "0.2.2-rc2"
+  resolved "https://registry.yarnpkg.com/@diograph/diograph/-/diograph-0.2.2-rc2.tgz#5ddb4b3e0b7071e6001f58e4b9edab9405c6b2c1"
+  integrity sha512-AT1iu+hVkUCnVxPzKeALaYxqFeAl2qJnE5wQ3hpWooUEPQBplMovUCIU3QWYxqgtU45vPNAAQfMX4a7v/t5IIw==
   dependencies:
     "@types/path-browserify" "^1.0.0"
     "@types/uuid" "8.3.2"
