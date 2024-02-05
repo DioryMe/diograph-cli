@@ -9,7 +9,7 @@ interface queryActionOptions {
 
 const queryAction = async (options: queryActionOptions) => {
   if (Object.keys(options).length === 0) {
-    console.log(chalk.red('Please provide an option or --all'))
+    console.log(chalk.red('Please provide a query criteria or --all'))
     return
   }
 

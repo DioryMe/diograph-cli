@@ -2,7 +2,7 @@
 
 import { program } from 'commander'
 import { connectionCommand } from './src/connectionCommand.js'
-import { roomCommand } from './src/roomCommand.js'
+import { addRoomCommand, createRoomCommand } from './src/roomCommand.js'
 import { dioryQueryCommand, dioryShowCommand } from './src/dioryCommand.js'
 import { statusCommand } from './src/statusCommand.js'
 import { listCommand } from './src/listCommand.js'
@@ -44,13 +44,14 @@ const bootstrap = async () => {
     .action(listCommand)
 
   program
-    .command('room <command> [arg1] [arg2]')
+    .command('room')
     .description('Manage rooms')
-    .option('create', 'Create a new room (arg1: roomAddress, arg2: contentClientType)')
-    .option('remove', 'Remove a room (arg1: roomAddress)')
-    .option('delete', 'Delete a room (arg1: roomAddress)')
-    .option('focus', 'Focus on a room (arg1: roomAddress)')
-    .action(roomCommand)
+    .action(program.help)
+    .addCommand(createRoomCommand)
+    .addCommand(addRoomCommand)
+  // .option('remove', 'Remove a room (arg1: roomAddress)')
+  // .option('delete', 'Delete a room (arg1: roomAddress)')
+  // .option('focus', 'Focus on a room (arg1: roomAddress)')
 
   program
     .command('connection <command> [arg1] [arg2]')

@@ -14,7 +14,10 @@ Test CLI Output --version
     Should Be Equal  ${output.strip()}  0.1.0
 
 Create Room
-    ${exit_code}  ${output}=  Run Dcli Command  room create /tmp
+    ${exit_code}  ${output}=  Run Dcli Command  room create
+    Should Be Equal As Integers  ${exit_code}  0
+
+    ${exit_code}  ${output}=  Run Dcli Command  room create --path /tmp
     Should Be Equal As Integers  ${exit_code}  0
 
     ${config_file_path}=  Get Config File Path
@@ -30,6 +33,14 @@ Create Room
     ${file_content}=  Get File  /tmp/diograph.json
     ${expected_output}=  Get File  ${SUITE_SOURCE}/../diograph_json_contents.txt
     Should Be Equal  ${file_content.strip()}  ${expected_output.strip()}
+
+    # Creating already existing room should exit with code 1
+    ${exit_code}  ${output}=  Run Dcli Command  room create --path /tmp
+    Should Be Equal As Integers  ${exit_code}  1
+
+Add Room
+    ${exit_code}  ${output}=  Run Dcli Command  room add
+    Should Be Equal As Integers  ${exit_code}  0
 
 Create Connection
     ${exit_code}  ${output}=  Run Dcli Command  connection create /tmp

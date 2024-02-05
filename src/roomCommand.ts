@@ -1,42 +1,10 @@
+import { program } from 'commander'
 import { setRoomInFocus } from './appCommands/setInFocus.js'
-import { addRoom, listRooms } from './configManager.js'
+import { addRoom, constructAndLoadRoom, listRooms } from './configManager.js'
 import { createRoom } from './createRoom.js'
 import chalk from 'chalk'
 
-const roomCommand = async (commandName: string, arg1: any, arg2: any) => {
-  const validCommands = ['create', 'remove', 'delete', 'focus']
-
-  if (!validCommands.includes(commandName)) {
-    console.error(
-      chalk.red(
-        `Invalid command: ${commandName}. Command should be one of the following: 'create', 'remove', 'delete', 'focus'.`,
-      ),
-    )
-    process.exit(1)
-  }
-
-  switch (commandName) {
-    case 'create':
-      await createRoomCommand(arg1, arg2)
-      break
-    case 'remove':
-      // Handle 'remove' command
-      break
-    case 'delete':
-      // Handle 'delete' command
-      break
-    case 'focus':
-      // Handle 'focus' command
-      break
-    default:
-      break
-  }
-}
-
-const createRoomCommand = async (
-  roomAddress: string = process.cwd(),
-  contentClientType: string = 'LocalClient',
-) => {
+const exitIfRoomAlreadyExists = async (roomAddress: string, method?: string) => {
   const roomList = await listRooms()
 
   if (
@@ -44,9 +12,27 @@ const createRoomCommand = async (
       .map((r) => r.address)
       .find((existingRoomAddress) => existingRoomAddress === roomAddress)
   ) {
-    console.error(chalk.red(`createRoom error: Room with address ${roomAddress} already exists`))
+    console.error(chalk.red(`${method} error: Room with address ${roomAddress} already exists`))
     process.exit(1)
   }
+}
+
+interface createActionOptions {
+  path?: string
+  here?: boolean
+  clientType?: string
+}
+
+const createAction = async (options: createActionOptions) => {
+  if (Object.keys(options).length === 0) {
+    console.log(chalk.red('Please provide a room address or --here'))
+    return
+  }
+
+  const contentClientType = options.clientType ?? 'LocalClient'
+  const roomAddress = options.here || !options.path ? process.cwd() : options.path
+
+  await exitIfRoomAlreadyExists(roomAddress, 'createRoom')
 
   try {
     const room = await createRoom(roomAddress, contentClientType)
@@ -57,7 +43,44 @@ const createRoomCommand = async (
     process.exit(1)
   }
 
+  console.log('Room created.')
+}
+
+const addAction = async (options: createActionOptions) => {
+  if (Object.keys(options).length === 0) {
+    console.log(chalk.red('Please provide a room address or --here'))
+    return
+  }
+
+  const contentClientType = options.clientType ?? 'LocalClient'
+  const roomAddress = options.here || !options.path ? process.cwd() : options.path
+
+  await exitIfRoomAlreadyExists(roomAddress, 'addRoom')
+
+  try {
+    const room = await constructAndLoadRoom(roomAddress, contentClientType)
+    await addRoom(roomAddress, contentClientType)
+    await setRoomInFocus(room)
+  } catch (error) {
+    console.error(chalk.red(`addRoom error: ${error}`))
+    process.exit(1)
+  }
+
   console.log('Room added.')
 }
 
-export { roomCommand }
+const createRoomCommand = program
+  .command('create')
+  .option('--path <value>', 'Create room to given path')
+  .option('--here', 'Create room to current directory')
+  .option('--clientType', 'Set clientType (default: LocalClient)')
+  .action(createAction)
+
+const addRoomCommand = program
+  .command('add')
+  .option('--path <value>', 'Add room from given path')
+  .option('--here', 'Add room from current directory')
+  .option('--clientType', 'Set clientType (default: LocalClient)')
+  .action(addAction)
+
+export { createRoomCommand, addRoomCommand }
