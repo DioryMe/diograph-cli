@@ -2,6 +2,7 @@ import chalk from 'chalk'
 import { generateDiory } from '@diograph/file-generator'
 import { generateDiograph } from '@diograph/folder-generator'
 import { roomInFocus } from './configManager.js'
+import { readFile } from 'fs/promises'
 
 const importCommand = async (commandName: string, filePath: string) => {
   const validCommands = ['file', 'folder']
@@ -36,8 +37,10 @@ const importCommand = async (commandName: string, filePath: string) => {
       }
       room.diograph.addDiory(diory)
 
-      // TODO: Update to latest file-generator
-      // TODO: Copy content to Content folder / connection (in focus)
+      // Copy content (needs own option to the `dcli import file` command)
+      // const sourceFileContent = await readFile(filePath)
+      // await room.addContent(sourceFileContent, diory.id)
+      // diory.changeContentUrl(dioryObject.id)
 
       await room.saveRoom()
 
@@ -61,7 +64,6 @@ const importCommand = async (commandName: string, filePath: string) => {
       }
       room.diograph.addDiograph(diograph.toObject())
 
-      // TODO: Update to latest file-generator
       // TODO: Copy content to Content folder / connection (in focus)
 
       await room.saveRoom()
