@@ -33,6 +33,13 @@ const showAction = async (dioryId: string) => {
       id: dioryId,
     })
     console.log('diory', diory.toObjectWithoutImage())
+    console.log('Image link:', `http://localhost:3000/image?dioryId=${diory.id}`)
+    if (diory.data && diory.data.length) {
+      console.log(
+        'Content link:',
+        `http://localhost:3000/content?cid=${diory.data[0].contentUrl}&mime=${diory.data[0].encodingFormat}`,
+      )
+    }
   } catch (error: any) {
     console.log(chalk.red(error.message))
   }
