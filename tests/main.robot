@@ -23,15 +23,15 @@ Create Room
     ${config_file_path}=  Get Config File Path
 
     ${file_content}=  Get File  ${config_file_path}
-    ${expected_output}=  Get File  ${SUITE_SOURCE}/../dcli_contents.txt
+    ${expected_output}=  Get File  ${CURDIR}/dcli_contents.txt
     Should Be Equal  ${file_content.strip()}  ${expected_output.strip()}
 
     ${file_content}=  Get File  /tmp/room.json
-    ${expected_output}=  Get File  ${SUITE_SOURCE}/../room_json_contents.txt
+    ${expected_output}=  Get File  ${CURDIR}/room_json_contents.txt
     Should Be Equal  ${file_content.strip()}  ${expected_output.strip()}
 
     ${file_content}=  Get File  /tmp/diograph.json
-    ${expected_output}=  Get File  ${SUITE_SOURCE}/../diograph_json_contents.txt
+    ${expected_output}=  Get File  ${CURDIR}/diograph_json_contents.txt
     Should Be Equal  ${file_content.strip()}  ${expected_output.strip()}
 
     # Creating already existing room should exit with code 1
@@ -49,15 +49,15 @@ Create Connection
     ${config_file_path}=  Get Config File Path
 
     ${file_content}=  Get File  ${config_file_path}
-    ${expected_output}=  Get File  ${SUITE_SOURCE}/../dcli_contents2.txt
+    ${expected_output}=  Get File  ${CURDIR}/dcli_contents2.txt
     Should Be Equal  ${file_content.strip()}  ${expected_output.strip()}
 
     ${file_content}=  Get File  /tmp/room.json
-    ${expected_output}=  Get File  ${SUITE_SOURCE}/../room_json_contents2.txt
+    ${expected_output}=  Get File  ${CURDIR}/room_json_contents2.txt
     Should Be Equal  ${file_content.strip()}  ${expected_output.strip()}
 
     ${file_content}=  Get File  /tmp/diograph.json
-    ${expected_output}=  Get File  ${SUITE_SOURCE}/../diograph_json_contents.txt
+    ${expected_output}=  Get File  ${CURDIR}/diograph_json_contents.txt
     Should Be Equal  ${file_content.strip()}  ${expected_output.strip()}
 
 Set Config Path
@@ -67,14 +67,14 @@ Set Config Path
     Should Be Equal As Integers  ${exit_code}  0
 
 Import Two Files
-    ${exit_code}  ${output}=  Run Dcli Command  import file ${SUITE_SOURCE}/../demo-content-room/demo-content.png
+    ${exit_code}  ${output}=  Run Dcli Command  import file ${CURDIR}/demo-content-room/demo-content.png
     Should Be Equal As Integers  ${exit_code}  0
 
-    ${exit_code}  ${output}=  Run Dcli Command  import file ${SUITE_SOURCE}/../demo-content-room/source/subsource/some-video.mp4
+    ${exit_code}  ${output}=  Run Dcli Command  import file ${CURDIR}/demo-content-room/source/subsource/some-video.mp4
     Should Be Equal As Integers  ${exit_code}  0
 
 Import Folder
-    ${exit_code}  ${output}=  Run Dcli Command  import folder ${SUITE_SOURCE}/../demo-content-room/source
+    ${exit_code}  ${output}=  Run Dcli Command  import folder ${CURDIR}/demo-content-room/source
     Should Be Equal As Integers  ${exit_code}  0
 
 Query Diograph
