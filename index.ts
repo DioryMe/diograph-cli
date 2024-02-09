@@ -7,7 +7,7 @@ import { dioryQueryCommand, dioryShowCommand } from './src/dioryCommand.js'
 import { statusCommand } from './src/statusCommand.js'
 import { listCommand } from './src/listCommand.js'
 import { exportCommand } from './src/exportCommand.js'
-import { importCommand } from './src/importCommand.js'
+import { importFileCommand, importFolderCommand } from './src/importCommand.js'
 import { configCommand } from './src/configCommand.js'
 import { getFfmpegPath } from './src/configManager.js'
 
@@ -77,9 +77,9 @@ const bootstrap = async () => {
   program
     .command('import <type> <filePath>')
     .description('Import resources')
-    .option('file', 'Import from a file')
-    .option('folder', 'Import from a folder')
-    .action(importCommand)
+    .action(program.help)
+    .addCommand(importFileCommand)
+    .addCommand(importFolderCommand)
 
   program
     .command('export <type>')
