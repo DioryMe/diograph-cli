@@ -75,7 +75,7 @@ const bootstrap = async () => {
   // .option('focus', 'Focus on a diory')
 
   program
-    .command('import <type> <filePath>')
+    .command('import')
     .description('Import resources')
     .action(program.help)
     .addCommand(importFileCommand)

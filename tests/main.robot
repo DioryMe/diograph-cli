@@ -1,5 +1,6 @@
 *** Settings ***
-Resource  keywords.robot
+Resource  clean_up_files.robot
+Resource  verify_file_contents.robot
 Library  Process
 Library  OperatingSystem
 Library  ./get_config_file_path.py
@@ -20,19 +21,9 @@ Create Room
     ${exit_code}  ${output}=  Run Dcli Command  room create --path /tmp
     Should Be Equal As Integers  ${exit_code}  0
 
-    ${config_file_path}=  Get Config File Path
-
-    ${file_content}=  Get File  ${config_file_path}
-    ${expected_output}=  Get File  ${CURDIR}/dcli_contents.txt
-    Should Be Equal  ${file_content.strip()}  ${expected_output.strip()}
-
-    ${file_content}=  Get File  /tmp/room.json
-    ${expected_output}=  Get File  ${CURDIR}/room_json_contents.txt
-    Should Be Equal  ${file_content.strip()}  ${expected_output.strip()}
-
-    ${file_content}=  Get File  /tmp/diograph.json
-    ${expected_output}=  Get File  ${CURDIR}/diograph_json_contents.txt
-    Should Be Equal  ${file_content.strip()}  ${expected_output.strip()}
+    Verify Config File Contents  ${CURDIR}/create_room_dcli_contents.txt
+    Verify Room JSON Contents  ${CURDIR}/create_room_room_json.txt
+    Verify Diograph JSON Contents  ${CURDIR}/create_room_diograph_json.txt
 
     # Creating already existing room should exit with code 1
     ${exit_code}  ${output}=  Run Dcli Command  room create --path /tmp
@@ -46,19 +37,9 @@ Create Connection
     ${exit_code}  ${output}=  Run Dcli Command  connection create /tmp
     Should Be Equal As Integers  ${exit_code}  0
 
-    ${config_file_path}=  Get Config File Path
-
-    ${file_content}=  Get File  ${config_file_path}
-    ${expected_output}=  Get File  ${CURDIR}/dcli_contents2.txt
-    Should Be Equal  ${file_content.strip()}  ${expected_output.strip()}
-
-    ${file_content}=  Get File  /tmp/room.json
-    ${expected_output}=  Get File  ${CURDIR}/room_json_contents2.txt
-    Should Be Equal  ${file_content.strip()}  ${expected_output.strip()}
-
-    ${file_content}=  Get File  /tmp/diograph.json
-    ${expected_output}=  Get File  ${CURDIR}/diograph_json_contents.txt
-    Should Be Equal  ${file_content.strip()}  ${expected_output.strip()}
+    Verify Config File Contents  ${CURDIR}/create_connection_dcli_contents.txt
+    Verify Room JSON Contents  ${CURDIR}/create_connection_room_json.txt
+    Verify Diograph JSON Contents  ${CURDIR}/create_connection_diograph_json.txt
 
 Set Config Path
     # SKIP / TODO: Doesn't work on Github Actions until FFMPEG is installed and FFMPEG_PATH is set
@@ -72,6 +53,10 @@ Import Two Files
 
     ${exit_code}  ${output}=  Run Dcli Command  import file ${CURDIR}/demo-content-room/source/subsource/some-video.mp4
     Should Be Equal As Integers  ${exit_code}  0
+
+    Verify Config File Contents  ${CURDIR}/import_file_dcli_contents.txt
+    Verify Room JSON Contents  ${CURDIR}/import_file_room_json.txt
+    Verify Diograph JSON Contents  ${CURDIR}/import_file_diograph_json.txt
 
 Import Folder
     ${exit_code}  ${output}=  Run Dcli Command  import folder ${CURDIR}/demo-content-room/source
