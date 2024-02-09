@@ -48,7 +48,7 @@ Set Config Path
     Should Be Equal As Integers  ${exit_code}  0
 
 Import Two Files
-    ${exit_code}  ${output}=  Run Dcli Command  import file ${CURDIR}/demo-content-room/demo-content.png
+    ${exit_code}  ${output}=  Run Dcli Command  import file ${CURDIR}/demo-content-room/demo-content.png --copyContent
     Should Be Equal As Integers  ${exit_code}  0
 
     ${exit_code}  ${output}=  Run Dcli Command  import file ${CURDIR}/demo-content-room/source/subsource/some-video.mp4

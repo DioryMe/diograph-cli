@@ -3,7 +3,9 @@
     {
       "address": "/tmp/Diory Content",
       "contentClientType": "LocalClient",
-      "contentUrls": {},
+      "contentUrls": {
+        "bafkreihvgvtqocownctpbskgrwsdtr3l6z3yp4w2rirs32ny2u7epz7ona": "bafkreihvgvtqocownctpbskgrwsdtr3l6z3yp4w2rirs32ny2u7epz7ona"
+      },
       "diograph": {}
     },
     {

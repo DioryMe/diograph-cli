@@ -26,6 +26,7 @@ const fileAction = async (filePath: string, options: fileActionOptions) => {
     console.log(error.message)
     throw error
   }
+
   room.diograph.addDiory(diory)
 
   // Copy content (needs own option to the `dcli import file` command)
