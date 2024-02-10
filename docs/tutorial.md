@@ -8,7 +8,6 @@
 mkdir ~/PhotoRoom
 mkdir ~/PhotoRoom/room
 mkdir ~/PhotoRoom/room/Diory\ Content
-mkdir ~/PhotoRoom/app-data
 ```
 
 2. Create room to that folder
