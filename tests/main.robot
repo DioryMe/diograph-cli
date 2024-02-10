@@ -42,7 +42,6 @@ Create Connection
     Verify Diograph JSON Contents  ${CURDIR}/create_connection_diograph_json.txt
 
 Set Config Path
-    # SKIP / TODO: Doesn't work on Github Actions until FFMPEG is installed and FFMPEG_PATH is set
     ${FFMPEG_PATH}=  Get Environment Variable  FFMPEG_PATH  /opt/homebrew/bin/ffmpeg
     ${exit_code}  ${output}=  Run Dcli Command  config set FFMPEG_PATH ${FFMPEG_PATH}
     Should Be Equal As Integers  ${exit_code}  0
@@ -82,6 +81,23 @@ Connection list-contents
 Query Diograph By Text
     ${exit_code}  ${output}=  Run Dcli Command  diory query --all
     Should Be Equal As Integers  ${exit_code}  0
+
+    ${exit_code}  ${output}=  Run Dcli Command  diory query --text some-video
+    Should Be Equal As Integers  ${exit_code}  0
+    # Yksi rivi vain
+
+Query Diograph By Date
+    ${exit_code}  ${output}=  Run Dcli Command  diory query --date 2021-04-07T00:00:00Z
+    Should Be Equal As Integers  ${exit_code}  0
+    Should Contain    ${output}    searchResult [ 'bafkreia2c44rszqme57sao4ydipv3xtwfoigag7b2lzfeuwtunctzfdx4a' ]
+
+    ${exit_code}  ${output}=  Run Dcli Command  diory query --dateStart 2021-01-01T00:00:00Z --dateEnd 2022-01-01T00:00:00Z
+    Should Be Equal As Integers  ${exit_code}  0
+    Should Contain    ${output}    searchResult [ 'bafkreia2c44rszqme57sao4ydipv3xtwfoigag7b2lzfeuwtunctzfdx4a' ]
+
+# Query Diograph By LatLng
+#     ${exit_code}  ${output}=  Run Dcli Command  diory query --dateStart 2021-01-01T00:00:00Z --dateEnd 2022-01-01T00:00:00Z
+#     Should Be Equal As Integers  ${exit_code}  0
 
 Show Diory
     ${exit_code}  ${output}=  Run Dcli Command  diory show bafkreihvgvtqocownctpbskgrwsdtr3l6z3yp4w2rirs32ny2u7epz7ona

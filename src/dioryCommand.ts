@@ -4,6 +4,9 @@ import { program } from 'commander'
 
 interface queryActionOptions {
   text?: string
+  date?: string
+  dateStart?: string
+  dateEnd?: string
   all?: boolean
 }
 
@@ -48,6 +51,9 @@ const showAction = async (dioryId: string) => {
 const dioryQueryCommand = program
   .command('query')
   .option('--text <value>', 'Query from text field')
+  .option('--date <value>', 'Filter by date')
+  .option('--dateStart <value>', 'Filter by startDate')
+  .option('--dateEnd <value>', 'Filter by endDate')
   .option('--all', 'List all')
   .action(queryAction)
 const dioryShowCommand = program.command('show <diory-id>').action(showAction)
