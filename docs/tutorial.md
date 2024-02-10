@@ -14,13 +14,13 @@ mkdir ~/PhotoRoom/app-data
 2. Create room to that folder
 
 ```
-APP_DATA_FOLDER=~/PhotoRoom/app-data node ./testApp/test-cli.js createRoom ~/PhotoRoom/room
+dcli room create ~/PhotoRoom/room
 ```
 
 3. Create connection to some folders with photos
 
 ```
-APP_DATA_FOLDER=~/PhotoRoom/app-data node ./testApp/test-cli.js createConnection ~/PhotoRoom/MyPictures
+dcli connection create ~/PhotoRoom/MyPictures
 ```
 
 4. List content in MyPictures folder and populate connection diograph to room.json
@@ -28,32 +28,33 @@ APP_DATA_FOLDER=~/PhotoRoom/app-data node ./testApp/test-cli.js createConnection
 NOTE: You need ffmpeg dependency and FFMPEG_PATH if you have videos in the MyPictures folder (otherwise it can be omitted)
 
 ```
-FFMPEG_PATH=/opt/homebrew/bin/ffmpeg APP_DATA_FOLDER=~/PhotoRoom/app-data node ./testApp/test-cli.js listConnectionContents
+dcli config set FFMPEG_PATH=/opt/homebrew/bin/ffmpeg 
+dcli connection listContents
 ```
 
-1. Import chosen one diory into room (=native connection) with content
+5. Import chosen one diory into room (=native connection) with content
 
 ```
-APP_DATA_FOLDER=~/PhotoRoom/app-data node ./testApp/test-cli.js import "/2022-07-20 19.32.33.png" true
+dcli import diory "/2022-07-20 19.32.33.png" --copyContent --targetConnection "/tmp"
 ```
 
-7. Import single file to diograph
+6. Import single file to diograph
 
 TODO: Doesn't add to diograph (diograph.addDiory didn't work...)
 
 ```
-APP_DATA_FOLDER=~/PhotoRoom/app-data node ./testApp/test-cli.js importDioryFromFile ~/PhotoRoom/Munakokkeli.png true
+dcli import file ~/PhotoRoom/Munakokkeli.png --copyContent
 ```
 
-8. Export file from diograph
+7. Export file from diograph
 
 ```
-APP_DATA_FOLDER=~/PhotoRoom/app-data node ./testApp/test-cli.js writeFileFromContent bafkreig6w4bromttln6hqnw3f3kqfhm7pcfbbtsgezaxvh7a2ipqbelrxy ./exported.png
+dcli export file --contentId bafkreig6w4bromttln6hqnw3f3kqfhm7pcfbbtsgezaxvh7a2ipqbelrxy ./exported.png
 ```
 
-9.  List room stuff
+8.  List room stuff
 
-10. Filter room stuff by geo location
+9. Filter room stuff by geo location
 
 ## S3
 
@@ -62,13 +63,13 @@ APP_DATA_FOLDER=~/PhotoRoom/app-data node ./testApp/test-cli.js writeFileFromCon
 2. Create room to that bucket
 
 ```
-aws-vault exec my-user -- APP_DATA_FOLDER=/tmp node ./testApp/test-cli.js createRoom s3://my-test-bucket/PhotoRoom S3Client
+aws-vault exec my-user -- dcli create room s3://my-test-bucket/PhotoRoom --clientType S3Client
 ```
 
 3. Create connection to some folders with photos
 
 ```
-APP_DATA_FOLDER=~/tmp node ./testApp/test-cli.js createConnection s3://my-test-bucket/MyPictures S3Client
+dcli connection create s3://my-test-bucket/MyPictures --clientType S3Client
 ```
 
-4.
+etc.
