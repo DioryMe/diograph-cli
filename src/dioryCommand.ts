@@ -7,6 +7,8 @@ interface queryActionOptions {
   date?: string
   dateStart?: string
   dateEnd?: string
+  latlngStart?: string
+  latlngEnd?: string
   all?: boolean
 }
 
@@ -54,6 +56,8 @@ const dioryQueryCommand = program
   .option('--date <value>', 'Filter by date')
   .option('--dateStart <value>', 'Filter by startDate')
   .option('--dateEnd <value>', 'Filter by endDate')
+  .option('--latlngStart <value>', 'Filter by latlngStart')
+  .option('--latlngEnd <value>', 'Filter by latlngEnd')
   .option('--all', 'List all')
   .action(queryAction)
 const dioryShowCommand = program.command('show <diory-id>').action(showAction)

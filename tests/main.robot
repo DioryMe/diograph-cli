@@ -95,9 +95,14 @@ Query Diograph By Date
     Should Be Equal As Integers  ${exit_code}  0
     Should Contain    ${output}    searchResult [ 'bafkreia2c44rszqme57sao4ydipv3xtwfoigag7b2lzfeuwtunctzfdx4a' ]
 
-# Query Diograph By LatLng
-#     ${exit_code}  ${output}=  Run Dcli Command  diory query --dateStart 2021-01-01T00:00:00Z --dateEnd 2022-01-01T00:00:00Z
-#     Should Be Equal As Integers  ${exit_code}  0
+Query Diograph By LatLng
+    ${exit_code}  ${output}=  Run Dcli Command  diory query --latlngStart 43.464500N,11.88147800E --latlngEnd 43.464400N,11.88147900E
+    Should Contain    ${output}    bafkreihoednm4s2g4vpame3mweewfq5of3hks2mbmkvoksxg3z4rhmweeu
+    Should Be Equal As Integers  ${exit_code}  0
+
+    ${exit_code}  ${output}=  Run Dcli Command  diory query --latlngStart 43.464600N,11.88147800E --latlngEnd 43.464500N,11.88147900E
+    Should Be Equal As Integers  ${exit_code}  0
+    Should Not Contain    ${output}    'bafkreihoednm4s2g4vpame3mweewfq5of3hks2mbmkvoksxg3z4rhmweeu'
 
 Show Diory
     ${exit_code}  ${output}=  Run Dcli Command  diory show bafkreihvgvtqocownctpbskgrwsdtr3l6z3yp4w2rirs32ny2u7epz7ona
