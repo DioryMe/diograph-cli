@@ -1,7 +1,7 @@
 import { readdirSync } from 'fs'
 import { join } from 'path'
 import { generateDiory } from '@diograph/file-generator'
-import { getDefaultImage } from './utils'
+import { getDefaultImage } from './utils.js'
 
 // TODO: This is still NOT OFFICIAL way but uses prohibited shortcuts & assumptions to do things
 // - Should use connection to define which client to use and initiate that client

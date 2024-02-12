@@ -1,0 +1,17 @@
+{
+  "connections": [
+    {
+      "address": "/tmp/Diory Content",
+      "contentClientType": "LocalClient",
+      "contentUrls": {},
+      "diograph": {}
+    },
+    {
+      "address": "/tmp",
+      "contentClientType": "LocalClient",
+      "contentUrls": {},
+      "diograph": {}
+    }
+  ],
+  "diograph": {}
+}

@@ -5,29 +5,29 @@
 Create room to /tmp folder and save app state to ./tmp/app-data.json
 
 ```
-APP_DATA_PATH=./tmp/app-data.json node ./testApp/test-cli.js createRoom ./tmp
+mkdir ./tmp
+mkdir ./tmp/room
+mkdir ./tmp/room/Diory\ Content
+dcli room create ./tmp
 ```
 
 Import image diory to that room
 
 ```
-APP_DATA_PATH=./tmp/app-data.json node ./testApp/test-cli.js importDiory ~/MyPictures/my-pic.jpg
+dcli import file ~/MyPictures/my-pic.jpg
 ```
 
 ## Tests
 
-NOTE: You may want to remove APP_DATA_PATH before running tests
-
-Local:
-
 ```
-yarn test
+cd tests
+robot main.robot
 ```
 
 S3:
 
 ```
-DIOGRAPH_CLI_TEST_TYPE=S3 aws-vault exec ***** -- yarn test
+DIOGRAPH_CLI_TEST_TYPE=S3 aws-vault exec ***** -- robot main.robot
 ```
 
 ## App commands

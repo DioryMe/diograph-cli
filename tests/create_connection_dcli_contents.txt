@@ -1,0 +1,7 @@
+[focus]
+connectionInFocus=/tmp
+roomInFocus=/tmp
+
+[rooms./tmp]
+address=/tmp
+roomClientType=LocalClient
