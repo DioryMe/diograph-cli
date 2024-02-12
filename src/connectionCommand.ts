@@ -2,42 +2,27 @@ import chalk from 'chalk'
 import { Connection, Room } from '@diograph/diograph'
 import { getClientAndVerify } from './createRoom.js'
 import { roomInFocus, setConnectionInFocus } from './configManager.js'
+import { program } from 'commander'
 
-const connectionCommand = (commandName: string, arg1: any, arg2: any) => {
-  const validCommands = ['create', 'remove', 'delete', 'focus', 'listContents']
-
-  if (!validCommands.includes(commandName)) {
-    console.error(
-      chalk.red(
-        `Invalid command: ${commandName}. Command should be one of the following: 'create', 'remove', 'delete', 'focus', 'listContents'.`,
-      ),
-    )
-    process.exit(1)
-  }
-
-  switch (commandName) {
-    case 'create':
-      createConnectionCommand(arg1, arg2)
-      break
-    case 'remove':
-      // Handle 'remove' command
-      break
-    case 'delete':
-      // Handle 'delete' command
-      break
-    case 'focus':
-      // Handle 'focus' command
-      break
-    case 'listContents':
-    default:
-      break
-  }
+const listContentsAction = async () => {
+  // connection.diograph.addDiograph(list)
+  // connection.diograph.diories().forEach((diory) => {
+  //   if (diory.data && diory.data[0].contentUrl) {
+  //     connection.addContentUrl(diory.data[0].contentUrl, diory.id)
+  //   }
+  // })
+  // await this.roomInFocus.saveRoom()
 }
 
-const createConnectionCommand = async (
+interface createActionOptions {
+  contentClientType: string
+}
+
+const createAction = async (
   connectionAddress: string = process.cwd(),
-  contentClientType: string = 'LocalClient',
+  options: createActionOptions,
 ) => {
+  const contentClientType = options.contentClientType || 'LocalClient'
   let room: Room
   try {
     room = await roomInFocus()
@@ -55,13 +40,17 @@ const createConnectionCommand = async (
     process.exit(1)
   }
 
-  const connection = await createConnection(room, connectionAddress, contentClientType)
+  const connection = await createConnectionToRoom(room, connectionAddress, contentClientType)
   await setConnectionInFocus(connection.address)
 
   return
 }
 
-export const createConnection = async (room: Room, address: string, contentClientType: string) => {
+export const createConnectionToRoom = async (
+  room: Room,
+  address: string,
+  contentClientType: string,
+) => {
   const connectionClient = await getClientAndVerify(contentClientType, address)
   const connection = new Connection(connectionClient)
   room.addConnection(connection)
@@ -70,4 +59,12 @@ export const createConnection = async (room: Room, address: string, contentClien
   return connection
 }
 
-export { connectionCommand }
+const createConnectionCommand = program
+  .command('create <address>')
+  .option('--clientType', 'Set connection client type (default: LocalClient)')
+  // .option('--here', 'Create connection in current folder')
+  .action(createAction)
+
+const listContentsConnectionCommand = program.command('list-contents').action(listContentsAction)
+
+export { createConnectionCommand, listContentsConnectionCommand }

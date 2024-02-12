@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 import { program } from 'commander'
-import { connectionCommand } from './src/connectionCommand.js'
+import { createConnectionCommand, listContentsConnectionCommand } from './src/connectionCommand.js'
 import { addRoomCommand, createRoomCommand } from './src/roomCommand.js'
 import { dioryQueryCommand, dioryShowCommand } from './src/dioryCommand.js'
 import { statusCommand } from './src/statusCommand.js'
@@ -54,14 +54,13 @@ const bootstrap = async () => {
   // .option('focus', 'Focus on a room (arg1: roomAddress)')
 
   program
-    .command('connection <command> [arg1] [arg2]')
+    .command('connection')
     .description('Manage connections')
-    .option('create', 'Create a new connection')
-    .option('remove', 'Remove a connection')
-    .option('delete', 'Delete a connection')
-    .option('focus', 'Focus on a connection')
-    .option('listContents', 'List connection contents')
-    .action(connectionCommand)
+    .addCommand(createConnectionCommand)
+    .addCommand(listContentsConnectionCommand)
+  // .option('remove', 'Remove a connection')
+  // .option('delete', 'Delete a connection')
+  // .option('focus', 'Focus on a connection')
 
   program
     .command('diory')
