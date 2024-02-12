@@ -55,7 +55,7 @@ const listRooms = async () => {
   return configObject.rooms
 }
 
-const connectionInFocusId = async (): Promise<string> => {
+const connectionInFocusAddress = async (): Promise<string> => {
   const configObject = await readConfig()
 
   if (!configObject.focus.connectionInFocus) {
@@ -157,7 +157,7 @@ export {
   setRoomInFocus,
   setConnectionInFocus,
   listRooms,
-  connectionInFocusId,
+  connectionInFocusAddress,
   roomInFocusId,
   roomInFocus,
   constructRoom,

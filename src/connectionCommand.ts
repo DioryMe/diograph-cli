@@ -1,17 +1,46 @@
 import chalk from 'chalk'
 import { Connection, Room } from '@diograph/diograph'
 import { getClientAndVerify } from './createRoom.js'
-import { roomInFocus, setConnectionInFocus } from './configManager.js'
+import { connectionInFocusAddress, roomInFocus, setConnectionInFocus } from './configManager.js'
 import { program } from 'commander'
+import { generateDiograph } from '@diograph/folder-generator'
 
 const listContentsAction = async () => {
-  // connection.diograph.addDiograph(list)
-  // connection.diograph.diories().forEach((diory) => {
-  //   if (diory.data && diory.data[0].contentUrl) {
-  //     connection.addContentUrl(diory.data[0].contentUrl, diory.id)
-  //   }
-  // })
-  // await this.roomInFocus.saveRoom()
+  const connectionAddress = await connectionInFocusAddress()
+  const room = await roomInFocus()
+
+  const connection = room.connections.find((connection) => connection.address == connectionAddress)
+  if (!connection) {
+    console.error(
+      chalk.red(`Connection "${connectionAddress}" not found from room "${room.address}"`),
+    )
+    process.exit(1)
+  }
+
+  let connectionDiograph
+  try {
+    connectionDiograph = await generateDiograph(connectionAddress)
+  } catch (error: any) {
+    if (/^FFMPEG_PATH not defined/.test(error.message)) {
+      console.error(
+        chalk.red(
+          `Folder includes a video file which requires FFMPEG for diory generation. \nPlease use \`dcli config set FFMPEG_PATH [path to ffmpeg]\` to set it.`,
+        ),
+      )
+      return
+    }
+    console.log(error.message)
+    throw error
+  }
+
+  connection.diograph.addDiograph(connectionDiograph.toObject())
+  connection.diograph.diories().forEach((diory) => {
+    if (diory.data && diory.data[0].contentUrl) {
+      connection.addContentUrl(diory.data[0].contentUrl, diory.id)
+    }
+  })
+
+  await room.saveRoom()
 }
 
 interface createActionOptions {

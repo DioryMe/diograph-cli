@@ -29,7 +29,7 @@ const fileAction = async (filePath: string, options: fileActionOptions) => {
 
   room.diograph.addDiory(diory)
 
-  // Copy content (needs own option to the `dcli import file` command)
+  // --copyContent
   if (options.copyContent) {
     const sourceFileContent = await readFile(filePath)
     await room.addContent(sourceFileContent, diory.id)

@@ -64,7 +64,22 @@ Import Folder
     ${exit_code}  ${output}=  Run Dcli Command  import folder ${CURDIR}/demo-content-room/source
     Should Be Equal As Integers  ${exit_code}  0
 
-Query Diograph
+    # Random UUID's and created & modified timestamps prevent using these:
+    # Verify Room JSON Contents  ${CURDIR}/import_folder_room_json.txt
+    # Verify Diograph JSON Contents  ${CURDIR}/import_folder_diograph_json.txt
+
+Connection list-contents
+    ${exit_code}  ${output}=  Run Dcli Command  connection create ${CURDIR}/demo-content-room/source
+    Should Be Equal As Integers  ${exit_code}  0
+
+    ${exit_code}  ${output}=  Run Dcli Command  connection list-contents
+    Should Be Equal As Integers  ${exit_code}  0
+
+    # Random UUID's and created & modified timestamps prevent using these:
+    # Verify Room JSON Contents  ${CURDIR}/list_contents_room_json.txt
+    # Verify Diograph JSON Contents  ${CURDIR}/list_contents_diograph_json.txt
+
+Query Diograph By Text
     ${exit_code}  ${output}=  Run Dcli Command  diory query --all
     Should Be Equal As Integers  ${exit_code}  0
 
