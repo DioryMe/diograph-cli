@@ -4,6 +4,11 @@ import { program } from 'commander'
 
 interface queryActionOptions {
   text?: string
+  date?: string
+  dateStart?: string
+  dateEnd?: string
+  latlngStart?: string
+  latlngEnd?: string
   all?: boolean
 }
 
@@ -48,6 +53,11 @@ const showAction = async (dioryId: string) => {
 const dioryQueryCommand = program
   .command('query')
   .option('--text <value>', 'Query from text field')
+  .option('--date <value>', 'Filter by date')
+  .option('--dateStart <value>', 'Filter by startDate')
+  .option('--dateEnd <value>', 'Filter by endDate')
+  .option('--latlngStart <value>', 'Filter by latlngStart')
+  .option('--latlngEnd <value>', 'Filter by latlngEnd')
   .option('--all', 'List all')
   .action(queryAction)
 const dioryShowCommand = program.command('show <diory-id>').action(showAction)
