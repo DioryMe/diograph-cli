@@ -57,8 +57,9 @@ Import Two Files
     # Fails in CI because of different FFMPEG_PATH
     # Verify Config File Contents  ${CURDIR}/import_file_dcli_contents.txt
 
-    Verify Room JSON Contents  ${CURDIR}/import_file_room_json.txt
-    Verify Diograph JSON Contents  ${CURDIR}/import_file_diograph_json.txt
+    # Random UUID's and created & modified timestamps prevent using these:
+    # Verify Room JSON Contents  ${CURDIR}/import_file_room_json.txt
+    # Verify Diograph JSON Contents  ${CURDIR}/import_file_diograph_json.txt
 
 Import Folder
     ${exit_code}  ${output}=  Run Dcli Command  import folder ${CURDIR}/demo-content-room/source
