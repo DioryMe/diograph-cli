@@ -1,11 +1,21 @@
-import { Connection } from '@diograph/diograph/index.js'
-import { constructAndLoadRoom, listRooms } from '../configManager.js'
+import { Connection } from '@diograph/diograph'
+import { listRooms } from '../configManager.js'
+import { constructAndLoadRoom } from '@diograph/utils'
+import { LocalClient } from '@diograph/local-client'
 
 const outputListConnections = async (): Promise<void> => {
   const roomConfigs = await listRooms()
   const connections = await Promise.all(
     Object.values(roomConfigs).map(async (roomConfig) => {
-      const room = await constructAndLoadRoom(roomConfig.address, roomConfig.roomClientType)
+      const room = await constructAndLoadRoom(roomConfig.address, roomConfig.roomClientType, {
+        LocalClient: {
+          clientConstructor: LocalClient,
+        },
+        // S3Client: {
+        //   clientConstructor: S3Client,
+        //   credentials: { region: 'eu-west-1', credentials },
+        // },
+      })
       return room.connections
     }),
   )

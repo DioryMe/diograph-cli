@@ -15,6 +15,7 @@
     "@diograph/folder-generator": "^0.1.1-rc8",
     "@diograph/local-client": "next",
     "@diograph/s3-client": "next",
+    "@diograph/utils": "^0.0.1",
     "chalk": "^5.3.0",
     "commander": "^11.1.0",
     "uuid": "^8.3.2"

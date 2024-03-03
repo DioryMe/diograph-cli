@@ -3,6 +3,7 @@ import { setRoomInFocus } from './appCommands/setInFocus.js'
 import { addRoom, constructAndLoadRoom, listRooms } from './configManager.js'
 import { createRoom } from './createRoom.js'
 import chalk from 'chalk'
+import { LocalClient } from '@diograph/local-client'
 
 const exitIfRoomAlreadyExists = async (roomAddress: string, method?: string) => {
   const roomList = await listRooms()
@@ -58,7 +59,15 @@ const addAction = async (options: createActionOptions) => {
   await exitIfRoomAlreadyExists(roomAddress, 'addRoom')
 
   try {
-    const room = await constructAndLoadRoom(roomAddress, contentClientType)
+    const room = await constructAndLoadRoom(roomAddress, contentClientType, {
+      LocalClient: {
+        clientConstructor: LocalClient,
+      },
+      // S3Client: {
+      //   clientConstructor: S3Client,
+      //   credentials: { region: 'eu-west-1', credentials },
+      // },
+    })
     await addRoom(roomAddress, contentClientType)
     await setRoomInFocus(room)
   } catch (error) {
