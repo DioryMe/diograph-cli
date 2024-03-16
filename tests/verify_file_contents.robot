@@ -12,6 +12,12 @@ Verify Config File Contents
     ${config_file_path}=    Get Config File Path
     Compare File Contents    ${expected_file_path}     ${config_file_path}
 
+Config File Contains
+    [Arguments]    ${expected_content}
+    ${config_file_path}=   Get Config File Path
+    ${file_contents}=  Get File    ${config_file_path}
+    Should Contain    ${file_contents}    ${expected_content}
+
 Verify Room JSON Contents
     [Arguments]    ${expected_file_path}
     Compare File Contents    ${expected_file_path}     ${room_json_file_path}

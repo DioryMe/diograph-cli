@@ -1,26 +1,20 @@
 import chalk from 'chalk'
 import { setFfmpegPath } from './configManager.js'
+import { program } from 'commander'
 
-const configCommand = async (commandName: string, envKey: string, envValue: string) => {
-  const validCommands = ['set']
-
-  if (!validCommands.includes(commandName)) {
-    console.error(
-      chalk.red(`Invalid command: ${commandName}. Command should be one of the following: 'set'.`),
-    )
-    process.exit(1)
-  }
-
-  switch (commandName) {
-    case 'set':
-      if (envKey === 'FFMPEG_PATH') {
-        await setFfmpegPath(envValue)
-        console.log(chalk.green(`FFMPEG_PATH set to ${envValue}`))
-      }
+const setAction = async (configKey: string, configValue: string) => {
+  switch (configKey) {
+    case 'FFMPEG_PATH':
+      await setFfmpegPath(configValue)
       break
     default:
       break
   }
+  console.log(chalk.green(`${configKey} set to ${configValue}`))
 }
 
-export { configCommand }
+const setConfigCommand = program //
+  .command('set <configKey> <configValue>') //
+  .action(setAction)
+
+export { setConfigCommand }

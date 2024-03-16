@@ -42,10 +42,11 @@ Create Connection
     Verify Diograph JSON Contents  ${CURDIR}/create_connection_diograph_json.txt
 
 Set Config Path
-    # SKIP / TODO: Doesn't work on Github Actions until FFMPEG is installed and FFMPEG_PATH is set
     ${FFMPEG_PATH}=  Get Environment Variable  FFMPEG_PATH  /opt/homebrew/bin/ffmpeg
     ${exit_code}  ${output}=  Run Dcli Command  config set FFMPEG_PATH ${FFMPEG_PATH}
     Should Be Equal As Integers  ${exit_code}  0
+
+    Config File Contains  ffmpegPath
 
 Import Two Files
     ${exit_code}  ${output}=  Run Dcli Command  import file ${CURDIR}/demo-content-room/demo-content.png --copyContent
