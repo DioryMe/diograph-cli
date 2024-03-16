@@ -5,6 +5,7 @@ import { Room } from '@diograph/diograph'
 import { LocalClient } from '@diograph/local-client'
 import { constructAndLoadRoom } from '@diograph/utils'
 import { S3ClientCredentials } from '@diograph/s3-client'
+import { getAvailableClients } from './getAvailableClients.js'
 
 export interface RoomConfig {
   address: string
@@ -81,15 +82,8 @@ const roomInFocus = async (): Promise<Room> => {
   const roomId = await roomInFocusId()
   const roomConfig = await findRoom(roomId)
 
-  const room = constructAndLoadRoom(roomConfig.address, roomConfig.roomClientType, {
-    LocalClient: {
-      clientConstructor: LocalClient,
-    },
-    // S3Client: {
-    //   clientConstructor: S3Client,
-    //   credentials: { region: 'eu-west-1', credentials },
-    // },
-  })
+  const availableClients = await getAvailableClients()
+  const room = constructAndLoadRoom(roomConfig.address, roomConfig.roomClientType, availableClients)
   return room
 }
 
