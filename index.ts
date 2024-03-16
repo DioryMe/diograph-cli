@@ -32,7 +32,8 @@ const bootstrap = async () => {
 
   program
     .command('config') //
-    .description('Set config values') //
+    .description('Set config values: FFMPEG_PATH or s3-credentials') //
+    .action(program.help)
     .addCommand(setConfigCommand)
   // .command('config <command> <envKey> <envValue>')
   // .description('Set config values')
