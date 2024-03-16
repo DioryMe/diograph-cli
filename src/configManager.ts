@@ -1,9 +1,9 @@
 import fs from 'fs/promises'
 import ini from 'ini'
 import { dcliConfigPath } from './appConfig.js'
-import { getClientAndVerify } from './createRoom.js'
-import { Room, RoomClient } from '@diograph/diograph'
+import { Room } from '@diograph/diograph'
 import { LocalClient } from '@diograph/local-client'
+import { constructAndLoadRoom } from '@diograph/utils'
 
 export interface RoomConfig {
   address: string
@@ -75,15 +75,11 @@ const roomInFocusId = async (): Promise<string> => {
   return configObject.focus.roomInFocus
 }
 
-const constructRoom = async (address: string, roomClientType: string): Promise<Room> => {
-  const client = await getClientAndVerify(roomClientType, address)
-  const roomClient = new RoomClient(client)
-  return new Room(roomClient)
-}
+const roomInFocus = async (): Promise<Room> => {
+  const roomId = await roomInFocusId()
+  const roomConfig = await findRoom(roomId)
 
-const constructAndLoadRoom = async (address: string, roomClientType: string): Promise<Room> => {
-  const room = await constructRoom(address, roomClientType)
-  await room.loadRoom({
+  const room = constructAndLoadRoom(roomConfig.address, roomConfig.roomClientType, {
     LocalClient: {
       clientConstructor: LocalClient,
     },
@@ -92,14 +88,6 @@ const constructAndLoadRoom = async (address: string, roomClientType: string): Pr
     //   credentials: { region: 'eu-west-1', credentials },
     // },
   })
-  return room
-}
-
-const roomInFocus = async (): Promise<Room> => {
-  const roomId = await roomInFocusId()
-  const roomConfig = await findRoom(roomId)
-
-  const room = constructAndLoadRoom(roomConfig.address, roomConfig.roomClientType)
   return room
 }
 
@@ -160,7 +148,6 @@ export {
   connectionInFocusAddress,
   roomInFocusId,
   roomInFocus,
-  constructRoom,
   constructAndLoadRoom,
   setFfmpegPath,
   getFfmpegPath,

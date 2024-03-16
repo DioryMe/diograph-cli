@@ -1,9 +1,10 @@
 import chalk from 'chalk'
 import { Connection, Room } from '@diograph/diograph'
-import { getClientAndVerify } from './createRoom.js'
 import { connectionInFocusAddress, roomInFocus, setConnectionInFocus } from './configManager.js'
 import { program } from 'commander'
 import { generateDiograph } from '@diograph/folder-generator'
+import { getClientAndVerify } from '@diograph/utils'
+import { LocalClient } from '@diograph/local-client'
 
 const listContentsAction = async () => {
   const connectionAddress = await connectionInFocusAddress()
@@ -80,7 +81,15 @@ export const createConnectionToRoom = async (
   address: string,
   contentClientType: string,
 ) => {
-  const connectionClient = await getClientAndVerify(contentClientType, address)
+  const connectionClient = await getClientAndVerify(address, contentClientType, {
+    LocalClient: {
+      clientConstructor: LocalClient,
+    },
+    // S3Client: {
+    //   clientConstructor: S3Client,
+    //   credentials: { region: 'eu-west-1', credentials },
+    // },
+  })
   const connection = new Connection(connectionClient)
   room.addConnection(connection)
   await room.saveRoom()
