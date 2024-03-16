@@ -12,7 +12,6 @@ export const createRoom = async (roomAddress: string, contentClientType: string)
     //   credentials: { region: 'eu-west-1', credentials },
     // },
   })
-  console.log('BUUUU')
   const nativeConnection = new Connection(
     await getClientAndVerify(
       `${
