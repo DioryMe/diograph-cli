@@ -18,6 +18,10 @@ Config File Contains
     ${file_contents}=  Get File    ${config_file_path}
     Should Contain    ${file_contents}    ${expected_content}
 
+Verify Exit Code Zero
+    [Arguments]    ${exit_code}  ${output}  ${error_output}
+    Run Keyword If  ${exit_code} != 0  Fail  Exit code is not 0. Error: '${error_output}' Output: '${output}'
+
 Verify Room JSON Contents
     [Arguments]    ${expected_file_path}
     Compare File Contents    ${expected_file_path}     ${room_json_file_path}
