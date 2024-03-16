@@ -9,17 +9,26 @@ import { S3Client } from '@diograph/s3-client'
 import { ConnectionClientList } from '@diograph/diograph/types.js'
 
 const getAvailableClients = async (): Promise<ConnectionClientList> => {
-  const credentials = await getS3Credentials()
-
-  return {
+  const availableClients: ConnectionClientList = {
     LocalClient: {
       clientConstructor: LocalClient,
     },
-    S3Client: {
+  }
+
+  // S3Client is not available if no credentials found from config file
+  try {
+    const credentials = await getS3Credentials()
+    availableClients['S3Client'] = {
       clientConstructor: S3Client,
       credentials: { region: 'eu-west-1', credentials },
-    },
+    }
+  } catch (err) {
+    if ((err as Error).message !== 'No s3Credentials defined in config file') {
+      throw err
+    }
   }
+
+  return availableClients
 }
 
 const exitIfRoomAlreadyExists = async (roomAddress: string, method?: string) => {
