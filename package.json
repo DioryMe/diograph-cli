@@ -1,6 +1,6 @@
 {
   "name": "@diograph/dcli",
-  "version": "0.1.0-rc1",
+  "version": "0.1.0-rc2",
   "exports": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "author": "Jouni Alanen <jouni@diory.me>",
