@@ -1,26 +1,33 @@
 import chalk from 'chalk'
-import { setFfmpegPath } from './configManager.js'
+import { setFfmpegPath, setS3Credentials } from './configManager.js'
+import { program } from 'commander'
 
-const configCommand = async (commandName: string, envKey: string, envValue: string) => {
-  const validCommands = ['set']
-
-  if (!validCommands.includes(commandName)) {
-    console.error(
-      chalk.red(`Invalid command: ${commandName}. Command should be one of the following: 'set'.`),
-    )
-    process.exit(1)
-  }
-
-  switch (commandName) {
-    case 'set':
-      if (envKey === 'FFMPEG_PATH') {
-        await setFfmpegPath(envValue)
-        console.log(chalk.green(`FFMPEG_PATH set to ${envValue}`))
+const setAction = async (configKey: string, configValue: string) => {
+  switch (configKey) {
+    case 'FFMPEG_PATH':
+      await setFfmpegPath(configValue)
+      break
+    case 's3-credentials':
+      if (!/^([A-Z0-9]{20})\s(\S{40})$/.test(configValue)) {
+        console.log(
+          chalk.red(
+            'Invalid value for s3-credentials, should be given as: "[ACCESS_KEY] [SECRET_KEY]"',
+          ),
+        )
+        return
       }
+      const [accessKeyId, secretAccessKey] = configValue.split(' ')
+      await setS3Credentials({ accessKeyId, secretAccessKey })
       break
     default:
-      break
+      console.log(chalk.red(`Unknown key ${configKey}`))
+      return
   }
+  console.log(chalk.green(`${configKey} set to the given value`))
 }
 
-export { configCommand }
+const setConfigCommand = program //
+  .command('set <configKey> <configValue>') //
+  .action(setAction)
+
+export { setConfigCommand }

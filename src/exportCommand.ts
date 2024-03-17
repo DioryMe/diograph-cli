@@ -14,15 +14,19 @@ const exportCommand = (commandName: string) => {
 
   switch (commandName) {
     case 'diory':
+      console.log('Not implemented yet')
       // Handle 'diory' command
       break
     case 'diograph':
+      console.log('Not implemented yet')
       // Handle 'diograph' command
       break
     case 'content':
+      console.log('Not implemented yet')
       // Handle 'content' command
       break
     case 'room':
+      console.log('Not implemented yet')
       // Handle 'room' command
       break
     default:

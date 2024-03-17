@@ -4,6 +4,8 @@ import { dcliConfigPath } from './appConfig.js'
 import { Room } from '@diograph/diograph'
 import { LocalClient } from '@diograph/local-client'
 import { constructAndLoadRoom } from '@diograph/utils'
+import { S3ClientCredentials } from '@diograph/s3-client'
+import { getAvailableClients } from './getAvailableClients.js'
 
 export interface RoomConfig {
   address: string
@@ -19,6 +21,7 @@ export interface ConfigObject {
     [key: string]: RoomConfig
   }
   ffmpegPath?: string
+  s3Credentials?: S3ClientCredentials
 }
 
 const defaultConfigObject: ConfigObject = {
@@ -79,15 +82,8 @@ const roomInFocus = async (): Promise<Room> => {
   const roomId = await roomInFocusId()
   const roomConfig = await findRoom(roomId)
 
-  const room = constructAndLoadRoom(roomConfig.address, roomConfig.roomClientType, {
-    LocalClient: {
-      clientConstructor: LocalClient,
-    },
-    // S3Client: {
-    //   clientConstructor: S3Client,
-    //   credentials: { region: 'eu-west-1', credentials },
-    // },
-  })
+  const availableClients = await getAvailableClients()
+  const room = constructAndLoadRoom(roomConfig.address, roomConfig.roomClientType, availableClients)
   return room
 }
 
@@ -105,6 +101,22 @@ const getFfmpegPath = async (): Promise<string> => {
   }
 
   return configObject.ffmpegPath
+}
+
+const setS3Credentials = async (credentials: S3ClientCredentials): Promise<void> => {
+  const configObject = await readConfig()
+  configObject.s3Credentials = credentials
+  await writeConfig(configObject)
+}
+
+const getS3Credentials = async (): Promise<S3ClientCredentials> => {
+  const configObject = await readConfig()
+
+  if (!configObject.s3Credentials) {
+    throw new Error('No s3Credentials defined in config file')
+  }
+
+  return configObject.s3Credentials
 }
 
 // private
@@ -127,7 +139,10 @@ const findRoom = async (roomAddress: string): Promise<RoomConfig> => {
 const readConfig = async (): Promise<ConfigObject> => {
   const iniContent = await fs.readFile(dcliConfigPath, 'utf-8')
   const parsedConfigObject = ini.parse(iniContent)
+
   // TODO: Validate parsed configObject to verify that it has the correct structure
+  // - s3Credentials should be type @diograph/s3-client/S3ClientCredentials
+
   if (Object.keys(parsedConfigObject).length === 0) {
     return defaultConfigObject
   }
@@ -136,6 +151,8 @@ const readConfig = async (): Promise<ConfigObject> => {
 
 const writeConfig = async (configObject: ConfigObject): Promise<void> => {
   // TODO: Validate configObject to verify that it has the correct structure before writing it to file
+  // - s3Credentials should be type @diograph/s3-client/S3ClientCredentials
+
   await fs.writeFile(dcliConfigPath, ini.stringify(configObject))
   console.log(`Configuration written to: ${dcliConfigPath}`)
 }
@@ -151,4 +168,6 @@ export {
   constructAndLoadRoom,
   setFfmpegPath,
   getFfmpegPath,
+  setS3Credentials,
+  getS3Credentials,
 }

@@ -1,17 +1,13 @@
 import { Connection } from '@diograph/diograph'
-import { LocalClient } from '@diograph/local-client'
+import { ConnectionClientList } from '@diograph/diograph/types.js'
 import { constructRoom, getClientAndVerify } from '@diograph/utils'
 
-export const createRoom = async (roomAddress: string, contentClientType: string) => {
-  const room = await constructRoom(roomAddress, contentClientType, {
-    LocalClient: {
-      clientConstructor: LocalClient,
-    },
-    // S3Client: {
-    //   clientConstructor: S3Client,
-    //   credentials: { region: 'eu-west-1', credentials },
-    // },
-  })
+export const createRoom = async (
+  roomAddress: string,
+  contentClientType: string,
+  availableClients: ConnectionClientList,
+) => {
+  const room = await constructRoom(roomAddress, contentClientType, availableClients)
   const nativeConnection = new Connection(
     await getClientAndVerify(
       `${
@@ -20,15 +16,7 @@ export const createRoom = async (roomAddress: string, contentClientType: string)
           : roomAddress
       }/Diory Content`,
       contentClientType,
-      {
-        LocalClient: {
-          clientConstructor: LocalClient,
-        },
-        // S3Client: {
-        //   clientConstructor: S3Client,
-        //   credentials: { region: 'eu-west-1', credentials },
-        // },
-      },
+      availableClients,
     ),
   )
   room.addConnection(nativeConnection)

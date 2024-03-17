@@ -8,7 +8,7 @@ import { statusCommand } from './src/statusCommand.js'
 import { listCommand } from './src/listCommand.js'
 import { exportCommand } from './src/exportCommand.js'
 import { importFileCommand, importFolderCommand } from './src/importCommand.js'
-import { configCommand } from './src/configCommand.js'
+import { setConfigCommand } from './src/configCommand.js'
 import { getFfmpegPath } from './src/configManager.js'
 
 const bootstrap = async () => {
@@ -31,10 +31,14 @@ const bootstrap = async () => {
   program.command('status').description('Show status').action(statusCommand)
 
   program
-    .command('config <command> <envKey> <envValue>')
-    .description('Set config values')
-    .option('set', 'Set a config value')
-    .action(configCommand)
+    .command('config') //
+    .description('Set config values: FFMPEG_PATH or s3-credentials') //
+    .action(program.help)
+    .addCommand(setConfigCommand)
+  // .command('config <command> <envKey> <envValue>')
+  // .description('Set config values')
+  // .option('set', 'Set a config value')
+  // .action(configCommand)
 
   program
     .command('list <resource>')

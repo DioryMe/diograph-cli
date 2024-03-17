@@ -5,6 +5,7 @@ import { program } from 'commander'
 import { generateDiograph } from '@diograph/folder-generator'
 import { getClientAndVerify } from '@diograph/utils'
 import { LocalClient } from '@diograph/local-client'
+import { getAvailableClients } from './getAvailableClients.js'
 
 const listContentsAction = async () => {
   const connectionAddress = await connectionInFocusAddress()
@@ -81,15 +82,8 @@ export const createConnectionToRoom = async (
   address: string,
   contentClientType: string,
 ) => {
-  const connectionClient = await getClientAndVerify(address, contentClientType, {
-    LocalClient: {
-      clientConstructor: LocalClient,
-    },
-    // S3Client: {
-    //   clientConstructor: S3Client,
-    //   credentials: { region: 'eu-west-1', credentials },
-    // },
-  })
+  const availableClients = await getAvailableClients()
+  const connectionClient = await getClientAndVerify(address, contentClientType, availableClients)
   const connection = new Connection(connectionClient)
   room.addConnection(connection)
   await room.saveRoom()
