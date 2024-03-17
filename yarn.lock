@@ -660,13 +660,13 @@
   dependencies:
     "@diograph/diograph" "^0.2.0-rc4"
 
-"@diograph/s3-client@0.1.1":
-  version "0.1.1"
-  resolved "https://registry.yarnpkg.com/@diograph/s3-client/-/s3-client-0.1.1.tgz#a5dfcde8ffe170f7c63f3be1a19ee39e4ea01c76"
-  integrity sha512-pU7BctCHIrcBKXoiEDFg53KFcVggEak3aAvbmrY4ea8Fehw+XF/m1ZWx9wGvOMB0/M4W4EOB3NP/iO5VQa//0Q==
+"@diograph/s3-client@0.2.0-rc4":
+  version "0.2.0-rc4"
+  resolved "https://registry.yarnpkg.com/@diograph/s3-client/-/s3-client-0.2.0-rc4.tgz#76000fdc7668a7a967449e038fc49febe503ce53"
+  integrity sha512-6GSKXBfbtNanBqoA7ojvCUrO69W1+9hPgRqMpmRKrn6XU1q3FL1ip8ezLoGejmtYtD3d/YmpB7ifDw43OGAEvA==
   dependencies:
     "@aws-sdk/client-s3" "^3.209.0"
-    diograph-js next
+    "@diograph/diograph" next
 
 "@diograph/utils@next":
   version "0.0.1"
@@ -1280,13 +1280,6 @@ detect-libc@^2.0.0, detect-libc@^2.0.1:
   version "2.0.2"
   resolved "https://registry.yarnpkg.com/detect-libc/-/detect-libc-2.0.2.tgz#8ccf2ba9315350e1241b88d0ac3b0e1fbd99605d"
   integrity sha512-UX6sGumvvqSaXgdKGUsgZWqcUyIXZ/vZTrlRT/iobiKhGL0zL4d3osHj3uqllWJK+i+sixDS/3COVEOFbupFyw==
-
-diograph-js@next:
-  version "0.0.7"
-  resolved "https://registry.yarnpkg.com/diograph-js/-/diograph-js-0.0.7.tgz#45cf528cd9e48d342a7ed98d218c53502a4316a9"
-  integrity sha512-l+q+9lPQFOQpRyc9FbLSlku3qaMfla6ql2UUl/0Yhhvv7K2THRG8QbBRqpV9hp5OkBQjXAbp1sYEBteBJMrh4A==
-  dependencies:
-    uuid "^8.3.2"
 
 end-of-stream@^1.1.0, end-of-stream@^1.4.1:
   version "1.4.4"
