@@ -146,6 +146,10 @@ const readConfig = async (): Promise<ConfigObject> => {
   if (Object.keys(parsedConfigObject).length === 0) {
     return defaultConfigObject
   }
+
+  if (!parsedConfigObject.rooms) {
+    parsedConfigObject.rooms = {}
+  }
   return parsedConfigObject as ConfigObject
 }
 
