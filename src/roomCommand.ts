@@ -69,7 +69,7 @@ const addAction = async (options: createActionOptions) => {
     process.exit(1)
   }
 
-  console.log('Room added.')
+  console.log(chalk.green('Room added.'))
 }
 
 const createRoomCommand = program
