@@ -1,5 +1,5 @@
 import chalk from 'chalk'
-import { roomInFocus } from './configManager.js'
+import { connectionInFocus, roomInFocus } from './configManager.js'
 import { program } from 'commander'
 
 interface queryActionOptions {
@@ -17,7 +17,7 @@ const queryAction = async (options: queryActionOptions) => {
     options = {}
   }
 
-  const room = await roomInFocus()
+  const room = await connectionInFocus() // await roomInFocus()
   const diograph = room.diograph
 
   const searchResult = diograph.queryDiograph(options)
@@ -25,7 +25,7 @@ const queryAction = async (options: queryActionOptions) => {
 }
 
 const showAction = async (dioryId: string) => {
-  const room = await roomInFocus()
+  const room = await connectionInFocus() // await roomInFocus()
   const diograph = room.diograph
 
   try {
