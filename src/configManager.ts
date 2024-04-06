@@ -1,7 +1,7 @@
 import fs from 'fs/promises'
 import ini from 'ini'
 import { dcliConfigPath } from './appConfig.js'
-import { Room } from '@diograph/diograph'
+import { Connection, Room } from '@diograph/diograph'
 import { LocalClient } from '@diograph/local-client'
 import { constructAndLoadRoom } from '@diograph/utils'
 import { S3ClientCredentials } from '@diograph/s3-client'
@@ -68,6 +68,42 @@ const connectionInFocusAddress = async (): Promise<string> => {
   return configObject.focus.connectionInFocus
 }
 
+// connectionInFocusAddress
+const connectionInFocusId = async (): Promise<string> => {
+  const configObject = await readConfig()
+
+  if (!configObject.focus.connectionInFocus) {
+    throw new Error('No connectionInFocus defined in config file')
+  }
+
+  return configObject.focus.connectionInFocus
+}
+
+const connectionInFocus = async (): Promise<Connection> => {
+  const roomId = await roomInFocusId()
+  const roomConfig = await findRoom(roomId)
+
+  const availableClients = await getAvailableClients()
+  const room = await constructAndLoadRoom(
+    roomConfig.address,
+    roomConfig.roomClientType,
+    availableClients,
+  )
+
+  const connectionAddress = await connectionInFocusId()
+  // TODO: Replace with room.findConnection from @diograph/diograph
+  const connection = room.connections.find(
+    (existingConnection) => existingConnection.address === connectionAddress,
+  )
+
+  if (!connection) {
+    throw new Error('ConnectionInFocus not found from RoomInFocus!??!')
+  }
+
+  return connection
+}
+
+// roomInFocusAddress
 const roomInFocusId = async (): Promise<string> => {
   const configObject = await readConfig()
 
@@ -167,6 +203,7 @@ export {
   setConnectionInFocus,
   listRooms,
   connectionInFocusAddress,
+  connectionInFocus,
   roomInFocusId,
   roomInFocus,
   constructAndLoadRoom,
