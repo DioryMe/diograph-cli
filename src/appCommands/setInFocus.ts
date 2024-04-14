@@ -9,12 +9,18 @@ export const setRoomInFocus = async (room: Room): Promise<void> => {
     throw new Error('Room address not defined')
   }
   await setRoomInConfig(room.address)
+  await clearConnectionInFocus()
 
   if (room.connections.length) {
     await setConnectionInFocus(room.connections[0])
   }
 
   console.log(`Set room in focus: ${room.address}`)
+}
+
+export const clearConnectionInFocus = async () => {
+  await setConnectionInConfig('')
+  console.log(`Cleared connection in focus.`)
 }
 
 export const setConnectionInFocus = async (connection: Connection) => {
