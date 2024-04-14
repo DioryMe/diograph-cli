@@ -4,6 +4,10 @@ import { listRooms } from './configManager.js'
 
 const startAction = async () => {
   const configClient: ConfigClient = {
+    getRoomConfigs: async () => {
+      const roomConfigs = Object.values(await listRooms())
+      return roomConfigs
+    },
     getRoomConfig: async (roomId: string) => {
       const rooms = await listRooms()
       return rooms[roomId]
