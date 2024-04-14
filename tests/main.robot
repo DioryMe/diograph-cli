@@ -18,7 +18,7 @@ Create Room
     ${exit_code}  ${output}  ${error_output}=  Run Dcli Command  room create
     Verify Exit Code Zero  ${exit_code}  ${output}  ${error_output}
 
-    ${exit_code}  ${output}  ${error_output}=  Run Dcli Command  room create --path /tmp
+    ${exit_code}  ${output}  ${error_output}=  Run Dcli Command  room create --address /tmp
     Verify Exit Code Zero  ${exit_code}  ${output}  ${error_output}
 
     Verify Config File Contents  ${CURDIR}/create_room_dcli_contents.txt
@@ -26,7 +26,7 @@ Create Room
     Verify Diograph JSON Contents  ${CURDIR}/create_room_diograph_json.txt
 
     # Creating already existing room should exit with code 1
-    ${exit_code}  ${output}  ${error_output}=  Run Dcli Command  room create --path /tmp
+    ${exit_code}  ${output}  ${error_output}=  Run Dcli Command  room create --address /tmp
     Should Be Equal As Integers  ${exit_code}  1
 
 Add Room

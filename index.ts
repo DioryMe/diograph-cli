@@ -81,12 +81,10 @@ const bootstrap = async () => {
     .addCommand(importFileCommand)
     .addCommand(importFolderCommand)
 
-  program
-    .command('export')
-    .description('Export resources')
-    .action(program.help)
-    .addCommand(exportDioryCommand)
-    .addCommand(exportDiographCommand)
+  program.command('export').description('Export resources').action(program.help)
+  // FIXME: Enabling these spoils `dcli diory query` command?!!?
+  // .addCommand(exportDioryCommand)
+  // .addCommand(exportDiographCommand)
 
   program
     .command('server')
