@@ -6,7 +6,7 @@ import { addRoomCommand, createRoomCommand } from './src/roomCommand.js'
 import { dioryQueryCommand, dioryShowCommand } from './src/dioryCommand.js'
 import { statusCommand } from './src/statusCommand.js'
 import { listConnectionsCommand, listRoomsCommand } from './src/listCommand.js'
-import { exportCommand } from './src/exportCommand.js'
+import { exportDiographCommand, exportDioryCommand } from './src/exportCommand.js'
 import { importFileCommand, importFolderCommand } from './src/importCommand.js'
 import { setConfigCommand } from './src/configCommand.js'
 import { getFfmpegPath } from './src/configManager.js'
@@ -32,14 +32,10 @@ const bootstrap = async () => {
   program.command('status').description('Show status').action(statusCommand)
 
   program
-    .command('config') //
+    .command('config')
     .description('Set config values: FFMPEG_PATH or s3-credentials') //
     .action(program.help)
     .addCommand(setConfigCommand)
-  // .command('config <command> <envKey> <envValue>')
-  // .description('Set config values')
-  // .option('set', 'Set a config value')
-  // .action(configCommand)
 
   program
     .command('list')
@@ -86,13 +82,11 @@ const bootstrap = async () => {
     .addCommand(importFolderCommand)
 
   program
-    .command('export <type>')
+    .command('export')
     .description('Export resources')
-    .option('diory', 'Export a diory')
-    .option('diograph', 'Export a diograph')
-    .option('content', 'Export content')
-    .option('room', 'Export a room')
-    .action(exportCommand)
+    .action(program.help)
+    .addCommand(exportDioryCommand)
+    .addCommand(exportDiographCommand)
 
   program
     .command('server')
