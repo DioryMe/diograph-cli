@@ -10,6 +10,7 @@ import { exportCommand } from './src/exportCommand.js'
 import { importFileCommand, importFolderCommand } from './src/importCommand.js'
 import { setConfigCommand } from './src/configCommand.js'
 import { getFfmpegPath } from './src/configManager.js'
+import { startCommand } from './src/startCommand.js'
 
 const bootstrap = async () => {
   try {
@@ -92,6 +93,12 @@ const bootstrap = async () => {
     .option('content', 'Export content')
     .option('room', 'Export a room')
     .action(exportCommand)
+
+  program
+    .command('server')
+    .description('Start server')
+    .action(program.help)
+    .addCommand(startCommand)
 
   program.parse()
 
