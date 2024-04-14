@@ -1,8 +1,9 @@
 import { program } from 'commander'
-import { ConfigClient, RoomConfig, bootstrap } from 'diograph-server'
+// import { ConfigClient, RoomConfig, bootstrap } from 'diograph-server'
 import { listRooms } from './configManager.js'
 
 const startAction = async () => {
+  /*
   const configClient: ConfigClient = {
     getRoomConfigs: async () => {
       const roomConfigs = Object.values(await listRooms())
@@ -14,6 +15,7 @@ const startAction = async () => {
     },
   }
   bootstrap(configClient)
+  */
 }
 
 const startCommand = program.command('start').description('Start server').action(startAction)
