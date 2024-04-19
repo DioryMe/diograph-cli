@@ -174,13 +174,13 @@ const findRoom = async (roomAddress: string): Promise<RoomConfig> => {
     throw new Error('No rooms found')
   }
 
-  const room = Object.values(configObject.rooms).find((room) => room.address === roomAddress)
+  const roomConfig = Object.values(configObject.rooms).find((room) => room.address === roomAddress)
 
-  if (!room) {
+  if (!roomConfig) {
     throw new Error(`Room with address ${roomAddress} not found`)
   }
 
-  return room
+  return roomConfig
 }
 
 const readConfig = async (): Promise<ConfigObject> => {
