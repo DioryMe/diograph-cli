@@ -96,10 +96,8 @@ const connectionInFocus = async (): Promise<Connection> => {
   )
 
   const connectionAddress = await connectionInFocusId()
-  // TODO: Replace with room.findConnection from @diograph/diograph
-  const connection = room.connections.find(
-    (existingConnection) => existingConnection.address === connectionAddress,
-  )
+
+  const connection = room.findConnection(connectionAddress)
 
   if (!connection) {
     throw new Error('ConnectionInFocus not found from RoomInFocus!??!')
