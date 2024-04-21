@@ -5,12 +5,8 @@ import { Connection, Room } from '@diograph/diograph'
 import { constructAndLoadRoom } from '@diograph/utils'
 import { S3ClientCredentials } from '@diograph/s3-client'
 import { getAvailableClients } from './getAvailableClients.js'
-
-export interface RoomConfig {
-  id: string
-  address: string
-  clientType: string
-}
+import { RoomConfigData } from '@diograph/diograph/types.js'
+import { validateRoomConfigData } from '@diograph/diograph/validator.js'
 
 export interface ConfigObject {
   focus: {
@@ -18,7 +14,7 @@ export interface ConfigObject {
     roomInFocus: string
   }
   rooms: {
-    [key: string]: RoomConfig
+    [key: string]: RoomConfigData
   }
   ffmpegPath?: string
   s3Credentials?: S3ClientCredentials
@@ -167,7 +163,7 @@ const getS3Credentials = async (): Promise<S3ClientCredentials> => {
 // private
 
 // TODO: Credentials missing here...
-const findRoom = async (roomAddress: string): Promise<RoomConfig> => {
+const findRoom = async (roomAddress: string): Promise<RoomConfigData> => {
   const configObject = await readConfig()
 
   if (Object.keys(configObject.rooms).length === 0) {
@@ -197,12 +193,23 @@ const readConfig = async (): Promise<ConfigObject> => {
   if (!parsedConfigObject.rooms) {
     parsedConfigObject.rooms = {}
   }
+
+  // Validate RoomConfigData
+  Object.values(parsedConfigObject.rooms).forEach((parsedRoomConfigDataObject) => {
+    validateRoomConfigData(parsedRoomConfigDataObject as RoomConfigData)
+  })
+
   return parsedConfigObject as ConfigObject
 }
 
 const writeConfig = async (configObject: ConfigObject): Promise<void> => {
   // TODO: Validate configObject to verify that it has the correct structure before writing it to file
   // - s3Credentials should be type @diograph/s3-client/S3ClientCredentials
+
+  // Validate RoomConfigData before writing it to file
+  Object.values(configObject.rooms).forEach((roomConfigDataObject: RoomConfigData) => {
+    validateRoomConfigData(roomConfigDataObject)
+  })
 
   await fs.writeFile(dcliConfigPath, ini.stringify(configObject))
   console.log(`Configuration written to: ${dcliConfigPath}`)
