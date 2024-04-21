@@ -5,8 +5,8 @@ import { Connection, Room } from '@diograph/diograph'
 import { constructAndLoadRoom } from '@diograph/utils'
 import { S3ClientCredentials } from '@diograph/s3-client'
 import { getAvailableClients } from './getAvailableClients.js'
-import { RoomConfigData } from '@diograph/diograph/types.js'
-import { validateRoomConfigData } from '@diograph/diograph/validator.js'
+import { RoomConfigData } from '@diograph/diograph/types'
+import { validateRoomConfigData } from '@diograph/diograph/validator'
 
 export interface ConfigObject {
   focus: {
@@ -44,7 +44,7 @@ const setRoomInFocus = async (roomAddress: string): Promise<void> => {
 
   const room = Object.values(configObject.rooms).find((room) => room.address === roomAddress)
 
-  if (!room) {
+  if (!room || !room.id) {
     throw new Error(`Can't set roomInFocus: ${roomAddress} not found`)
   }
 
