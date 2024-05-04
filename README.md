@@ -25,12 +25,6 @@ git clone git@github.com:DioryMe/demo-content-room.git
 robot main.robot
 ```
 
-S3:
-
-```
-DIOGRAPH_CLI_TEST_TYPE=S3 aws-vault exec ***** -- robot main.robot
-```
-
 ## App commands
 
 ```

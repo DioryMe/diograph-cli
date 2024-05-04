@@ -13,13 +13,13 @@
     "dist"
   ],
   "dependencies": {
-    "@diograph/diograph": "next",
-    "@diograph/diograph-server": "^0.0.1-rc2",
+    "@diograph/diograph": "0.2.3",
+    "@diograph/diograph-server": "0.1.0",
     "@diograph/file-generator": "next",
     "@diograph/folder-generator": "next",
     "@diograph/local-client": "next",
     "@diograph/s3-client": "0.2.0-rc4",
-    "@diograph/utils": "^0.0.2",
+    "@diograph/utils": "0.0.4",
     "chalk": "^5.3.0",
     "commander": "^11.1.0",
     "uuid": "^9.0.1"
