@@ -1,7 +1,6 @@
 import { Connection } from '@diograph/diograph'
 import { listRooms } from '../configManager.js'
 import { constructAndLoadRoom } from '@diograph/utils'
-import { LocalClient } from '@diograph/local-client'
 import { getAvailableClients } from '../getAvailableClients.js'
 
 const outputListConnections = async (): Promise<void> => {
@@ -11,7 +10,7 @@ const outputListConnections = async (): Promise<void> => {
     Object.values(roomConfigs).map(async (roomConfig) => {
       const room = await constructAndLoadRoom(
         roomConfig.address,
-        roomConfig.roomClientType,
+        roomConfig.clientType,
         availableClients,
       )
       return room.connections

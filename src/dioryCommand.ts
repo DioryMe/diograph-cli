@@ -1,5 +1,5 @@
 import chalk from 'chalk'
-import { connectionInFocus, roomInFocus } from './configManager.js'
+import { roomInFocus } from './configManager.js'
 import { program } from 'commander'
 
 interface queryActionOptions {
@@ -54,6 +54,7 @@ const dioryQueryCommand = program
   .option('--text <value>', 'Query from text field')
   .option('--all', 'List all')
   .action(queryAction)
+
 const dioryShowCommand = program.command('show <diory-id>').action(showAction)
 
 export { dioryShowCommand, dioryQueryCommand }

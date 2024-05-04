@@ -2,14 +2,14 @@ import fs from 'fs/promises'
 import ini from 'ini'
 import { dcliConfigPath } from './appConfig.js'
 import { Connection, Room } from '@diograph/diograph'
-import { LocalClient } from '@diograph/local-client'
 import { constructAndLoadRoom } from '@diograph/utils'
 import { S3ClientCredentials } from '@diograph/s3-client'
 import { getAvailableClients } from './getAvailableClients.js'
 
 export interface RoomConfig {
+  id: string
   address: string
-  roomClientType: string
+  clientType: string
 }
 
 export interface ConfigObject {
@@ -34,16 +34,25 @@ const defaultConfigObject: ConfigObject = {
 
 const addRoom = async (roomAddress: string, roomClientType: string): Promise<void> => {
   const configObject = await readConfig()
-  configObject.rooms[roomAddress] = {
+  const roomId = `room-${Object.keys(configObject.rooms).length + 1}`
+  configObject.rooms[roomId] = {
+    id: roomId,
     address: roomAddress,
-    roomClientType: roomClientType,
+    clientType: roomClientType,
   }
   await writeConfig(configObject)
 }
 
 const setRoomInFocus = async (roomAddress: string): Promise<void> => {
   const configObject = await readConfig()
-  configObject.focus.roomInFocus = roomAddress
+
+  const room = Object.values(configObject.rooms).find((room) => room.address === roomAddress)
+
+  if (!room) {
+    throw new Error(`Can't set roomInFocus: ${roomAddress} not found`)
+  }
+
+  configObject.focus.roomInFocus = room.id
   await writeConfig(configObject)
 }
 
@@ -81,12 +90,12 @@ const connectionInFocusId = async (): Promise<string> => {
 
 const connectionInFocus = async (): Promise<Connection> => {
   const roomId = await roomInFocusId()
-  const roomConfig = await findRoom(roomId)
+  const roomConfig = (await listRooms())[roomId]
 
   const availableClients = await getAvailableClients()
   const room = await constructAndLoadRoom(
     roomConfig.address,
-    roomConfig.roomClientType,
+    roomConfig.clientType,
     availableClients,
   )
 
@@ -116,10 +125,10 @@ const roomInFocusId = async (): Promise<string> => {
 
 const roomInFocus = async (): Promise<Room> => {
   const roomId = await roomInFocusId()
-  const roomConfig = await findRoom(roomId)
+  const roomConfig = (await listRooms())[roomId]
 
   const availableClients = await getAvailableClients()
-  const room = constructAndLoadRoom(roomConfig.address, roomConfig.roomClientType, availableClients)
+  const room = constructAndLoadRoom(roomConfig.address, roomConfig.clientType, availableClients)
   return room
 }
 
@@ -165,11 +174,13 @@ const findRoom = async (roomAddress: string): Promise<RoomConfig> => {
     throw new Error('No rooms found')
   }
 
-  if (!configObject.rooms[roomAddress]) {
+  const room = Object.values(configObject.rooms).find((room) => room.address === roomAddress)
+
+  if (!room) {
     throw new Error(`Room with address ${roomAddress} not found`)
   }
 
-  return configObject.rooms[roomAddress]
+  return room
 }
 
 const readConfig = async (): Promise<ConfigObject> => {
