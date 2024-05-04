@@ -1,5 +1,5 @@
 import { Connection, Room } from '@diograph/diograph'
-import { ConnectionClientList } from '@diograph/diograph/types.js'
+import { ConnectionClientList } from '@diograph/diograph/types'
 import { constructRoom, getClientAndVerify } from '@diograph/utils'
 
 export const createRoom = async (

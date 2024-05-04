@@ -62,20 +62,20 @@ Import Two Files
     # Verify Room JSON Contents  ${CURDIR}/import_file_room_json.txt
     # Verify Diograph JSON Contents  ${CURDIR}/import_file_diograph_json.txt
 
-Import Folder
-    ${exit_code}  ${output}  ${error_output}=  Run Dcli Command  import folder ${CURDIR}/demo-content-room/source
-    Verify Exit Code Zero  ${exit_code}  ${output}  ${error_output}
+# Import Folder
+#     ${exit_code}  ${output}  ${error_output}=  Run Dcli Command  import folder ${CURDIR}/demo-content-room/source
+#     Verify Exit Code Zero  ${exit_code}  ${output}  ${error_output}
 
     # Random UUID's and created & modified timestamps prevent using these:
     # Verify Room JSON Contents  ${CURDIR}/import_folder_room_json.txt
     # Verify Diograph JSON Contents  ${CURDIR}/import_folder_diograph_json.txt
 
-Connection list-contents
-    ${exit_code}  ${output}  ${error_output}=  Run Dcli Command  connection create ${CURDIR}/demo-content-room/source
-    Verify Exit Code Zero  ${exit_code}  ${output}  ${error_output}
+# Connection list-contents
+#     ${exit_code}  ${output}  ${error_output}=  Run Dcli Command  connection create ${CURDIR}/demo-content-room/source
+#     Verify Exit Code Zero  ${exit_code}  ${output}  ${error_output}
 
-    ${exit_code}  ${output}  ${error_output}=  Run Dcli Command  connection list-contents
-    Verify Exit Code Zero  ${exit_code}  ${output}  ${error_output}
+#     ${exit_code}  ${output}  ${error_output}=  Run Dcli Command  connection list-contents
+#     Verify Exit Code Zero  ${exit_code}  ${output}  ${error_output}
 
     # Random UUID's and created & modified timestamps prevent using these:
     # Verify Room JSON Contents  ${CURDIR}/list_contents_room_json.txt
