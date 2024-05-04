@@ -1,15 +1,15 @@
 import fs from 'fs/promises'
 import ini from 'ini'
 import { dcliConfigPath } from './appConfig.js'
-import { Room } from '@diograph/diograph'
-import { LocalClient } from '@diograph/local-client'
+import { Connection, Room } from '@diograph/diograph'
 import { constructAndLoadRoom } from '@diograph/utils'
 import { S3ClientCredentials } from '@diograph/s3-client'
 import { getAvailableClients } from './getAvailableClients.js'
 
 export interface RoomConfig {
+  id: string
   address: string
-  roomClientType: string
+  clientType: string
 }
 
 export interface ConfigObject {
@@ -34,16 +34,25 @@ const defaultConfigObject: ConfigObject = {
 
 const addRoom = async (roomAddress: string, roomClientType: string): Promise<void> => {
   const configObject = await readConfig()
-  configObject.rooms[roomAddress] = {
+  const roomId = `room-${Object.keys(configObject.rooms).length + 1}`
+  configObject.rooms[roomId] = {
+    id: roomId,
     address: roomAddress,
-    roomClientType: roomClientType,
+    clientType: roomClientType,
   }
   await writeConfig(configObject)
 }
 
 const setRoomInFocus = async (roomAddress: string): Promise<void> => {
   const configObject = await readConfig()
-  configObject.focus.roomInFocus = roomAddress
+
+  const room = Object.values(configObject.rooms).find((room) => room.address === roomAddress)
+
+  if (!room) {
+    throw new Error(`Can't set roomInFocus: ${roomAddress} not found`)
+  }
+
+  configObject.focus.roomInFocus = room.id
   await writeConfig(configObject)
 }
 
@@ -68,6 +77,42 @@ const connectionInFocusAddress = async (): Promise<string> => {
   return configObject.focus.connectionInFocus
 }
 
+// connectionInFocusAddress
+const connectionInFocusId = async (): Promise<string> => {
+  const configObject = await readConfig()
+
+  if (!configObject.focus.connectionInFocus) {
+    throw new Error('No connectionInFocus defined in config file')
+  }
+
+  return configObject.focus.connectionInFocus
+}
+
+const connectionInFocus = async (): Promise<Connection> => {
+  const roomId = await roomInFocusId()
+  const roomConfig = (await listRooms())[roomId]
+
+  const availableClients = await getAvailableClients()
+  const room = await constructAndLoadRoom(
+    roomConfig.address,
+    roomConfig.clientType,
+    availableClients,
+  )
+
+  const connectionAddress = await connectionInFocusId()
+  // TODO: Replace with room.findConnection from @diograph/diograph
+  const connection = room.connections.find(
+    (existingConnection) => existingConnection.address === connectionAddress,
+  )
+
+  if (!connection) {
+    throw new Error('ConnectionInFocus not found from RoomInFocus!??!')
+  }
+
+  return connection
+}
+
+// roomInFocusAddress
 const roomInFocusId = async (): Promise<string> => {
   const configObject = await readConfig()
 
@@ -80,10 +125,10 @@ const roomInFocusId = async (): Promise<string> => {
 
 const roomInFocus = async (): Promise<Room> => {
   const roomId = await roomInFocusId()
-  const roomConfig = await findRoom(roomId)
+  const roomConfig = (await listRooms())[roomId]
 
   const availableClients = await getAvailableClients()
-  const room = constructAndLoadRoom(roomConfig.address, roomConfig.roomClientType, availableClients)
+  const room = constructAndLoadRoom(roomConfig.address, roomConfig.clientType, availableClients)
   return room
 }
 
@@ -129,11 +174,13 @@ const findRoom = async (roomAddress: string): Promise<RoomConfig> => {
     throw new Error('No rooms found')
   }
 
-  if (!configObject.rooms[roomAddress]) {
+  const roomConfig = Object.values(configObject.rooms).find((room) => room.address === roomAddress)
+
+  if (!roomConfig) {
     throw new Error(`Room with address ${roomAddress} not found`)
   }
 
-  return configObject.rooms[roomAddress]
+  return roomConfig
 }
 
 const readConfig = async (): Promise<ConfigObject> => {
@@ -145,6 +192,10 @@ const readConfig = async (): Promise<ConfigObject> => {
 
   if (Object.keys(parsedConfigObject).length === 0) {
     return defaultConfigObject
+  }
+
+  if (!parsedConfigObject.rooms) {
+    parsedConfigObject.rooms = {}
   }
   return parsedConfigObject as ConfigObject
 }
@@ -163,6 +214,7 @@ export {
   setConnectionInFocus,
   listRooms,
   connectionInFocusAddress,
+  connectionInFocus,
   roomInFocusId,
   roomInFocus,
   constructAndLoadRoom,

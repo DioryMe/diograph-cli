@@ -5,11 +5,12 @@ import { createConnectionCommand, listContentsConnectionCommand } from './src/co
 import { addRoomCommand, createRoomCommand } from './src/roomCommand.js'
 import { dioryQueryCommand, dioryShowCommand } from './src/dioryCommand.js'
 import { statusCommand } from './src/statusCommand.js'
-import { listCommand } from './src/listCommand.js'
-import { exportCommand } from './src/exportCommand.js'
+import { listConnectionsCommand, listRoomsCommand } from './src/listCommand.js'
+import { exportDiographCommand, exportDioryCommand } from './src/exportCommand.js'
 import { importFileCommand, importFolderCommand } from './src/importCommand.js'
 import { setConfigCommand } from './src/configCommand.js'
 import { getFfmpegPath } from './src/configManager.js'
+import { startCommand } from './src/startCommand.js'
 
 const bootstrap = async () => {
   try {
@@ -17,7 +18,7 @@ const bootstrap = async () => {
   } catch (error: any) {}
 
   program
-    .version('0.1.0')
+    .version('0.1.1')
     .description('Execute Diograph commands from CLI')
     .usage('<command> [options]')
     .helpOption('-h, --help', 'Output usage information.')
@@ -31,21 +32,17 @@ const bootstrap = async () => {
   program.command('status').description('Show status').action(statusCommand)
 
   program
-    .command('config') //
+    .command('config')
     .description('Set config values: FFMPEG_PATH or s3-credentials') //
     .action(program.help)
     .addCommand(setConfigCommand)
-  // .command('config <command> <envKey> <envValue>')
-  // .description('Set config values')
-  // .option('set', 'Set a config value')
-  // .action(configCommand)
 
   program
-    .command('list <resource>')
-    .description('List resources')
-    .option('rooms', 'List all rooms')
-    .option('connections', 'List all connections')
-    .action(listCommand)
+    .command('list')
+    .description('List rooms and connections')
+    .action(program.help)
+    .addCommand(listRoomsCommand)
+    .addCommand(listConnectionsCommand)
 
   program
     .command('room')
@@ -84,14 +81,16 @@ const bootstrap = async () => {
     .addCommand(importFileCommand)
     .addCommand(importFolderCommand)
 
+  program.command('export').description('Export resources').action(program.help)
+  // FIXME: Enabling these spoils `dcli diory query` command?!!?
+  // .addCommand(exportDioryCommand)
+  // .addCommand(exportDiographCommand)
+
   program
-    .command('export <type>')
-    .description('Export resources')
-    .option('diory', 'Export a diory')
-    .option('diograph', 'Export a diograph')
-    .option('content', 'Export content')
-    .option('room', 'Export a room')
-    .action(exportCommand)
+    .command('server')
+    .description('Start server')
+    .action(program.help)
+    .addCommand(startCommand)
 
   program.parse()
 

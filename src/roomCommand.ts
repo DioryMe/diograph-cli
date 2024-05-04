@@ -19,19 +19,19 @@ const exitIfRoomAlreadyExists = async (roomAddress: string, method?: string) => 
 }
 
 interface createActionOptions {
-  path?: string
+  address?: string
   here?: boolean
   clientType?: string
 }
 
 const createAction = async (options: createActionOptions) => {
   if (Object.keys(options).length === 0) {
-    console.log(chalk.red('Please provide a room address or --here'))
+    console.log(chalk.red('Please provide a room --address or --here'))
     return
   }
 
   const contentClientType = options.clientType ?? 'LocalClient'
-  const roomAddress = options.here || !options.path ? process.cwd() : options.path
+  const roomAddress = options.here || !options.address ? process.cwd() : options.address
 
   await exitIfRoomAlreadyExists(roomAddress, 'createRoom')
 
@@ -50,12 +50,12 @@ const createAction = async (options: createActionOptions) => {
 
 const addAction = async (options: createActionOptions) => {
   if (Object.keys(options).length === 0) {
-    console.log(chalk.red('Please provide a room address or --here'))
+    console.log(chalk.red('Please provide a room --address or --here'))
     return
   }
 
   const contentClientType = options.clientType ?? 'LocalClient'
-  const roomAddress = options.here || !options.path ? process.cwd() : options.path
+  const roomAddress = options.here || !options.address ? process.cwd() : options.address
 
   await exitIfRoomAlreadyExists(roomAddress, 'addRoom')
 
@@ -69,19 +69,19 @@ const addAction = async (options: createActionOptions) => {
     process.exit(1)
   }
 
-  console.log('Room added.')
+  console.log(chalk.green('Room added.'))
 }
 
 const createRoomCommand = program
   .command('create')
-  .option('--path <value>', 'Create room to given path')
+  .option('--address <value>', 'Create room to given address')
   .option('--here', 'Create room to current directory')
   .option('--clientType <value>', 'Set clientType (default: LocalClient)')
   .action(createAction)
 
 const addRoomCommand = program
   .command('add')
-  .option('--path <value>', 'Add room from given path')
+  .option('--address <value>', 'Add room from given address')
   .option('--here', 'Add room from current directory')
   .option('--clientType <value>', 'Set clientType (default: LocalClient)')
   .action(addAction)

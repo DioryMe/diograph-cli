@@ -21,6 +21,7 @@ dcli import file ~/MyPictures/my-pic.jpg
 
 ```
 cd tests
+git clone git@github.com:DioryMe/demo-content-room.git
 robot main.robot
 ```
 

@@ -17,7 +17,7 @@ const queryAction = async (options: queryActionOptions) => {
     options = {}
   }
 
-  const room = await roomInFocus()
+  const room = await roomInFocus() // await connectionInFocus()
   const diograph = room.diograph
 
   const searchResult = diograph.queryDiograph(options)
@@ -25,7 +25,7 @@ const queryAction = async (options: queryActionOptions) => {
 }
 
 const showAction = async (dioryId: string) => {
-  const room = await roomInFocus()
+  const room = await roomInFocus() // await connectionInFocus()
   const diograph = room.diograph
 
   try {
@@ -33,11 +33,15 @@ const showAction = async (dioryId: string) => {
       id: dioryId,
     })
     console.log('diory', diory.toObjectWithoutImage())
-    console.log('Image link:', `http://localhost:3000/image?dioryId=${diory.id}`)
+    console.log('Image link:', `http://localhost:3000/room-1/thumbnail?dioryId=${diory.id}`)
     if (diory.data && diory.data.length) {
       console.log(
         'Content link:',
-        `http://localhost:3000/content?cid=${diory.data[0].contentUrl}&mime=${diory.data[0].encodingFormat}`,
+        `http://localhost:3000/room-1/content?cid=${diory.data[0].contentUrl}&mime=${diory.data[0].encodingFormat}`,
+      )
+      console.log(
+        'S3 Content link:',
+        `http://localhost:3000/s3?cid=${diory.data[0].contentUrl}&mime=${diory.data[0].encodingFormat}`,
       )
     }
   } catch (error: any) {
@@ -50,6 +54,7 @@ const dioryQueryCommand = program
   .option('--text <value>', 'Query from text field')
   .option('--all', 'List all')
   .action(queryAction)
+
 const dioryShowCommand = program.command('show <diory-id>').action(showAction)
 
 export { dioryShowCommand, dioryQueryCommand }

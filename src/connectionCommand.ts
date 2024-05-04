@@ -4,7 +4,6 @@ import { connectionInFocusAddress, roomInFocus, setConnectionInFocus } from './c
 import { program } from 'commander'
 import { generateDiograph } from '@diograph/folder-generator'
 import { getClientAndVerify } from '@diograph/utils'
-import { LocalClient } from '@diograph/local-client'
 import { getAvailableClients } from './getAvailableClients.js'
 
 const listContentsAction = async () => {

@@ -1,29 +1,21 @@
-import chalk from 'chalk'
 import { outputListRooms } from './appCommands/listRooms.js'
 import { outputListConnections } from './appCommands/listConnections.js'
+import { program } from 'commander'
 
-const listCommand = (resourceName: string) => {
-  const validResources = ['rooms', 'connections']
-
-  if (!validResources.includes(resourceName)) {
-    console.error(
-      chalk.red(
-        `Invalid resource: ${resourceName}. Resource should be either 'rooms' or 'connections'`,
-      ),
-    )
-    process.exit(1)
-  }
-
-  switch (resourceName) {
-    case 'rooms':
-      outputListRooms()
-      break
-    case 'connections':
-      outputListConnections()
-      break
-    default:
-      break
-  }
+const listRoomsAction = async () => {
+  outputListRooms()
 }
 
-export { listCommand }
+const listConnectionsAction = async () => {
+  outputListConnections()
+}
+
+const listRoomsCommand = program //
+  .command('rooms') //
+  .action(listRoomsAction)
+
+const listConnectionsCommand = program //
+  .command('connections') //
+  .action(listConnectionsAction)
+
+export { listRoomsCommand, listConnectionsCommand }
