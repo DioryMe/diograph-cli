@@ -2,10 +2,11 @@ import chalk from 'chalk'
 import { Connection, Room } from '@diograph/diograph'
 import { connectionInFocusAddress, roomInFocus, setConnectionInFocus } from './configManager.js'
 import { program } from 'commander'
-import { generateDiograph } from '@diograph/folder-generator'
+// import { generateDiograph } from '@diograph/folder-generator'
 import { getClientAndVerify } from '@diograph/utils'
 import { getAvailableClients } from './getAvailableClients.js'
 
+/*
 const listContentsAction = async () => {
   const connectionAddress = await connectionInFocusAddress()
   const room = await roomInFocus()
@@ -43,6 +44,7 @@ const listContentsAction = async () => {
 
   await room.saveRoom()
 }
+*/
 
 interface createActionOptions {
   contentClientType: string
@@ -96,6 +98,6 @@ const createConnectionCommand = program
   // .option('--here', 'Create connection in current folder')
   .action(createAction)
 
-const listContentsConnectionCommand = program.command('list-contents').action(listContentsAction)
+// const listContentsConnectionCommand = program.command('list-contents').action(listContentsAction)
 
-export { createConnectionCommand, listContentsConnectionCommand }
+export { createConnectionCommand /* listContentsConnectionCommand */ }

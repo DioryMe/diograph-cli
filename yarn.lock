@@ -647,30 +647,6 @@
     path-browserify "^1.0.1"
     uuid "8.3.2"
 
-"@diograph/diograph@0.3.0-rc11":
-  version "0.3.0-rc11"
-  resolved "https://registry.yarnpkg.com/@diograph/diograph/-/diograph-0.3.0-rc11.tgz#5785f9423371cfada2f101374b52fca8721dd7e2"
-  integrity sha512-IBDJzUlxZOiyVs9E6uNiBKZlBrtrj84u59aKMU2tvQ/r1hQ2ZCmEJJYRXgqoaQCofX1DHmcpWIH+FAnqo6GqcQ==
-  dependencies:
-    ajv "^8.12.0"
-    uuid "^8.3.2"
-
-"@diograph/diograph@0.3.0-rc12":
-  version "0.3.0-rc12"
-  resolved "https://registry.yarnpkg.com/@diograph/diograph/-/diograph-0.3.0-rc12.tgz#093908480a0cd7bc774438dc6dd3ec8d13d98758"
-  integrity sha512-tEU7DWmEv+OKEbmBGj7Xk0RutSpZTP/YLLnXVrVlpXVIYqLvp0ggZWpGwEzLt5Ri1tOfCtJm5ZBhcNrz5BgaEA==
-  dependencies:
-    ajv "^8.12.0"
-    uuid "^8.3.2"
-
-"@diograph/diograph@0.3.0-rc14":
-  version "0.3.0-rc14"
-  resolved "https://registry.yarnpkg.com/@diograph/diograph/-/diograph-0.3.0-rc14.tgz#5ad19f36d1917a927bc575428fe3bb33f3618841"
-  integrity sha512-6L6DvTuDsrJF/jS+Z8vHVTjrY48AAgg9NrggEIKFz3Yxjh0IOiEl14GyY8bU5Pu1YOCAItgBnrGAjaR3kk23UA==
-  dependencies:
-    ajv "^8.12.0"
-    uuid "^8.3.2"
-
 "@diograph/diograph@next":
   version "0.2.3-rc2"
   resolved "https://registry.yarnpkg.com/@diograph/diograph/-/diograph-0.2.3-rc2.tgz#a504a2cf5364ae94a569774c0b4b76f0df640ef2"
@@ -682,37 +658,7 @@
     path-browserify "^1.0.1"
     uuid "8.3.2"
 
-"@diograph/file-generator@^0.1.2-rc10":
-  version "0.1.2-rc10"
-  resolved "https://registry.yarnpkg.com/@diograph/file-generator/-/file-generator-0.1.2-rc10.tgz#ffd821702f0f4b4e936baaf1b0618e88c0913386"
-  integrity sha512-BAVKFwDpH0dNIJTIMbouXii2oNQf/hM3EpCfWmdTZBH5WYbhRW/oEPGXbHoo7+vZ1ZuSScGuD5G7PsE+iKuzpQ==
-  dependencies:
-    "@diograph/diograph" "0.3.0-rc11"
-    "@diograph/file-generator" "^0.1.2-rc9"
-    "@diograph/local-client" "^0.3.0-rc4"
-    "@types/path-browserify" "^1.0.2"
-    exifreader "^4.8.1"
-    multiformats "^9.6.0"
-    path-browserify "^1.0.1"
-    sharp "0.31.2"
-    uuid "^9.0.0"
-
-"@diograph/file-generator@^0.1.2-rc4", "@diograph/file-generator@^0.1.2-rc9":
-  version "0.1.2-rc9"
-  resolved "https://registry.yarnpkg.com/@diograph/file-generator/-/file-generator-0.1.2-rc9.tgz#d57739748187457777f5a278c4598590e5cda16f"
-  integrity sha512-wzOsoVEmV26RHVY1c3JucZm0XsgIn7cyU/mNFD1K0L60dtZjo2JByAHSJZItlNWfbukSem78yZUPTs6LqS4xCA==
-  dependencies:
-    "@diograph/diograph" "0.3.0-rc11"
-    "@diograph/local-client" "^0.3.0-rc3"
-    "@types/path-browserify" "^1.0.2"
-    exifreader "^4.8.1"
-    file-type "^16.4.0"
-    multiformats "^9.6.0"
-    path-browserify "^1.0.1"
-    sharp "0.31.2"
-    uuid "^9.0.0"
-
-"@diograph/file-generator@next":
+"@diograph/file-generator@0.1.2-rc4":
   version "0.1.2-rc4"
   resolved "https://registry.yarnpkg.com/@diograph/file-generator/-/file-generator-0.1.2-rc4.tgz#2a56dd2b63212af62088a14c9ac85b3d5c53376d"
   integrity sha512-tX+KcZ6Adr6vJAQUy7ddTwHUMWIff/1Tw8fuuESY/6uQ/T0023mWT3iAwCXMigrCd/HnhaQkew8Tel5hElN2qQ==
@@ -725,35 +671,6 @@
     multiformats "^9.6.0"
     sharp "0.31.2"
     uuid "^9.0.0"
-
-"@diograph/folder-generator@^0.3.0-rc1":
-  version "0.3.0-rc2"
-  resolved "https://registry.yarnpkg.com/@diograph/folder-generator/-/folder-generator-0.3.0-rc2.tgz#20e00a8d8a3adc94754d00f0b5c223d519ae3d2d"
-  integrity sha512-GJTlMMX9LJ6BNl+vCuaikq00SoGUr9ovvdTY5yJM/SPBZ3mU9tjMPls6CRiwZQnuHiXRnFawZq0+HJGs3iEsBw==
-  dependencies:
-    "@diograph/diograph" "0.3.0-rc12"
-    "@diograph/file-generator" "^0.1.2-rc10"
-    "@diograph/local-client" "^0.3.0-rc4"
-    path-browserify "^1.0.1"
-    uuid "^8.3.2"
-
-"@diograph/folder-generator@next":
-  version "0.1.1-rc8"
-  resolved "https://registry.yarnpkg.com/@diograph/folder-generator/-/folder-generator-0.1.1-rc8.tgz#aed61970c1190da708583b54de9b00d0d8fceefb"
-  integrity sha512-AuKcGTe5e4rjHoZKYrCfg6Lkp0O2huI11RKhqjk3GI3sBVhCj6rw5p+6gzaIS9DulmqIBlX1Y+zct2uIEeGO9w==
-  dependencies:
-    "@diograph/diograph" "^0.2.2-rc2"
-    "@diograph/file-generator" "^0.1.2-rc4"
-    uuid "^8.3.2"
-
-"@diograph/local-client@^0.3.0-rc3", "@diograph/local-client@^0.3.0-rc4":
-  version "0.3.0-rc5"
-  resolved "https://registry.yarnpkg.com/@diograph/local-client/-/local-client-0.3.0-rc5.tgz#888c44f559b3f2395c51779933f0f002e0f51f70"
-  integrity sha512-MYrB70qTwoJHpD87ginBgy1bu/Ka+r9IaPc2QuV4z/+6a64BGWTpsZ+6gooj9Yev/9Ztm6pDpPjG3U2CAIddUg==
-  dependencies:
-    "@diory/client-js" "^0.2.0-rc4"
-    file-type "16.4.0"
-    path-browserify "^1.0.1"
 
 "@diograph/local-client@next":
   version "0.2.0-rc2"
@@ -782,24 +699,6 @@
   version "0.0.4"
   resolved "https://registry.yarnpkg.com/@diograph/utils/-/utils-0.0.4.tgz#61df52c4819b1332395882d4b110546cdd810cb2"
   integrity sha512-jR69KRzztTu/s1/nkCMo1y2WHyOw3CZNH6emiZ32mOIVULMfr/TFrvrS5iRGrWzrZwHj31U+Y5FlYhElxqUDBA==
-
-"@diory/client-js@^0.2.0-rc4":
-  version "0.2.0-rc4"
-  resolved "https://registry.yarnpkg.com/@diory/client-js/-/client-js-0.2.0-rc4.tgz#cd3c97abbf61c8fc0d920151119fa32c74273e3f"
-  integrity sha512-G4tfWDREzUEtS4CLXFyiRnq4ZVDuN4dgDNos4tUHQunl3zcPpUzZaNlq1YneQYDbk7TvxA97EFWlx5AG5XEdwg==
-  dependencies:
-    "@diograph/diograph" "0.3.0-rc14"
-    "@diograph/folder-generator" "^0.3.0-rc1"
-    "@diory/diosphere-js" "0.2.6-rc2"
-    path-browserify "^1.0.1"
-    uuid "8.3.2"
-
-"@diory/diosphere-js@0.2.6-rc2":
-  version "0.2.6-rc2"
-  resolved "https://registry.yarnpkg.com/@diory/diosphere-js/-/diosphere-js-0.2.6-rc2.tgz#dfe334927d231795dfdbd87f8a538b0ed50c03b5"
-  integrity sha512-NN7/TFkQcgF0UANcAkWjUtI9swX8LPwYVm6g4oDZ6Rib9dNCSBvAyjq8GJ/VMYPLyMaS3WZBgQZ5+EoLF9Xnjg==
-  dependencies:
-    uuid "8.3.2"
 
 "@lukeed/csprng@^1.0.0":
   version "1.1.0"
@@ -1311,11 +1210,6 @@
     "@smithy/types" "^2.12.0"
     tslib "^2.6.2"
 
-"@tokenizer/token@^0.1.1":
-  version "0.1.1"
-  resolved "https://registry.yarnpkg.com/@tokenizer/token/-/token-0.1.1.tgz#f0d92c12f87079ddfd1b29f614758b9696bc29e3"
-  integrity sha512-XO6INPbZCxdprl+9qa/AAbFFOMzzwqYxpjPgLICrMD6C2FCw6qfJOPcBk6JqqPLSaZ/Qx87qn4rpPmPMwaAK6w==
-
 "@tokenizer/token@^0.3.0":
   version "0.3.0"
   resolved "https://registry.yarnpkg.com/@tokenizer/token/-/token-0.3.0.tgz#fe98a93fe789247e998c75e74e9c7c63217aa276"
@@ -1333,7 +1227,7 @@
   dependencies:
     undici-types "~5.26.4"
 
-"@types/path-browserify@^1.0.0", "@types/path-browserify@^1.0.2":
+"@types/path-browserify@^1.0.0":
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/@types/path-browserify/-/path-browserify-1.0.2.tgz#14b62d4371316016f254b9cca5c10e60ef33dcc0"
   integrity sha512-ZkC5IUqqIFPXx3ASTTybTzmQdwHwe2C0u3eL75ldQ6T9E9IWFJodn6hIfbZGab73DfyiHN4Xw15gNxUq2FbvBA==
@@ -1717,16 +1611,6 @@ fast-xml-parser@4.2.5:
   dependencies:
     strnum "^1.0.5"
 
-file-type@16.4.0:
-  version "16.4.0"
-  resolved "https://registry.yarnpkg.com/file-type/-/file-type-16.4.0.tgz#464197e44bd94a452d77b09085d977ae0dad2df4"
-  integrity sha512-MDAkwha3wHg11Lp++2T3Gu347eC/DB4r7nYj6iZaf1l7UhGBh2746QKxg0BWC8w2dJsxUEmH8KvLueX+GthN2w==
-  dependencies:
-    readable-web-to-node-stream "^3.0.0"
-    strtok3 "^6.0.3"
-    token-types "^2.0.0"
-    typedarray-to-buffer "^3.1.5"
-
 file-type@^16.4.0:
   version "16.5.4"
   resolved "https://registry.yarnpkg.com/file-type/-/file-type-16.5.4.tgz#474fb4f704bee427681f98dd390058a172a6c2fd"
@@ -1863,11 +1747,6 @@ is-arrayish@^0.3.1:
   version "0.3.2"
   resolved "https://registry.yarnpkg.com/is-arrayish/-/is-arrayish-0.3.2.tgz#4574a2ae56f7ab206896fb431eaeed066fdf8f03"
   integrity sha512-eVRqCvVlZbuw3GrM63ovNSNAeA1K16kaR/LRY/92w0zxQ5/1YzwblUX652i4Xs9RwAGjW9d9y6X88t8OaAJfWQ==
-
-is-typedarray@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/is-typedarray/-/is-typedarray-1.0.0.tgz#e479c80858df0c1b11ddda6940f96011fcda4a9a"
-  integrity sha512-cyA56iCMHAh5CdzjJIa4aohJyeO1YbwLi3Jc35MmRU6poroFjIGZzUzupGiRPOjgHg9TLu43xbpwXk523fMxKA==
 
 isarray@~1.0.0:
   version "1.0.0"
@@ -2320,7 +2199,7 @@ strnum@^1.0.5:
   resolved "https://registry.yarnpkg.com/strnum/-/strnum-1.0.5.tgz#5c4e829fe15ad4ff0d20c3db5ac97b73c9b072db"
   integrity sha512-J8bbNyKKXl5qYcR36TIO8W3mVGVHrmmxsd5PAItGkmyzwJvybiw2IVq5nqd0i4LSNSkB/sx9VHllbfFdr9k1JA==
 
-strtok3@^6.0.3, strtok3@^6.2.4:
+strtok3@^6.2.4:
   version "6.3.0"
   resolved "https://registry.yarnpkg.com/strtok3/-/strtok3-6.3.0.tgz#358b80ffe6d5d5620e19a073aa78ce947a90f9a0"
   integrity sha512-fZtbhtvI9I48xDSywd/somNqgUHl2L2cstmXCCif0itOf96jeW18MBSyrLuNicYQVkvpOxkZtkzujiTJ9LW5Jw==
@@ -2361,14 +2240,6 @@ toidentifier@1.0.1:
   resolved "https://registry.yarnpkg.com/toidentifier/-/toidentifier-1.0.1.tgz#3be34321a88a820ed1bd80dfaa33e479fbb8dd35"
   integrity sha512-o5sSPKEkg/DIQNmH43V0/uerLrpzVedkUh8tGNvaeXpfpuwjKenlSox/2O/BTlZUtEe+JG7s5YhEz608PlAHRA==
 
-token-types@^2.0.0:
-  version "2.1.1"
-  resolved "https://registry.yarnpkg.com/token-types/-/token-types-2.1.1.tgz#bd585d64902aaf720b8979d257b4b850b4d45c45"
-  integrity sha512-wnQcqlreS6VjthyHO3Y/kpK/emflxDBNhlNUPfh7wE39KnuDdOituXomIbyI79vBtF0Ninpkh72mcuRHo+RG3Q==
-  dependencies:
-    "@tokenizer/token" "^0.1.1"
-    ieee754 "^1.2.1"
-
 token-types@^4.1.1:
   version "4.2.1"
   resolved "https://registry.yarnpkg.com/token-types/-/token-types-4.2.1.tgz#0f897f03665846982806e138977dbe72d44df753"
@@ -2406,13 +2277,6 @@ type-is@^1.6.4, type-is@~1.6.18:
   dependencies:
     media-typer "0.3.0"
     mime-types "~2.1.24"
-
-typedarray-to-buffer@^3.1.5:
-  version "3.1.5"
-  resolved "https://registry.yarnpkg.com/typedarray-to-buffer/-/typedarray-to-buffer-3.1.5.tgz#a97ee7a9ff42691b9f783ff1bc5112fe3fca9080"
-  integrity sha512-zdu8XMNEDepKKR+XYOXAVPtWui0ly0NtohUscw+UmaHiAWT8hrV1rr//H6V+0DvJ3OQ19S979M0laLfX8rm82Q==
-  dependencies:
-    is-typedarray "^1.0.0"
 
 typedarray@^0.0.6:
   version "0.0.6"
@@ -2458,7 +2322,7 @@ utils-merge@1.0.1:
   resolved "https://registry.yarnpkg.com/utils-merge/-/utils-merge-1.0.1.tgz#9f95710f50a267947b2ccc124741c1028427e713"
   integrity sha512-pMZTvIkT1d+TFGvDOqodOclx0QWkkgi6Tdoa8gC8ffGAAqz9pzPTZWAybbsHHoED/ztMtkv/VoYTYyShUn81hA==
 
-uuid@8.3.2, uuid@^8.3.2:
+uuid@8.3.2:
   version "8.3.2"
   resolved "https://registry.yarnpkg.com/uuid/-/uuid-8.3.2.tgz#80d5b5ced271bb9af6c445f21a1a04c606cefbe2"
   integrity sha512-+NYs2QeMWy+GWFOEm9xnn6HCDp0l7QBD7ml8zLUmJ+93Q5NF0NocErnwkTkXVFNiX3/fpC6afS8Dhb/gz7R7eg==

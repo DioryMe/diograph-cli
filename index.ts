@@ -1,13 +1,15 @@
 #!/usr/bin/env node
 
 import { program } from 'commander'
-import { createConnectionCommand, listContentsConnectionCommand } from './src/connectionCommand.js'
+import {
+  createConnectionCommand /* listContentsConnectionCommand */,
+} from './src/connectionCommand.js'
 import { addRoomCommand, createRoomCommand } from './src/roomCommand.js'
 import { dioryQueryCommand, dioryShowCommand } from './src/dioryCommand.js'
 import { statusCommand } from './src/statusCommand.js'
 import { listConnectionsCommand, listRoomsCommand } from './src/listCommand.js'
 import { exportDiographCommand, exportDioryCommand } from './src/exportCommand.js'
-import { importFileCommand, importFolderCommand } from './src/importCommand.js'
+import { importFileCommand /* importFolderCommand */ } from './src/importCommand.js'
 import { setConfigCommand } from './src/configCommand.js'
 import { getFfmpegPath } from './src/configManager.js'
 import { startCommand } from './src/startCommand.js'
@@ -58,7 +60,7 @@ const bootstrap = async () => {
     .command('connection')
     .description('Manage connections')
     .addCommand(createConnectionCommand)
-    .addCommand(listContentsConnectionCommand)
+  // .addCommand(listContentsConnectionCommand)
   // .option('remove', 'Remove a connection')
   // .option('delete', 'Delete a connection')
   // .option('focus', 'Focus on a connection')
@@ -79,7 +81,7 @@ const bootstrap = async () => {
     .description('Import resources')
     .action(program.help)
     .addCommand(importFileCommand)
-    .addCommand(importFolderCommand)
+  // .addCommand(importFolderCommand)
 
   program.command('export').description('Export resources').action(program.help)
   // FIXME: Enabling these spoils `dcli diory query` command?!!?

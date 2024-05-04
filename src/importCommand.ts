@@ -1,6 +1,5 @@
 import chalk from 'chalk'
 import { generateDiory } from '@diograph/file-generator'
-import { generateDiograph } from '@diograph/folder-generator'
 import { roomInFocus } from './configManager.js'
 import { readFile } from 'fs/promises'
 import { program } from 'commander'
@@ -42,6 +41,8 @@ const fileAction = async (filePath: string, options: fileActionOptions) => {
   chalk.green('Import file success!')
 }
 
+/* DISABLE
+
 const folderAction = async (filePath: string) => {
   const room = await roomInFocus()
   let diograph
@@ -68,15 +69,18 @@ const folderAction = async (filePath: string) => {
   console.log(Object.keys(diograph.toObject()))
   chalk.green('Import folder success!')
 }
+*/
 
 const importFileCommand = program
   .command('file <filePath>')
   .option('--copyContent', 'Copy content')
   .action(fileAction)
 
+/*
 const importFolderCommand = program
   .command('folder <filePath>')
   // .option('--copyContent', 'Copy content')
   .action(folderAction)
+*/
 
-export { importFileCommand, importFolderCommand }
+export { importFileCommand /* importFolderCommand */ }
