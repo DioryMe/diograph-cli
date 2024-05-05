@@ -68,6 +68,22 @@ const createAction = async (text: string) => {
   }
 }
 
+const linkAction = async (fromId: string, toId: string) => {
+  const room = await roomInFocus() // await connectionInFocus()
+  const diograph = room.diograph
+
+  try {
+    diograph.addDioryLink({ id: fromId }, { id: toId })
+    console.log('diory', diograph.getDiory({ id: fromId }).toObjectWithoutImage())
+
+    await room.saveRoom()
+
+    console.log(chalk.green(`Diories linked!`))
+  } catch (error: any) {
+    console.log(chalk.red(error.message))
+  }
+}
+
 const dioryQueryCommand = program
   .command('query')
   .option('--text <value>', 'Query from text field')
@@ -78,4 +94,6 @@ const dioryShowCommand = program.command('show <diory-id>').action(showAction)
 
 const dioryCreateCommand = program.command('create <text>').action(createAction)
 
-export { dioryShowCommand, dioryQueryCommand, dioryCreateCommand }
+const dioryLinkCommand = program.command('link <fromId> <toId>').action(linkAction)
+
+export { dioryShowCommand, dioryQueryCommand, dioryCreateCommand, dioryLinkCommand }

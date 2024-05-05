@@ -78,6 +78,7 @@ const bootstrap = async () => {
     .addCommand(dioryQueryCommand)
     .addCommand(dioryShowCommand)
     .addCommand(dioryCreateCommand)
+    .addCommand(dioryLinkCommand)
   // .option('create', 'Create a new diory')
   // .option('delete', 'Delete a diory')
   // .option('link', 'Link a diory')
