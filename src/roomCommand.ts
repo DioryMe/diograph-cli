@@ -72,6 +72,20 @@ const addAction = async (options: createActionOptions) => {
   console.log(chalk.green('Room added.'))
 }
 
+const focusAction = async (roomId: string) => {
+  const roomConfig = (await listRooms())[roomId]
+
+  const availableClients = await getAvailableClients()
+  const room = await constructAndLoadRoom(
+    roomConfig.address,
+    roomConfig.clientType,
+    availableClients,
+  )
+  await setRoomInFocus(room)
+
+  console.log(chalk.green('Room added.'))
+}
+
 const createRoomCommand = program
   .command('create')
   .option('--address <value>', 'Create room to given address')
@@ -86,4 +100,6 @@ const addRoomCommand = program
   .option('--clientType <value>', 'Set clientType (default: LocalClient)')
   .action(addAction)
 
-export { createRoomCommand, addRoomCommand }
+const focusRoomCommand = program.command('focus <roomId>').action(focusAction)
+
+export { createRoomCommand, addRoomCommand, focusRoomCommand }

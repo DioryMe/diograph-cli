@@ -4,8 +4,13 @@ import { program } from 'commander'
 import {
   createConnectionCommand /* listContentsConnectionCommand */,
 } from './src/connectionCommand.js'
-import { addRoomCommand, createRoomCommand } from './src/roomCommand.js'
-import { dioryCreateCommand, dioryQueryCommand, dioryShowCommand } from './src/dioryCommand.js'
+import { addRoomCommand, createRoomCommand, focusRoomCommand } from './src/roomCommand.js'
+import {
+  dioryCreateCommand,
+  dioryLinkCommand,
+  dioryQueryCommand,
+  dioryShowCommand,
+} from './src/dioryCommand.js'
 import { statusCommand } from './src/statusCommand.js'
 import { listConnectionsCommand, listRoomsCommand } from './src/listCommand.js'
 import { exportDiographCommand, exportDioryCommand } from './src/exportCommand.js'
@@ -52,6 +57,7 @@ const bootstrap = async () => {
     .action(program.help)
     .addCommand(createRoomCommand)
     .addCommand(addRoomCommand)
+    .addCommand(focusRoomCommand)
   // .option('remove', 'Remove a room (arg1: roomAddress)')
   // .option('delete', 'Delete a room (arg1: roomAddress)')
   // .option('focus', 'Focus on a room (arg1: roomAddress)')
