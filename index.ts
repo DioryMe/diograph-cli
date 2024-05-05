@@ -5,7 +5,7 @@ import {
   createConnectionCommand /* listContentsConnectionCommand */,
 } from './src/connectionCommand.js'
 import { addRoomCommand, createRoomCommand } from './src/roomCommand.js'
-import { dioryQueryCommand, dioryShowCommand } from './src/dioryCommand.js'
+import { dioryCreateCommand, dioryQueryCommand, dioryShowCommand } from './src/dioryCommand.js'
 import { statusCommand } from './src/statusCommand.js'
 import { listConnectionsCommand, listRoomsCommand } from './src/listCommand.js'
 import { exportDiographCommand, exportDioryCommand } from './src/exportCommand.js'
@@ -71,6 +71,7 @@ const bootstrap = async () => {
     .action(program.help)
     .addCommand(dioryQueryCommand)
     .addCommand(dioryShowCommand)
+    .addCommand(dioryCreateCommand)
   // .option('create', 'Create a new diory')
   // .option('delete', 'Delete a diory')
   // .option('link', 'Link a diory')

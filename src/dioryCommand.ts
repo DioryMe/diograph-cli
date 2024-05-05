@@ -49,6 +49,25 @@ const showAction = async (dioryId: string) => {
   }
 }
 
+const createAction = async (text: string) => {
+  const room = await roomInFocus() // await connectionInFocus()
+  const diograph = room.diograph
+
+  try {
+    const diory = diograph.addDiory({
+      id: Date.now().toString(),
+      text,
+    })
+    console.log('diory', diory.toObjectWithoutImage())
+
+    await room.saveRoom()
+
+    console.log(chalk.green(`Diory created!`))
+  } catch (error: any) {
+    console.log(chalk.red(error.message))
+  }
+}
+
 const dioryQueryCommand = program
   .command('query')
   .option('--text <value>', 'Query from text field')
@@ -57,4 +76,6 @@ const dioryQueryCommand = program
 
 const dioryShowCommand = program.command('show <diory-id>').action(showAction)
 
-export { dioryShowCommand, dioryQueryCommand }
+const dioryCreateCommand = program.command('create <text>').action(createAction)
+
+export { dioryShowCommand, dioryQueryCommand, dioryCreateCommand }
