@@ -647,6 +647,17 @@
     path-browserify "^1.0.1"
     uuid "8.3.2"
 
+"@diograph/diograph@0.2.4-rc1":
+  version "0.2.4-rc1"
+  resolved "https://registry.yarnpkg.com/@diograph/diograph/-/diograph-0.2.4-rc1.tgz#8d589063b6c0891da785452cb0553aace3abd94d"
+  integrity sha512-nyVyrt577bZIZsBS7Mr8g3U2XN6CyvaxPFGM66MC4fS3xW6va0KVmP6cmuHZbJ6bSEE7nUEA+LpV2b/AsizxeA==
+  dependencies:
+    "@types/path-browserify" "^1.0.0"
+    "@types/uuid" "8.3.2"
+    ajv "^8.12.0"
+    path-browserify "^1.0.1"
+    uuid "8.3.2"
+
 "@diograph/diograph@next":
   version "0.2.3-rc2"
   resolved "https://registry.yarnpkg.com/@diograph/diograph/-/diograph-0.2.3-rc2.tgz#a504a2cf5364ae94a569774c0b4b76f0df640ef2"

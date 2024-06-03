@@ -19,7 +19,9 @@ jobs:
         with:
           node-version-file: '.nvmrc'
       - run: yarn
-      - run: yarn build
 
+      # NOTE: This is run before yarn build on purpose (to prevent test files in dist/ folder)
       - run: yarn global add bun
       - run: yarn test
+
+      - run: yarn build
