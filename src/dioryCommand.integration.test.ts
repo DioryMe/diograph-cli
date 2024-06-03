@@ -1,6 +1,6 @@
 import { Room } from '@diograph/diograph'
 import { roomInFocus } from './configManager.js'
-import { createAction, linkAction } from './dioryCommand.js'
+import { createAction, linkAction, unlinkAction } from './dioryCommand.js'
 import { describe, expect, it, mock, spyOn } from 'bun:test'
 
 const demoContentDiograph = require('../tests/demo-content-room/diograph.json')
@@ -10,6 +10,7 @@ mockRoom.diograph.initialise(demoContentDiograph)
 mockRoom.saveRoom = mock()
 spyOn(mockRoom.diograph, 'addDiory')
 spyOn(mockRoom.diograph, 'addDioryLink')
+spyOn(mockRoom.diograph, 'removeDioryLink')
 
 mock.module('./configManager', () => {
   return {
@@ -45,5 +46,24 @@ describe('linkAction', () => {
     )
 
     expect(mockRoom.diograph.getDiory({ id: 'diory12' }).links).toEqual([{ id: 'diory13' }])
+  })
+})
+
+describe('unlinkAction', () => {
+  it('unlinks two diories', async () => {
+    expect(mockRoom.diograph.getDiory({ id: 'diory11' }).links).toEqual([
+      { id: 'diory11', path: 'placeholder' },
+    ])
+
+    await unlinkAction('diory11', 'diory11')
+
+    // Assert
+    expect(roomInFocus).toHaveBeenCalled()
+    expect(mockRoom.diograph.removeDioryLink).toHaveBeenCalledWith(
+      { id: 'diory11' },
+      { id: 'diory11' },
+    )
+
+    expect(mockRoom.diograph.getDiory({ id: 'diory11' }).links).toBe(undefined)
   })
 })

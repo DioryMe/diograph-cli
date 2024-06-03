@@ -10,6 +10,7 @@ import {
   dioryLinkCommand,
   dioryQueryCommand,
   dioryShowCommand,
+  dioryUnlinkCommand,
 } from './src/dioryCommand.js'
 import { statusCommand } from './src/statusCommand.js'
 import { listConnectionsCommand, listRoomsCommand } from './src/listCommand.js'
@@ -79,6 +80,7 @@ const bootstrap = async () => {
     .addCommand(dioryShowCommand)
     .addCommand(dioryCreateCommand)
     .addCommand(dioryLinkCommand)
+    .addCommand(dioryUnlinkCommand)
   // .option('create', 'Create a new diory')
   // .option('delete', 'Delete a diory')
   // .option('link', 'Link a diory')
