@@ -31,6 +31,7 @@
     "build": "tsc",
     "build-watch": "yarn build --watch",
     "prettier": "prettier --write .",
+    "test": "bun test",
     "dcli": "node dist/index.js"
   },
   "prettier": {
