@@ -8,7 +8,7 @@ const outputListRooms = async (): Promise<void> => {
 // TODO: Generate table output with column headers
 const generateOutput = (rooms: object): string => {
   return Object.values(rooms)
-    .map((room, i) => `${i}: ${room.address} - ${room.roomClientType}`)
+    .map((room, i) => `${room.id}: ${room.address} - ${room.clientType}`)
     .join('\n')
 }
 

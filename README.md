@@ -20,9 +20,17 @@ dcli import file ~/MyPictures/my-pic.jpg
 ## Tests
 
 ```
+npm link
 cd tests
 git clone git@github.com:DioryMe/demo-content-room.git
 robot main.robot
+```
+
+Troubleshooting:
+
+```
+# PermissionError: [Errno 13] Permission denied: 'dcli'
+chmod +x ~/.nvm/versions/node/v20.10.0/bin/dcli
 ```
 
 ## App commands
