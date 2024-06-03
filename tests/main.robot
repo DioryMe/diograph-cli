@@ -14,6 +14,16 @@ Test CLI Output --version
     Verify Exit Code Zero  ${exit_code}  ${output}  ${error_output}
     Should Be Equal  ${output.strip()}  0.1.1
 
+Test global flag default to be room in focus
+    ${exit_code}  ${output}  ${error_output}=  Run Dcli Command  --version  # diory query --all
+    Verify Exit Code Zero  ${exit_code}  ${output}  ${error_output}
+    Verify Output Contains  ${CURDIR}/demo_content_room_diory_list.txt  ${output}
+
+Test global flag to set connection in focus
+    ${exit_code}  ${output}  ${error_output}=  Run Dcli Command  --version  # diory query --all
+    Verify Exit Code Zero  ${exit_code}  ${output}  ${error_output}
+    Verify Output Contains  ${CURDIR}/demo_content_source_connection_diory_list.txt  ${output}
+
 Create Room
     ${exit_code}  ${output}  ${error_output}=  Run Dcli Command  room create
     Verify Exit Code Zero  ${exit_code}  ${output}  ${error_output}

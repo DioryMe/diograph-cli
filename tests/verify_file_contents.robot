@@ -7,6 +7,12 @@ ${room_json_file_path}  /tmp/room.json
 ${diograph_json_file_path}  /tmp/diograph.json
 
 *** Keywords ***
+
+Verify Output Contains
+    [Arguments]    ${resource_file_path}  ${expected_output}
+    ${file_content}=    Get File    ${resource_file_path}
+    Should Be Equal    ${file_content.strip()}    ${expected_output.strip()}
+
 Verify Config File Contents
     [Arguments]    ${expected_file_path}
     ${config_file_path}=    Get Config File Path
