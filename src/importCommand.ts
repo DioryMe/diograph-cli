@@ -1,4 +1,5 @@
 import chalk from 'chalk'
+import { IDioryObject } from '@diograph/diograph/types'
 import { generateDiory } from '@diograph/file-generator'
 import { roomInFocus } from './configManager.js'
 import { readFile } from 'fs/promises'
@@ -26,7 +27,13 @@ const fileAction = async (filePath: string, options: fileActionOptions) => {
     throw error
   }
 
-  room.diograph.addDiory(diory)
+  // Monkey patch: can't upgrade @diograph/file-generator to latest (0.1.2-rc12)
+  // - current 0.1.2-rc4 uses different @diograph/diograph than currently used here in diograph-cli
+  // - assumed that generateDiory never makes any links (so we can safely convert them to empty array)
+  if (diory.links) {
+    diory.links = [] as any
+  }
+  room.diograph.addDiory(diory as IDioryObject)
 
   // --copyContent
   if (options.copyContent) {
