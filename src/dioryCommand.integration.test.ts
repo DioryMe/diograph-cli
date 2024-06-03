@@ -4,7 +4,6 @@ import { createAction, linkAction } from './dioryCommand.js'
 import { describe, expect, it, mock, spyOn } from 'bun:test'
 
 const demoContentDiograph = require('../tests/demo-content-room/diograph.json')
-// TODO: Make launch.json to debug this
 
 const mockRoom = new Room()
 mockRoom.diograph.initialise(demoContentDiograph)
@@ -21,7 +20,6 @@ mock.module('./configManager', () => {
 describe('createAction', () => {
   it('creates a diory', async () => {
     const mockText = 'test text'
-
     await createAction(mockText)
 
     // Assert
@@ -31,20 +29,21 @@ describe('createAction', () => {
       id: expect.any(String),
       text: mockText,
     })
-
-    // TODO: Verify that the diory was actually created
-    expect(Object.keys(mockRoom.diograph)).toHaveLength(14)
+    expect(Object.keys(mockRoom.diograph.queryDiograph({ text: 'test' }).diograph)).toHaveLength(1)
   })
 })
 
 describe('linkAction', () => {
   it('links two diories', async () => {
-    await linkAction('fromId', 'toId')
+    await linkAction('diory12', 'diory13')
 
     // Assert
     expect(roomInFocus).toHaveBeenCalled()
-    expect(mockRoom.diograph.addDioryLink).toHaveBeenCalledWith({ id: 'fromId' }, { id: 'toId' })
+    expect(mockRoom.diograph.addDioryLink).toHaveBeenCalledWith(
+      { id: 'diory12' },
+      { id: 'diory13' },
+    )
 
-    // TODO: Verify that the diories were actually linked
+    expect(mockRoom.diograph.getDiory({ id: 'diory12' }).links).toEqual([{ id: 'diory13' }])
   })
 })
