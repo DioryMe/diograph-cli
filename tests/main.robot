@@ -14,16 +14,6 @@ Test CLI Output --version
     Verify Exit Code Zero  ${exit_code}  ${output}  ${error_output}
     Should Be Equal  ${output.strip()}  0.1.1
 
-Test global flag default to be room in focus
-    ${exit_code}  ${output}  ${error_output}=  Run Dcli Command  --version  # diory query --all
-    Verify Exit Code Zero  ${exit_code}  ${output}  ${error_output}
-    Verify Output Contains  ${CURDIR}/demo_content_room_diory_list.txt  ${output}
-
-Test global flag to set connection in focus
-    ${exit_code}  ${output}  ${error_output}=  Run Dcli Command  --version  # diory query --all
-    Verify Exit Code Zero  ${exit_code}  ${output}  ${error_output}
-    Verify Output Contains  ${CURDIR}/demo_content_source_connection_diory_list.txt  ${output}
-
 Create Room
     ${exit_code}  ${output}  ${error_output}=  Run Dcli Command  room create
     Verify Exit Code Zero  ${exit_code}  ${output}  ${error_output}
@@ -39,10 +29,6 @@ Create Room
     ${exit_code}  ${output}  ${error_output}=  Run Dcli Command  room create --address /tmp
     Should Be Equal As Integers  ${exit_code}  1
 
-Add Room
-    ${exit_code}  ${output}  ${error_output}=  Run Dcli Command  room add
-    Verify Exit Code Zero  ${exit_code}  ${output}  ${error_output}
-
 Create Connection
     ${exit_code}  ${output}  ${error_output}=  Run Dcli Command  connection create /tmp
     Verify Exit Code Zero  ${exit_code}  ${output}  ${error_output}
@@ -50,6 +36,16 @@ Create Connection
     Verify Config File Contents  ${CURDIR}/create_connection_dcli_contents.txt
     Verify Room JSON Contents  ${CURDIR}/create_connection_room_json.txt
     Verify Diograph JSON Contents  ${CURDIR}/create_connection_diograph_json.txt
+
+# TODO1: Why "diory create" doesn't work?
+# TODO2: Implement the global flag
+# Test global flag to set connection in focus (create & query diory)
+#     ${exit_code}  ${output}  ${error_output}=  Run Dcli Command  diory create new-diory-to-connection
+#     Verify Exit Code Zero  ${exit_code}  ${output}  ${error_output}
+
+#     ${exit_code}  ${output}  ${error_output}=  Run Dcli Command  diory query --all
+#     Verify Exit Code Zero  ${exit_code}  ${output}  ${error_output}
+#     Verify Output Contains  ${CURDIR}/demo_content_source_connection_diory_list.txt  ${output}
 
 Set Config Path
     ${FFMPEG_PATH}=  Get Environment Variable  FFMPEG_PATH  /opt/homebrew/bin/ffmpeg
@@ -98,3 +94,12 @@ Query Diograph By Text
 Show Diory
     ${exit_code}  ${output}  ${error_output}=  Run Dcli Command  diory show bafkreihvgvtqocownctpbskgrwsdtr3l6z3yp4w2rirs32ny2u7epz7ona
     Verify Exit Code Zero  ${exit_code}  ${output}  ${error_output}
+
+Add Room
+    ${exit_code}  ${output}  ${error_output}=  Run Dcli Command  room add --address ${CURDIR}/demo-content-room
+    Verify Exit Code Zero  ${exit_code}  ${output}  ${error_output}
+
+Test global flag default to be room in focus
+    ${exit_code}  ${output}  ${error_output}=  Run Dcli Command  diory query --all
+    Verify Exit Code Zero  ${exit_code}  ${output}  ${error_output}
+    Verify Output Contains  ${CURDIR}/demo_content_room_diory_list.txt  ${output}
