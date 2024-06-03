@@ -96,4 +96,11 @@ const dioryCreateCommand = program.command('create <text>').action(createAction)
 
 const dioryLinkCommand = program.command('link <fromId> <toId>').action(linkAction)
 
-export { dioryShowCommand, dioryQueryCommand, dioryCreateCommand, dioryLinkCommand }
+export {
+  createAction,
+  linkAction,
+  dioryShowCommand,
+  dioryQueryCommand,
+  dioryCreateCommand,
+  dioryLinkCommand,
+}
