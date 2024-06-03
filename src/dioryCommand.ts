@@ -84,6 +84,22 @@ const linkAction = async (fromId: string, toId: string) => {
   }
 }
 
+const unlinkAction = async (fromId: string, toId: string) => {
+  const room = await roomInFocus() // await connectionInFocus()
+  const diograph = room.diograph
+
+  try {
+    diograph.removeDioryLink({ id: fromId }, { id: toId })
+    console.log('diory', diograph.getDiory({ id: fromId }).toObjectWithoutImage())
+
+    await room.saveRoom()
+
+    console.log(chalk.green(`Diories unlinked!`))
+  } catch (error: any) {
+    console.log(chalk.red(error.message))
+  }
+}
+
 const dioryQueryCommand = program
   .command('query')
   .option('--text <value>', 'Query from text field')
@@ -96,4 +112,15 @@ const dioryCreateCommand = program.command('create <text>').action(createAction)
 
 const dioryLinkCommand = program.command('link <fromId> <toId>').action(linkAction)
 
-export { dioryShowCommand, dioryQueryCommand, dioryCreateCommand, dioryLinkCommand }
+const dioryUnlinkCommand = program.command('unlink <fromId> <toId>').action(unlinkAction)
+
+export {
+  createAction,
+  linkAction,
+  unlinkAction,
+  dioryShowCommand,
+  dioryQueryCommand,
+  dioryCreateCommand,
+  dioryLinkCommand,
+  dioryUnlinkCommand,
+}

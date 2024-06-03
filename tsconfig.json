@@ -15,6 +15,7 @@
     "dist",
     "s3-client",
     "local-client",
-    "demo-content-room"
+    "demo-content-room",
+    "**/*.test.*"
   ]
 }
