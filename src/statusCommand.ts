@@ -10,10 +10,8 @@ const showStatusCommand = async () => {
 // TODO: Generate table output with column headers
 const generateOutput = async () => {
   try {
-    const [loadedRoomInFocusId, loadedConnectionInFocusAddress] = await Promise.all([
-      roomInFocusId(),
-      connectionInFocusAddress(),
-    ])
+    const loadedRoomInFocusId = await roomInFocusId()
+    const loadedConnectionInFocusAddress = connectionInFocusAddress()
 
     return [
       `Room in focus: ${loadedRoomInFocusId}`,
