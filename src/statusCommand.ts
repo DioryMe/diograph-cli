@@ -7,7 +7,6 @@ const showStatusCommand = async () => {
   console.log(output)
 }
 
-// TODO: Generate table output with column headers
 const generateOutput = async () => {
   try {
     const loadedRoomInFocusId = await roomInFocusId()
