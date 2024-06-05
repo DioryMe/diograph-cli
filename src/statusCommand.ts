@@ -1,5 +1,6 @@
 import { Command } from 'commander'
 import { connectionInFocusAddress, roomInFocusId } from './configManager.js'
+import chalk from 'chalk'
 
 const showStatusCommand = async () => {
   const output = await generateOutput()
@@ -8,9 +9,19 @@ const showStatusCommand = async () => {
 
 // TODO: Generate table output with column headers
 const generateOutput = async () => {
-  return Promise.all([roomInFocusId(), connectionInFocusAddress()]).then((values) => {
-    return [`Room in focus: ${values[0]}`, `Connection in focus: ${values[1]}`].join('\n')
-  })
+  try {
+    const [loadedRoomInFocusId, loadedConnectionInFocusAddress] = await Promise.all([
+      roomInFocusId(),
+      connectionInFocusAddress(),
+    ])
+
+    return [
+      `Room in focus: ${loadedRoomInFocusId}`,
+      `Connection in focus: ${loadedConnectionInFocusAddress}`,
+    ].join('\n')
+  } catch (error: any) {
+    return chalk.red(error.message)
+  }
 }
 
 const statusCommand = new Command('status').description('Show status').action(showStatusCommand)

@@ -14,6 +14,11 @@ Test CLI Output --version
     Verify Exit Code Zero  ${exit_code}  ${output}  ${error_output}
     Should Be Equal  ${output.strip()}  0.1.1
 
+Test CLI status command
+    ${exit_code}  ${output}  ${error_output}=  Run Dcli Command  status
+    Verify Exit Code Zero  ${exit_code}  ${output}  ${error_output}
+    Should Be Equal  ${output.strip()}  No roomInFocus defined in config file
+
 Create Room
     ${exit_code}  ${output}  ${error_output}=  Run Dcli Command  room create
     Verify Exit Code Zero  ${exit_code}  ${output}  ${error_output}
