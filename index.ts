@@ -1,9 +1,7 @@
 #!/usr/bin/env node
 
 import { program } from 'commander'
-import {
-  createConnectionCommand /* listContentsConnectionCommand */,
-} from './src/connectionCommand.js'
+import { connectionCommand } from './src/connectionCommand.js'
 import { roomCommand } from './src/roomCommand.js'
 import {
   dioryCreateCommand,
@@ -45,14 +43,7 @@ const bootstrap = async () => {
 
   program.addCommand(roomCommand)
 
-  program
-    .command('connection')
-    .description('Manage connections')
-    .addCommand(createConnectionCommand)
-  // .addCommand(listContentsConnectionCommand)
-  // .option('remove', 'Remove a connection')
-  // .option('delete', 'Delete a connection')
-  // .option('focus', 'Focus on a connection')
+  program.addCommand(connectionCommand)
 
   program
     .command('diory')

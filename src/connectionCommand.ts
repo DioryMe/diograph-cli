@@ -1,7 +1,7 @@
 import chalk from 'chalk'
 import { Connection, Room } from '@diograph/diograph'
 import { connectionInFocusAddress, roomInFocus, setConnectionInFocus } from './configManager.js'
-import { program } from 'commander'
+import { Command } from 'commander'
 // import { generateDiograph } from '@diograph/folder-generator'
 import { getClientAndVerify } from '@diograph/utils'
 import { getAvailableClients } from './getAvailableClients.js'
@@ -92,12 +92,20 @@ export const createConnectionToRoom = async (
   return connection
 }
 
-const createConnectionCommand = program
-  .command('create <address>')
+const createConnectionCommand = new Command('create')
+  .arguments('<address>')
   .option('--clientType', 'Set connection client type (default: LocalClient)')
   // .option('--here', 'Create connection in current folder')
   .action(createAction)
 
 // const listContentsConnectionCommand = program.command('list-contents').action(listContentsAction)
 
-export { createConnectionCommand /* listContentsConnectionCommand */ }
+const connectionCommand = new Command('connection')
+  .description('Manage connections')
+  .addCommand(createConnectionCommand)
+// .addCommand(listContentsConnectionCommand)
+// .option('remove', 'Remove a connection')
+// .option('delete', 'Delete a connection')
+// .option('focus', 'Focus on a connection')
+
+export { connectionCommand }
