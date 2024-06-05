@@ -1,4 +1,4 @@
-import { program } from 'commander'
+import { Command } from 'commander'
 import { setRoomInFocus } from './appCommands/setInFocus.js'
 import { addRoom, constructAndLoadRoom, listRooms } from './configManager.js'
 import { createRoom } from './createRoom.js'
@@ -86,20 +86,28 @@ const focusAction = async (roomId: string) => {
   console.log(chalk.green('Room added.'))
 }
 
-const createRoomCommand = program
-  .command('create')
+const createRoomCommand = new Command('create')
   .option('--address <value>', 'Create room to given address')
   .option('--here', 'Create room to current directory')
   .option('--clientType <value>', 'Set clientType (default: LocalClient)')
   .action(createAction)
 
-const addRoomCommand = program
-  .command('add')
+const addRoomCommand = new Command('add')
   .option('--address <value>', 'Add room from given address')
   .option('--here', 'Add room from current directory')
   .option('--clientType <value>', 'Set clientType (default: LocalClient)')
   .action(addAction)
 
-const focusRoomCommand = program.command('focus <roomId>').action(focusAction)
+const focusRoomCommand = new Command('focus') //
+  .arguments('<roomId>')
+  .action(focusAction)
 
-export { createRoomCommand, addRoomCommand, focusRoomCommand }
+const roomCommand = new Command('room')
+  .description('Manage rooms')
+  .addCommand(createRoomCommand)
+  .addCommand(addRoomCommand)
+  .addCommand(focusRoomCommand)
+// .option('remove', 'Remove a room (arg1: roomAddress)')
+// .option('delete', 'Delete a room (arg1: roomAddress)')
+
+export { roomCommand }

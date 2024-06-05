@@ -1,10 +1,10 @@
 #!/usr/bin/env node
 
-import { Command, program } from 'commander'
+import { program } from 'commander'
 import {
   createConnectionCommand /* listContentsConnectionCommand */,
 } from './src/connectionCommand.js'
-import { addRoomCommand, createRoomCommand, focusRoomCommand } from './src/roomCommand.js'
+import { roomCommand } from './src/roomCommand.js'
 import {
   dioryCreateCommand,
   dioryLinkCommand,
@@ -41,19 +41,9 @@ const bootstrap = async () => {
 
   program.addCommand(statusCommand)
   program.addCommand(configCommand)
-
   program.addCommand(listCommand)
 
-  program
-    .command('room')
-    .description('Manage rooms')
-    .action(program.help)
-    .addCommand(createRoomCommand)
-    .addCommand(addRoomCommand)
-    .addCommand(focusRoomCommand)
-  // .option('remove', 'Remove a room (arg1: roomAddress)')
-  // .option('delete', 'Delete a room (arg1: roomAddress)')
-  // .option('focus', 'Focus on a room (arg1: roomAddress)')
+  program.addCommand(roomCommand)
 
   program
     .command('connection')
