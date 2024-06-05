@@ -1,6 +1,6 @@
 import chalk from 'chalk'
 import { setFfmpegPath, setS3Credentials } from './configManager.js'
-import { program } from 'commander'
+import { Command } from 'commander'
 
 const setAction = async (configKey: string, configValue: string) => {
   switch (configKey) {
@@ -26,8 +26,12 @@ const setAction = async (configKey: string, configValue: string) => {
   console.log(chalk.green(`${configKey} set to the given value`))
 }
 
-const setConfigCommand = program //
-  .command('set <configKey> <configValue>') //
+const setConfigCommand = new Command('set') //
+  .arguments('<configKey> <configValue>')
   .action(setAction)
 
-export { setConfigCommand }
+const configCommand = new Command('config')
+  .description('Set config values: FFMPEG_PATH or s3-credentials') //
+  .addCommand(setConfigCommand)
+
+export { configCommand }

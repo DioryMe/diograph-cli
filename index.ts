@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-import { program } from 'commander'
+import { Command, program } from 'commander'
 import {
   createConnectionCommand /* listContentsConnectionCommand */,
 } from './src/connectionCommand.js'
@@ -16,7 +16,7 @@ import { statusCommand } from './src/statusCommand.js'
 import { listConnectionsCommand, listRoomsCommand } from './src/listCommand.js'
 import { exportDiographCommand, exportDioryCommand } from './src/exportCommand.js'
 import { importFileCommand /* importFolderCommand */ } from './src/importCommand.js'
-import { setConfigCommand } from './src/configCommand.js'
+import { configCommand } from './src/configCommand.js'
 import { getFfmpegPath } from './src/configManager.js'
 import { startCommand } from './src/startCommand.js'
 
@@ -39,13 +39,8 @@ const bootstrap = async () => {
 
   program.option('--useConnectionInFocus', 'Instead of room in focus, use connection in focus')
 
-  program.command('status').description('Show status').action(statusCommand)
-
-  program
-    .command('config')
-    .description('Set config values: FFMPEG_PATH or s3-credentials') //
-    .action(program.help)
-    .addCommand(setConfigCommand)
+  program.addCommand(statusCommand)
+  program.addCommand(configCommand)
 
   program
     .command('list')
