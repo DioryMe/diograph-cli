@@ -44,7 +44,7 @@ Set Config Path
 
     Config File Contains  ffmpegPath
 
-Import Two Files
+Import Two Files (with and without content)
     ${exit_code}  ${output}  ${error_output}=  Run Dcli Command  import file ${CURDIR}/demo-content-room/demo-content.png --copyContent
     Verify Exit Code Zero  ${exit_code}  ${output}  ${error_output}
 
@@ -96,18 +96,9 @@ Test global flag default to be room in focus
 
 # TODO: Implement the global flag
 Test global flag to set connection in focus (create & query diory)
-    # TODO: Create diory to connection to verify that too
-    # ${exit_code}  ${output}  ${error_output}=  Run Dcli Command  create diory new-diory-to-connection
-    # Verify Exit Code Zero  ${exit_code}  ${output}  ${error_output}
-
-    # FIXME: Remove this when running diory query --all with the flag
-    ${exit_code}  ${output}  ${error_output}=  Run Dcli Command  room focus room-1
+    ${exit_code}  ${output}  ${error_output}=  Run Dcli Command  diory query --all --useConnectionInFocus
     Verify Exit Code Zero  ${exit_code}  ${output}  ${error_output}
 
-    ${exit_code}  ${output}  ${error_output}=  Run Dcli Command  diory query --all
-    Verify Exit Code Zero  ${exit_code}  ${output}  ${error_output}
-
-    # TODO: Fix importAction & Connection list-contents => for the authentic test case
-    # NOTE: Currently room-1 search result output in the reference file!!
-    #    - should fail & show something else if global connection flag is working...
+    # TODO: Fix importAction & Connection list-contents
+    # => authentic test case with demo-content-source-folder
     Verify Output Contains  ${CURDIR}/demo_content_source_connection_diory_list.txt  ${output}

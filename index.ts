@@ -37,6 +37,8 @@ const bootstrap = async () => {
       }
     })
 
+  program.option('--useConnectionInFocus', 'Instead of room in focus, use connection in focus')
+
   program.command('status').description('Show status').action(statusCommand)
 
   program

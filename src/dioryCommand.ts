@@ -1,5 +1,5 @@
 import chalk from 'chalk'
-import { roomInFocus } from './configManager.js'
+import { connectionInFocus, roomInFocus } from './configManager.js'
 import { program } from 'commander'
 
 interface queryActionOptions {
@@ -17,7 +17,7 @@ const queryAction = async (options: queryActionOptions) => {
     options = {}
   }
 
-  const room = await roomInFocus() // await connectionInFocus()
+  const room = await (program.opts().useConnectionInFocus ? connectionInFocus() : roomInFocus())
   const diograph = room.diograph
 
   const searchResult = diograph.queryDiograph(options)
@@ -25,7 +25,7 @@ const queryAction = async (options: queryActionOptions) => {
 }
 
 const showAction = async (dioryId: string) => {
-  const room = await roomInFocus() // await connectionInFocus()
+  const room = await (program.opts().useConnectionInFocus ? connectionInFocus() : roomInFocus())
   const diograph = room.diograph
 
   try {
@@ -50,7 +50,7 @@ const showAction = async (dioryId: string) => {
 }
 
 const createAction = async (text: string) => {
-  const room = await roomInFocus() // await connectionInFocus()
+  const room = await roomInFocus()
   const diograph = room.diograph
 
   try {
@@ -69,7 +69,7 @@ const createAction = async (text: string) => {
 }
 
 const linkAction = async (fromId: string, toId: string) => {
-  const room = await roomInFocus() // await connectionInFocus()
+  const room = await roomInFocus()
   const diograph = room.diograph
 
   try {
@@ -85,7 +85,7 @@ const linkAction = async (fromId: string, toId: string) => {
 }
 
 const unlinkAction = async (fromId: string, toId: string) => {
-  const room = await roomInFocus() // await connectionInFocus()
+  const room = await roomInFocus()
   const diograph = room.diograph
 
   try {
