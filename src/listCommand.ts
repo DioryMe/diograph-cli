@@ -1,13 +1,40 @@
-import { outputListRooms } from './appCommands/listRooms.js'
-import { outputListConnections } from './appCommands/listConnections.js'
-import { program } from 'commander'
+import { Command, program } from 'commander'
+import { Connection } from '@diograph/diograph'
+import { listRooms } from './configManager.js'
+import { constructAndLoadRoom } from '@diograph/utils'
+import { getAvailableClients } from './getAvailableClients.js'
 
 const listRoomsAction = async () => {
-  outputListRooms()
+  const rooms = await listRooms()
+  console.log(generateRoomListOutput(rooms))
+}
+
+const generateRoomListOutput = (rooms: object): string => {
+  return Object.values(rooms)
+    .map((room, i) => `${room.id}: ${room.address} - ${room.clientType}`)
+    .join('\n')
 }
 
 const listConnectionsAction = async () => {
-  outputListConnections()
+  const roomConfigs = await listRooms()
+  const availableClients = await getAvailableClients()
+  const connections = await Promise.all(
+    Object.values(roomConfigs).map(async (roomConfig) => {
+      const room = await constructAndLoadRoom(
+        roomConfig.address,
+        roomConfig.clientType,
+        availableClients,
+      )
+      return room.connections
+    }),
+  )
+  console.log(generateConnectionListOutput(connections.flat()))
+}
+
+const generateConnectionListOutput = (connections: Connection[]): string => {
+  return connections
+    .map((connection, i) => `${i}: ${connection.address} - ${connection.contentClientType}`)
+    .join('\n')
 }
 
 const listRoomsCommand = program //
@@ -18,4 +45,10 @@ const listConnectionsCommand = program //
   .command('connections') //
   .action(listConnectionsAction)
 
-export { listRoomsCommand, listConnectionsCommand }
+const listCommand = new Command('list')
+  .description('List rooms and connections')
+  .action(program.help)
+  .addCommand(listRoomsCommand)
+  .addCommand(listConnectionsCommand)
+
+export { listCommand }

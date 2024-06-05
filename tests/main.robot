@@ -96,3 +96,11 @@ Test global flag to set connection in focus (create & query diory)
 # Copy diory from one room to another
 #     ${exit_code}  ${output}  ${error_output}=  Run Dcli Command  copy room-2:3e2ddc49-b3b6-4212-8a0a-80b9150a57ae room-1:/ --copyContent
 #     Verify Exit Code Zero  ${exit_code}  ${output}  ${error_output}
+
+Test CLI list rooms command
+    ${exit_code}  ${output}  ${error_output}=  Run Dcli Command  list rooms
+    Verify Exit Code Zero  ${exit_code}  ${output}  ${error_output}
+
+Test CLI list connections command
+    ${exit_code}  ${output}  ${error_output}=  Run Dcli Command  list connections
+    Verify Exit Code Zero  ${exit_code}  ${output}  ${error_output}

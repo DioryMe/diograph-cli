@@ -13,7 +13,7 @@ import {
   dioryUnlinkCommand,
 } from './src/dioryCommand.js'
 import { statusCommand } from './src/statusCommand.js'
-import { listConnectionsCommand, listRoomsCommand } from './src/listCommand.js'
+import { listCommand } from './src/listCommand.js'
 import { exportDiographCommand, exportDioryCommand } from './src/exportCommand.js'
 import { importFileCommand /* importFolderCommand */ } from './src/importCommand.js'
 import { configCommand } from './src/configCommand.js'
@@ -42,12 +42,7 @@ const bootstrap = async () => {
   program.addCommand(statusCommand)
   program.addCommand(configCommand)
 
-  program
-    .command('list')
-    .description('List rooms and connections')
-    .action(program.help)
-    .addCommand(listRoomsCommand)
-    .addCommand(listConnectionsCommand)
+  program.addCommand(listCommand)
 
   program
     .command('room')
