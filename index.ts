@@ -10,7 +10,7 @@ import { exportCommand } from './src/exportCommand.js'
 import { importCommand } from './src/importCommand.js'
 import { configCommand } from './src/configCommand.js'
 import { getFfmpegPath } from './src/utils/configManager.js'
-import { startCommand } from './src/startCommand.js'
+import { serverCommand } from './src/serverCommand.js'
 
 const bootstrap = async () => {
   try {
@@ -42,11 +42,7 @@ const bootstrap = async () => {
   program.addCommand(importCommand)
   program.addCommand(exportCommand)
 
-  program
-    .command('server')
-    .description('Start server')
-    .action(program.help)
-    .addCommand(startCommand)
+  program.addCommand(serverCommand)
 
   program.parse()
 

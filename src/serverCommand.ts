@@ -1,4 +1,4 @@
-import { program } from 'commander'
+import { Command } from 'commander'
 import { ConfigClient, bootstrap } from '@diograph/diograph-server'
 import { listRooms } from './utils/configManager.js'
 
@@ -16,6 +16,8 @@ const startAction = async () => {
   bootstrap(configClient)
 }
 
-const startCommand = program.command('start').description('Start server').action(startAction)
+const startCommand = new Command('start').description('Start server').action(startAction)
 
-export { startCommand }
+const serverCommand = new Command('server').addCommand(startCommand)
+
+export { serverCommand }
