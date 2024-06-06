@@ -126,9 +126,10 @@ Add Room
 
 Copy diory from connection to room and link it to the given diory with content
     ${exit_code}  ${output}  ${error_output}=  Run Dcli Command  room focus room-2
-    ${exit_code}  ${output}  ${error_output}=  Run Dcli Command  copy /Mary/PIXNIO-53799-6177x4118.jpeg room-1:/ --copyContent
+    # FIXME: Replace "room-2:/" with "room-1:/" when root diory and links are implemented to the /tmp room
+    ${exit_code}  ${output}  ${error_output}=  Run Dcli Command  copy /Mary/PIXNIO-53799-6177x4118.jpeg room-2:/ --copyContent
     Verify Exit Code Zero  ${exit_code}  ${output}  ${error_output}
-    Should Be Equal  ${output.strip()}  Not implemented yet
+    Should Be Equal  ${output.strip()}  Copying diory /Mary/PIXNIO-53799-6177x4118.jpeg to /
 
 Copy diory from one room to another
     ${exit_code}  ${output}  ${error_output}=  Run Dcli Command  copy room-2:3e2ddc49-b3b6-4212-8a0a-80b9150a57ae room-1:/
