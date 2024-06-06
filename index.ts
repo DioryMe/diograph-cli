@@ -7,7 +7,7 @@ import { dioryCommand } from './src/dioryCommand.js'
 import { statusCommand } from './src/statusCommand.js'
 import { listCommand } from './src/listCommand.js'
 import { exportDiographCommand, exportDioryCommand } from './src/exportCommand.js'
-import { importFileCommand /* importFolderCommand */ } from './src/importCommand.js'
+import { importCommand } from './src/importCommand.js'
 import { configCommand } from './src/configCommand.js'
 import { getFfmpegPath } from './src/utils/configManager.js'
 import { startCommand } from './src/startCommand.js'
@@ -36,17 +36,10 @@ const bootstrap = async () => {
   program.addCommand(listCommand)
 
   program.addCommand(roomCommand)
-
   program.addCommand(connectionCommand)
-
   program.addCommand(dioryCommand)
 
-  program
-    .command('import')
-    .description('Import resources')
-    .action(program.help)
-    .addCommand(importFileCommand)
-  // .addCommand(importFolderCommand)
+  program.addCommand(importCommand)
 
   program.command('export').description('Export resources').action(program.help)
   // FIXME: Enabling these spoils `dcli diory query` command?lkaa!!?

@@ -3,7 +3,7 @@ import { IDioryObject } from '@diograph/diograph/types'
 import { generateDiory } from '@diograph/file-generator'
 import { roomInFocus } from './utils/configManager.js'
 import { readFile } from 'fs/promises'
-import { program } from 'commander'
+import { Command } from 'commander'
 
 interface fileActionOptions {
   copyContent: boolean
@@ -78,16 +78,21 @@ const folderAction = async (filePath: string) => {
 }
 */
 
-const importFileCommand = program
-  .command('file <filePath>')
+const importFileCommand = new Command('file')
+  .arguments('<filePath>')
   .option('--copyContent', 'Copy content')
   .action(fileAction)
 
 /*
-const importFolderCommand = program
-  .command('folder <filePath>')
+const importFolderCommand = new Command('folder')
+  .arguments('<filePath>')
   // .option('--copyContent', 'Copy content')
   .action(folderAction)
 */
 
-export { importFileCommand /* importFolderCommand */ }
+const importCommand = new Command('import')
+  .description('Import resources')
+  .addCommand(importFileCommand)
+// .addCommand(importFolderCommand)
+
+export { importCommand }
