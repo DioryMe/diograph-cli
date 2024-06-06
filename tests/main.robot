@@ -124,9 +124,9 @@ Add Room
     # => authentic test case with demo-content-source-folder
     # Verify Output Contains  ${CURDIR}/demo_content_source_connection_diory_list.txt  ${output}
 
-# Copy diory from one room to another
-#     ${exit_code}  ${output}  ${error_output}=  Run Dcli Command  copy room-2:3e2ddc49-b3b6-4212-8a0a-80b9150a57ae room-1:/ --copyContent
-#     Verify Exit Code Zero  ${exit_code}  ${output}  ${error_output}
+Copy diory from one room to another
+    ${exit_code}  ${output}  ${error_output}=  Run Dcli Command  copy room-2:3e2ddc49-b3b6-4212-8a0a-80b9150a57ae room-1:/ --copyContent
+    Verify Exit Code Zero  ${exit_code}  ${output}  ${error_output}
 
 Test CLI list rooms command
     ${exit_code}  ${output}  ${error_output}=  Run Dcli Command  list rooms
