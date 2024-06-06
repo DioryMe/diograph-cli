@@ -22,12 +22,6 @@ const bootstrap = async () => {
     .description('Execute Diograph commands from CLI')
     .usage('<command> [options]')
     .helpOption('-h, --help', 'Output usage information.')
-    .action((opts) => {
-      if (opts['dryRun']) {
-        console.log('Dry run completed.')
-        return
-      }
-    })
 
   program.option('--useConnectionInFocus', 'Instead of room in focus, use connection in focus')
 
