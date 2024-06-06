@@ -3,13 +3,7 @@
 import { program } from 'commander'
 import { connectionCommand } from './src/connectionCommand.js'
 import { roomCommand } from './src/roomCommand.js'
-import {
-  dioryCreateCommand,
-  dioryLinkCommand,
-  dioryQueryCommand,
-  dioryShowCommand,
-  dioryUnlinkCommand,
-} from './src/dioryCommand.js'
+import { dioryCommand } from './src/dioryCommand.js'
 import { statusCommand } from './src/statusCommand.js'
 import { listCommand } from './src/listCommand.js'
 import { exportDiographCommand, exportDioryCommand } from './src/exportCommand.js'
@@ -45,19 +39,7 @@ const bootstrap = async () => {
 
   program.addCommand(connectionCommand)
 
-  program
-    .command('diory')
-    .description('Manage diories')
-    .action(program.help)
-    .addCommand(dioryQueryCommand)
-    .addCommand(dioryShowCommand)
-    .addCommand(dioryCreateCommand)
-    .addCommand(dioryLinkCommand)
-    .addCommand(dioryUnlinkCommand)
-  // .option('create', 'Create a new diory')
-  // .option('delete', 'Delete a diory')
-  // .option('link', 'Link a diory')
-  // .option('focus', 'Focus on a diory')
+  program.addCommand(dioryCommand)
 
   program
     .command('import')
@@ -67,7 +49,7 @@ const bootstrap = async () => {
   // .addCommand(importFolderCommand)
 
   program.command('export').description('Export resources').action(program.help)
-  // FIXME: Enabling these spoils `dcli diory query` command?!!?
+  // FIXME: Enabling these spoils `dcli diory query` command?lkaa!!?
   // .addCommand(exportDioryCommand)
   // .addCommand(exportDiographCommand)
 

@@ -1,6 +1,6 @@
 import chalk from 'chalk'
 import { connectionInFocus, roomInFocus } from './configManager.js'
-import { program } from 'commander'
+import { Command, program } from 'commander'
 
 interface queryActionOptions {
   text?: string
@@ -100,19 +100,29 @@ const unlinkAction = async (fromId: string, toId: string) => {
   }
 }
 
-const dioryQueryCommand = program
-  .command('query')
+const dioryQueryCommand = new Command('query')
   .option('--text <value>', 'Query from text field')
   .option('--all', 'List all')
   .action(queryAction)
 
-const dioryShowCommand = program.command('show <diory-id>').action(showAction)
+const dioryShowCommand = new Command('show').arguments('<diory-id>').action(showAction)
 
-const dioryCreateCommand = program.command('create <text>').action(createAction)
+const dioryCreateCommand = new Command('create').arguments('<text>').action(createAction)
 
-const dioryLinkCommand = program.command('link <fromId> <toId>').action(linkAction)
+const dioryLinkCommand = new Command('link').arguments('<fromId> <toId>').action(linkAction)
 
-const dioryUnlinkCommand = program.command('unlink <fromId> <toId>').action(unlinkAction)
+const dioryUnlinkCommand = new Command('unlink').arguments('<fromId> <toId>').action(unlinkAction)
+
+const dioryCommand = new Command('diory')
+  .description('Manage diories')
+  .action(program.help)
+  .addCommand(dioryQueryCommand)
+  .addCommand(dioryShowCommand)
+  .addCommand(dioryCreateCommand)
+  .addCommand(dioryLinkCommand)
+  .addCommand(dioryUnlinkCommand)
+// .option('delete', 'Delete a diory')
+// .option('focus', 'Focus on a diory')
 
 export {
   createAction,
@@ -123,4 +133,5 @@ export {
   dioryCreateCommand,
   dioryLinkCommand,
   dioryUnlinkCommand,
+  dioryCommand,
 }
