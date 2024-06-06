@@ -73,17 +73,6 @@ const connectionInFocusAddress = async (): Promise<string> => {
   return configObject.focus.connectionInFocus
 }
 
-// connectionInFocusAddress
-const connectionInFocusId = async (): Promise<string> => {
-  const configObject = await readConfig()
-
-  if (!configObject.focus.connectionInFocus) {
-    throw new Error('No connectionInFocus defined in config file')
-  }
-
-  return configObject.focus.connectionInFocus
-}
-
 const connectionInFocus = async (): Promise<Connection> => {
   const roomId = await roomInFocusId()
   const roomConfig = (await listRooms())[roomId]
@@ -95,7 +84,7 @@ const connectionInFocus = async (): Promise<Connection> => {
     availableClients,
   )
 
-  const connectionAddress = await connectionInFocusId()
+  const connectionAddress = await connectionInFocusAddress()
 
   const connection = room.findConnection(connectionAddress)
 
@@ -106,7 +95,6 @@ const connectionInFocus = async (): Promise<Connection> => {
   return connection
 }
 
-// roomInFocusAddress
 const roomInFocusId = async (): Promise<string> => {
   const configObject = await readConfig()
 

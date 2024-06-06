@@ -10,7 +10,7 @@ const showStatusCommand = async () => {
 const generateOutput = async () => {
   try {
     const loadedRoomInFocusId = await roomInFocusId()
-    const loadedConnectionInFocusAddress = connectionInFocusAddress()
+    const loadedConnectionInFocusAddress = await connectionInFocusAddress()
 
     return [
       `Room in focus: ${loadedRoomInFocusId}`,
@@ -21,6 +21,8 @@ const generateOutput = async () => {
   }
 }
 
-const statusCommand = new Command('status').description('Show status').action(showStatusCommand)
+const statusCommand = new Command('status')
+  .description('Show app status and focuses')
+  .action(showStatusCommand)
 
 export { statusCommand }

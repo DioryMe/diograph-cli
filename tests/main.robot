@@ -84,7 +84,6 @@ Test global flag default to be room in focus
     Verify Exit Code Zero  ${exit_code}  ${output}  ${error_output}
     Verify Output Contains  ${CURDIR}/demo_content_room_diory_list.txt  ${output}
 
-# TODO: Implement the global flag
 Test global flag to set connection in focus (create & query diory)
     ${exit_code}  ${output}  ${error_output}=  Run Dcli Command  diory query --all --useConnectionInFocus
     Verify Exit Code Zero  ${exit_code}  ${output}  ${error_output}
