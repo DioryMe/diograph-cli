@@ -18,7 +18,7 @@ const bootstrap = async () => {
   } catch (error: any) {}
 
   program
-    .version('0.1.1')
+    .version('0.1.2')
     .description('Execute Diograph commands from CLI')
     .usage('<command> [options]')
     .helpOption('-h, --help', 'Output usage information.')

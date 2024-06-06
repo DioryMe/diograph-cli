@@ -12,7 +12,7 @@ Suite Setup  Clean Up Files  /tmp
 Test CLI Output --version
     ${exit_code}  ${output}  ${error_output}=  Run Dcli Command  --version
     Verify Exit Code Zero  ${exit_code}  ${output}  ${error_output}
-    Should Be Equal  ${output.strip()}  0.1.1
+    Should Be Equal  ${output.strip()}  0.1.2
 
 Test CLI status command
     ${exit_code}  ${output}  ${error_output}=  Run Dcli Command  status
