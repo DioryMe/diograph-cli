@@ -1,10 +1,14 @@
 import chalk from 'chalk'
 import { Connection, Room } from '@diograph/diograph'
-import { connectionInFocusAddress, roomInFocus, setConnectionInFocus } from './configManager.js'
+import {
+  connectionInFocusAddress,
+  roomInFocus,
+  setConnectionInFocus,
+} from './utils/configManager.js'
 import { Command } from 'commander'
 // import { generateDiograph } from '@diograph/folder-generator'
 import { getClientAndVerify } from '@diograph/utils'
-import { getAvailableClients } from './getAvailableClients.js'
+import { getAvailableClients } from './utils/getAvailableClients.js'
 
 /*
 const listContentsAction = async () => {
@@ -106,6 +110,8 @@ const connectionCommand = new Command('connection')
 // .addCommand(listContentsConnectionCommand)
 // .option('remove', 'Remove a connection')
 // .option('delete', 'Delete a connection')
+// NOTE: Focus needs the whole Connection object (no id or address)
+// - will be deprecated as connections are turned into rooms
 // .option('focus', 'Focus on a connection')
 
 export { connectionCommand }

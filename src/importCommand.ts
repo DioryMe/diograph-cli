@@ -1,7 +1,7 @@
 import chalk from 'chalk'
 import { IDioryObject } from '@diograph/diograph/types'
 import { generateDiory } from '@diograph/file-generator'
-import { roomInFocus } from './configManager.js'
+import { roomInFocus } from './utils/configManager.js'
 import { readFile } from 'fs/promises'
 import { program } from 'commander'
 

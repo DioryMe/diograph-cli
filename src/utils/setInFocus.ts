@@ -2,7 +2,7 @@ import { Connection, Room } from '@diograph/diograph'
 import {
   setRoomInFocus as setRoomInConfig,
   setConnectionInFocus as setConnectionInConfig,
-} from '../configManager.js'
+} from './configManager.js'
 
 export const setRoomInFocus = async (room: Room): Promise<void> => {
   if (!room.address) {

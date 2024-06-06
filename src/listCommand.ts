@@ -1,8 +1,8 @@
-import { Command, program } from 'commander'
+import { Command } from 'commander'
 import { Connection } from '@diograph/diograph'
-import { listRooms } from './configManager.js'
+import { listRooms } from './utils/configManager.js'
 import { constructAndLoadRoom } from '@diograph/utils'
-import { getAvailableClients } from './getAvailableClients.js'
+import { getAvailableClients } from './utils/getAvailableClients.js'
 
 const listRoomsAction = async () => {
   const rooms = await listRooms()
@@ -37,17 +37,11 @@ const generateConnectionListOutput = (connections: Connection[]): string => {
     .join('\n')
 }
 
-const listRoomsCommand = program //
-  .command('rooms') //
-  .action(listRoomsAction)
-
-const listConnectionsCommand = program //
-  .command('connections') //
-  .action(listConnectionsAction)
+const listRoomsCommand = new Command('rooms').action(listRoomsAction)
+const listConnectionsCommand = new Command('connections').action(listConnectionsAction)
 
 const listCommand = new Command('list')
   .description('List rooms and connections')
-  .action(program.help)
   .addCommand(listRoomsCommand)
   .addCommand(listConnectionsCommand)
 

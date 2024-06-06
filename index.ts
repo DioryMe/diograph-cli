@@ -9,7 +9,7 @@ import { listCommand } from './src/listCommand.js'
 import { exportDiographCommand, exportDioryCommand } from './src/exportCommand.js'
 import { importFileCommand /* importFolderCommand */ } from './src/importCommand.js'
 import { configCommand } from './src/configCommand.js'
-import { getFfmpegPath } from './src/configManager.js'
+import { getFfmpegPath } from './src/utils/configManager.js'
 import { startCommand } from './src/startCommand.js'
 
 const bootstrap = async () => {

@@ -1,5 +1,5 @@
 import { Room } from '@diograph/diograph'
-import { roomInFocus } from './configManager.js'
+import { roomInFocus } from './utils/configManager.js'
 import { createAction, linkAction, unlinkAction } from './dioryCommand.js'
 import { describe, expect, it, mock, spyOn } from 'bun:test'
 
@@ -12,7 +12,7 @@ spyOn(mockRoom.diograph, 'addDiory')
 spyOn(mockRoom.diograph, 'addDioryLink')
 spyOn(mockRoom.diograph, 'removeDioryLink')
 
-mock.module('./configManager', () => {
+mock.module('./utils/configManager', () => {
   return {
     roomInFocus: mock(mockRoom),
   }

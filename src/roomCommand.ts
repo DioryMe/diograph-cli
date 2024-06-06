@@ -1,9 +1,9 @@
 import { Command } from 'commander'
-import { setRoomInFocus } from './appCommands/setInFocus.js'
-import { addRoom, constructAndLoadRoom, listRooms } from './configManager.js'
-import { createRoom } from './createRoom.js'
+import { setRoomInFocus } from './utils/setInFocus.js'
+import { addRoom, constructAndLoadRoom, listRooms } from './utils/configManager.js'
+import { createRoom } from './utils/createRoom.js'
 import chalk from 'chalk'
-import { getAvailableClients } from './getAvailableClients.js'
+import { getAvailableClients } from './utils/getAvailableClients.js'
 
 const exitIfRoomAlreadyExists = async (roomAddress: string, method?: string) => {
   const roomList = await listRooms()

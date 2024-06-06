@@ -1,5 +1,5 @@
 import chalk from 'chalk'
-import { connectionInFocus, roomInFocus } from './configManager.js'
+import { connectionInFocus, roomInFocus } from './utils/configManager.js'
 import { Command, program } from 'commander'
 
 interface queryActionOptions {

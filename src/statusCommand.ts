@@ -1,5 +1,5 @@
 import { Command } from 'commander'
-import { connectionInFocusAddress, roomInFocusId } from './configManager.js'
+import { connectionInFocusAddress, roomInFocusId } from './utils/configManager.js'
 import chalk from 'chalk'
 
 const showStatusCommand = async () => {

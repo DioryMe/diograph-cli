@@ -1,6 +1,6 @@
 import { program } from 'commander'
 import { ConfigClient, bootstrap } from '@diograph/diograph-server'
-import { listRooms } from './configManager.js'
+import { listRooms } from './utils/configManager.js'
 
 const startAction = async () => {
   const configClient: ConfigClient = {

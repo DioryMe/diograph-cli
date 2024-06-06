@@ -1,5 +1,5 @@
 import chalk from 'chalk'
-import { setFfmpegPath, setS3Credentials } from './configManager.js'
+import { setFfmpegPath, setS3Credentials } from './utils/configManager.js'
 import { Command } from 'commander'
 
 const setAction = async (configKey: string, configValue: string) => {
