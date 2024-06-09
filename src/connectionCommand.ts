@@ -7,7 +7,7 @@ import {
 } from './utils/configManager.js'
 import { Command } from 'commander'
 // import { generateDiograph } from '@diograph/folder-generator'
-import { getClientAndVerify } from '@diograph/utils'
+import { getClientAndVerify } from '@diograph/diograph'
 import { getAvailableClients } from './utils/getAvailableClients.js'
 
 /*

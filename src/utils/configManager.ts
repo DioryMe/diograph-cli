@@ -2,7 +2,7 @@ import fs from 'fs/promises'
 import ini from 'ini'
 import { dcliConfigPath } from './appConfig.js'
 import { Connection, Room } from '@diograph/diograph'
-import { constructAndLoadRoom } from '@diograph/utils'
+import { constructAndLoadRoom } from '@diograph/diograph'
 import { S3ClientCredentials } from '@diograph/s3-client'
 import { getAvailableClients } from './getAvailableClients.js'
 import { RoomConfigData } from '@diograph/diograph/types'
@@ -210,7 +210,6 @@ export {
   connectionInFocus,
   roomInFocusId,
   roomInFocus,
-  constructAndLoadRoom,
   setFfmpegPath,
   getFfmpegPath,
   setS3Credentials,

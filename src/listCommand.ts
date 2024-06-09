@@ -1,7 +1,7 @@
 import { Command } from 'commander'
 import { Connection } from '@diograph/diograph'
 import { listRooms } from './utils/configManager.js'
-import { constructAndLoadRoom } from '@diograph/utils'
+import { constructAndLoadRoom } from '@diograph/diograph'
 import { getAvailableClients } from './utils/getAvailableClients.js'
 
 const listRoomsAction = async () => {
