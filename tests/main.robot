@@ -49,13 +49,12 @@ Set Config Path
 
     Config File Contains  ffmpegPath
 
-# TODO: Why is this failing?
-# Import Two Files (with and without content)
-#     ${exit_code}  ${output}  ${error_output}=  Run Dcli Command  import file ${CURDIR}/demo-content-room/demo-content.png --copyContent
-#     Verify Exit Code Zero  ${exit_code}  ${output}  ${error_output}
+Import Two Files (with and without content)
+    ${exit_code}  ${output}  ${error_output}=  Run Dcli Command  import file ${CURDIR}/demo-content-room/demo-content.png --copyContent
+    Verify Exit Code Zero  ${exit_code}  ${output}  ${error_output}
 
-#     ${exit_code}  ${output}  ${error_output}=  Run Dcli Command  import file ${CURDIR}/demo-content-room/source/subsource/some-video.mp4
-#     Verify Exit Code Zero  ${exit_code}  ${output}  ${error_output}
+    ${exit_code}  ${output}  ${error_output}=  Run Dcli Command  import file ${CURDIR}/demo-content-room/source/subsource/some-video.mp4
+    Verify Exit Code Zero  ${exit_code}  ${output}  ${error_output}
 
 # Import Folder
 #     ${exit_code}  ${output}  ${error_output}=  Run Dcli Command  import folder ${CURDIR}/demo-content-room/source
