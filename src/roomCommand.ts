@@ -115,4 +115,4 @@ const roomCommand = new Command('room')
 // .option('remove', 'Remove a room (arg1: roomAddress)')
 // .option('delete', 'Delete a room (arg1: roomAddress)')
 
-export { roomCommand }
+export { roomCommand, createAction }
