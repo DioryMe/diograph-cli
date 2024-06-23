@@ -41,3 +41,16 @@ Compare File Contents
     ${file_content}=    Get File    ${resource_file_path}
     ${expected_output}=    Get File    ${expected_file_path}
     Should Be Equal    ${file_content.strip()}    ${expected_output.strip()}
+
+Verify Diory Attribute
+    [Arguments]  ${dioryId}  ${attributeName}  ${value}
+    ${content}=  Get File  ${diograph_json_file_path}
+    ${diographObject}=  Evaluate  json.loads('''${content}''')  json
+    # Should Be True  '${diographObject}[${key}][${subkey}]' == '${value}'  msg=Diory '${key}' doesn't have attribute '${subkey}' with the value '${value}' (actual: ${diographObject}[${key}][${subkey}])
+    Should Be Equal  ${diographObject}[${dioryId}][${attributeName}]  ${value}
+
+Verify Diory Data Attribute
+    [Arguments]  ${dioryId}  ${dataAttributeName}  ${value}
+    ${content}=  Get File  ${diograph_json_file_path}
+    ${diographObject}=  Evaluate  json.loads('''${content}''')  json
+    Should Be Equal  ${diographObject}[${dioryId}][data][0][${dataAttributeName}]  ${value}
