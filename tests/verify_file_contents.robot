@@ -42,6 +42,13 @@ Compare File Contents
     ${expected_output}=    Get File    ${expected_file_path}
     Should Be Equal    ${file_content.strip()}    ${expected_output.strip()}
 
+
+Verify Diory Links
+    [Arguments]  ${dioryId}  ${linkToDioryId}
+    ${content}=  Get File  ${diograph_json_file_path}
+    ${diographObject}=  Evaluate  json.loads('''${content}''')  json
+    Should Be Equal  ${diographObject}[${dioryId}][links][0][id]  ${linkToDioryId}
+
 Verify Diory Attribute
     [Arguments]  ${dioryId}  ${attributeName}  ${value}
     ${content}=  Get File  ${diograph_json_file_path}
