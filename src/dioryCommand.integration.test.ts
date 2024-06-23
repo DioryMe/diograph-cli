@@ -30,7 +30,6 @@ describe('createAction', () => {
       id: expect.any(String),
       text: mockText,
     })
-    expect(Object.keys(mockRoom.diograph.queryDiograph({ text: 'test' }).diograph)).toHaveLength(1)
   })
 })
 

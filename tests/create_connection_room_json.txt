@@ -12,6 +12,5 @@
       "contentUrls": {},
       "diograph": {}
     }
-  ],
-  "diograph": {}
+  ]
 }

@@ -647,10 +647,10 @@
     path-browserify "^1.0.1"
     uuid "8.3.2"
 
-"@diograph/diograph@0.2.4-rc1":
-  version "0.2.4-rc1"
-  resolved "https://registry.yarnpkg.com/@diograph/diograph/-/diograph-0.2.4-rc1.tgz#8d589063b6c0891da785452cb0553aace3abd94d"
-  integrity sha512-nyVyrt577bZIZsBS7Mr8g3U2XN6CyvaxPFGM66MC4fS3xW6va0KVmP6cmuHZbJ6bSEE7nUEA+LpV2b/AsizxeA==
+"@diograph/diograph@0.2.5-rc1":
+  version "0.2.5-rc1"
+  resolved "https://registry.yarnpkg.com/@diograph/diograph/-/diograph-0.2.5-rc1.tgz#a6f7231a3a0b3590284f899b1c0f20a8f11a09ed"
+  integrity sha512-ox4rblvy7aIhsYgU3Ig+B3W9Y7Ms7DhU/YMI6HrRK+mQjfka1XSuoQPdGTmhEU3CCZxuuqI/fqMTK/umljLlFA==
   dependencies:
     "@types/path-browserify" "^1.0.0"
     "@types/uuid" "8.3.2"
@@ -706,7 +706,7 @@
     "@aws-sdk/client-s3" "^3.209.0"
     "@diograph/diograph" next
 
-"@diograph/utils@0.0.4", "@diograph/utils@next":
+"@diograph/utils@next":
   version "0.0.4"
   resolved "https://registry.yarnpkg.com/@diograph/utils/-/utils-0.0.4.tgz#61df52c4819b1332395882d4b110546cdd810cb2"
   integrity sha512-jR69KRzztTu/s1/nkCMo1y2WHyOw3CZNH6emiZ32mOIVULMfr/TFrvrS5iRGrWzrZwHj31U+Y5FlYhElxqUDBA==

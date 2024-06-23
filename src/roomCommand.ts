@@ -1,9 +1,9 @@
 import { Command } from 'commander'
 import { setRoomInFocus } from './utils/setInFocus.js'
-import { addRoom, constructAndLoadRoom, listRooms } from './utils/configManager.js'
-import { createRoom } from './utils/createRoom.js'
+import { addRoom, listRooms } from './utils/configManager.js'
 import chalk from 'chalk'
 import { getAvailableClients } from './utils/getAvailableClients.js'
+import { constructAndLoadRoom, constructAndLoadRoomWithNativeConnection } from '@diograph/diograph'
 
 const exitIfRoomAlreadyExists = async (roomAddress: string, method?: string) => {
   const roomList = await listRooms()
@@ -37,7 +37,12 @@ const createAction = async (options: createActionOptions) => {
 
   try {
     const availableClients = await getAvailableClients()
-    const room = await createRoom(roomAddress, contentClientType, availableClients)
+    const room = await constructAndLoadRoomWithNativeConnection(
+      roomAddress,
+      contentClientType,
+      availableClients,
+    )
+    await room.saveRoom()
     await addRoom(roomAddress, contentClientType)
     await setRoomInFocus(room)
   } catch (error) {
