@@ -45,6 +45,7 @@ const parseDioryStringArguments = async (fromDioryString: string, toDioryString:
 
     return {
       diory: copyDiory,
+      sourceRoom: connection,
       destinationRoom: toRoom,
       parentDiory,
     }
@@ -67,13 +68,13 @@ const copyDioryAction = async (
   toDioryString: string,
   options: copyDioryActionOptions,
 ) => {
-  const { diory, destinationRoom, parentDiory } = await parseDioryStringArguments(
+  const { diory, destinationRoom, parentDiory, sourceRoom } = await parseDioryStringArguments(
     fromDioryString,
     toDioryString,
   )
 
   // For typing purposes...
-  if (!diory || !destinationRoom || !parentDiory) {
+  if (!diory || !destinationRoom || !parentDiory || !sourceRoom) {
     return
   }
 
@@ -81,6 +82,15 @@ const copyDioryAction = async (
   // -> already done? should be done explicitly?
 
   destinationRoom.diograph.addDioryAndLink(diory, parentDiory)
+
+  // --copyContent
+  if (options.copyContent) {
+    const contentUrl = diory.data && diory.data[0].contentUrl
+    if (contentUrl) {
+      const sourceFileContent = await sourceRoom.readContent(contentUrl)
+      await destinationRoom.addContent(sourceFileContent, contentUrl)
+    }
+  }
 
   await destinationRoom.saveRoom()
 
