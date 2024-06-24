@@ -46,7 +46,7 @@ Should Be In Links Array
     [Arguments]  ${linksArray}  ${match}
     ${found}=  Set Variable  ${False}
     FOR  ${item}  IN  @{linksArray}
-        ${found}=  Run Keyword If  '${item}[id]' == '${match}'  Set Variable  ${True}
+        ${found}=  Set Variable If  '${item}[id]' == '${match}'  ${True}  ${found}
     END
     Should Be True  ${found}
 
