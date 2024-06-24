@@ -126,8 +126,14 @@ Add Room
 
 Copy diory from connection to room and link it to the given diory with content
     ${exit_code}  ${output}  ${error_output}=  Run Dcli Command  room focus room-2
-    ${exit_code}  ${output}  ${error_output}=  Run Dcli Command  copy /Mary/PIXNIO-53799-6177x4118.jpeg room-1:/ --copyContent
+    ${exit_code}  ${output}  ${error_output}=  Run Dcli Command  copy /Mary/PIXNIO-53799-6177x4118.jpeg room-1:/   # --copyContent
     Verify Exit Code Zero  ${exit_code}  ${output}  ${error_output}
+
+    Verify Diory Attribute  /Mary/PIXNIO-53799-6177x4118.jpeg  id  /Mary/PIXNIO-53799-6177x4118.jpeg
+    Verify Diory Data Attribute  /Mary/PIXNIO-53799-6177x4118.jpeg  @type  ImageObject
+    Verify Diory Links  /  /Mary/PIXNIO-53799-6177x4118.jpeg
+    # File Should Exist    /tmp/Diory\ Content/bafkreihp3h6ggnxysuobjsgtsibaqq5khzjbaamyy6ec2adredtf2ixz3u
+
     Should Be Equal  "${output.strip()}"  "WARN: Empty diograph passed as valid\nWARN: Empty diograph passed as valid\nCopying diory /Mary/PIXNIO-53799-6177x4118.jpeg to /"
 
 Copy diory from one room to another

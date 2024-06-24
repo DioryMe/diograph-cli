@@ -20,7 +20,7 @@ const parseDioryStringArguments = async (fromDioryString: string, toDioryString:
     const fromDioryId = fromDioryString
     const connection = await connectionInFocus()
     const diograph = connection.diograph
-    const fromDiory = diograph.getDiory({
+    const copyDiory = diograph.getDiory({
       id: fromDioryId,
     })
 
@@ -39,13 +39,14 @@ const parseDioryStringArguments = async (fromDioryString: string, toDioryString:
       availableClients,
     )
 
-    const toDiory = toRoom.diograph.getDiory({
+    const parentDiory = toRoom.diograph.getDiory({
       id: toDioryId,
     })
 
     return {
-      fromDiory,
-      toDiory,
+      diory: copyDiory,
+      destinationRoom: toRoom,
+      parentDiory,
     }
   }
 
@@ -66,14 +67,24 @@ const copyDioryAction = async (
   toDioryString: string,
   options: copyDioryActionOptions,
 ) => {
-  const { fromDiory, toDiory } = await parseDioryStringArguments(fromDioryString, toDioryString)
+  const { diory, destinationRoom, parentDiory } = await parseDioryStringArguments(
+    fromDioryString,
+    toDioryString,
+  )
 
-  if (!fromDiory || !toDiory) {
-    // console.log(chalk.red('fromDiory or toDiory not found'))
+  // For typing purposes...
+  if (!diory || !destinationRoom || !parentDiory) {
     return
   }
 
-  console.log('Copying diory', fromDiory.id, 'to', toDiory.id)
+  // room focus
+  // -> already done? should be done explicitly?
+
+  destinationRoom.diograph.addDioryAndLink(diory, parentDiory)
+
+  await destinationRoom.saveRoom()
+
+  console.log('Copying diory', diory.id, 'to', parentDiory.id)
 }
 
 const copyCommand = new Command('copy')
