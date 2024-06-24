@@ -1,12 +1,8 @@
 import chalk from 'chalk'
 import { Command } from 'commander'
-import {
-  connectionInFocus,
-  constructAndLoadRoom,
-  listRooms,
-  roomInFocus,
-} from './utils/configManager.js'
+import { connectionInFocus, listRooms } from './utils/configManager.js'
 import { getAvailableClients } from './utils/getAvailableClients.js'
+import { constructAndLoadRoom } from '@diograph/diograph'
 
 const parseDioryStringArguments = async (fromDioryString: string, toDioryString: string) => {
   // ERROR 1: No "room-id:" in toDioryString means error
