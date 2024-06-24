@@ -46,15 +46,31 @@ Should Be In Links Array
     [Arguments]  ${linksArray}  ${match}
     ${found}=  Set Variable  ${False}
     FOR  ${item}  IN  @{linksArray}
-        ${found}=  Run Keyword If  '${item}[id]' == '${match}'  Set Variable  ${True}
+        ${found}=  Set Variable If  '${item}[id]' == '${match}'  ${True}  ${found}
     END
     Should Be True  ${found}
+
+Should Not Be In Links Array
+    [Arguments]  ${linksArray}  ${match}
+    ${found}=  Set Variable  ${False}
+    # Should Not Be True  '${dioryId}' in ${diographObject}
+    FOR  ${item}  IN  @{linksArray}
+        ${found}=  Set Variable If  '${item}[id]' == '${match}'  ${True}  ${found}
+    END
+    Should Not Be True  ${found}
 
 Verify Diory Links
     [Arguments]  ${dioryId}  ${linkToDioryId}
     ${content}=  Get File  ${diograph_json_file_path}
     ${diographObject}=  Evaluate  json.loads('''${content}''')  json
     Should Be In Links Array  ${diographObject}[${dioryId}][links]  ${linkToDioryId}
+
+Verify Not Diory Links
+    [Arguments]  ${dioryId}  ${linkToDioryId}
+    ${content}=  Get File  ${diograph_json_file_path}
+    ${diographObject}=  Evaluate  json.loads('''${content}''')  json
+    Run Keyword If  'links' in ${diographObject}[${dioryId}]
+        ...  Should Not Be In Links Array  ${diographObject}[${dioryId}][links]  ${linkToDioryId}
 
 Verify Diory Attribute
     [Arguments]  ${dioryId}  ${attributeName}  ${value}
@@ -68,3 +84,9 @@ Verify Diory Data Attribute
     ${content}=  Get File  ${diograph_json_file_path}
     ${diographObject}=  Evaluate  json.loads('''${content}''')  json
     Should Be Equal  ${diographObject}[${dioryId}][data][0][${dataAttributeName}]  ${value}
+
+Verify Diory Not Exists
+    [Arguments]  ${dioryId}
+    ${content}=  Get File  ${diograph_json_file_path}
+    ${diographObject}=  Evaluate  json.loads('''${content}''')  json
+    Should Not Be True  '${dioryId}' in ${diographObject}
