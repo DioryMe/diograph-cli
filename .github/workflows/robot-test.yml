@@ -15,6 +15,9 @@ jobs:
           path: 'tests/demo-content-room'
           repository: 'DioryMe/demo-content-room'
 
+      - name: Apply absolute paths to demo-content-room
+        run: sed -i 's|"/Diory Content",|"'$(pwd)'/tests/demo-content-room/Diory Content",|g' tests/demo-content-room/room.json
+
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
