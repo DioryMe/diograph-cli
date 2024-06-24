@@ -42,12 +42,19 @@ Compare File Contents
     ${expected_output}=    Get File    ${expected_file_path}
     Should Be Equal    ${file_content.strip()}    ${expected_output.strip()}
 
+Should Be In Links Array
+    [Arguments]  ${linksArray}  ${match}
+    ${found}=  Set Variable  ${False}
+    FOR  ${item}  IN  @{linksArray}
+        ${found}=  Run Keyword If  '${item}[id]' == '${match}'  Set Variable  ${True}
+    END
+    Should Be True  ${found}
 
 Verify Diory Links
     [Arguments]  ${dioryId}  ${linkToDioryId}
     ${content}=  Get File  ${diograph_json_file_path}
     ${diographObject}=  Evaluate  json.loads('''${content}''')  json
-    Should Be Equal  ${diographObject}[${dioryId}][links][0][id]  ${linkToDioryId}
+    Should Be In Links Array  ${diographObject}[${dioryId}][links]  ${linkToDioryId}
 
 Verify Diory Attribute
     [Arguments]  ${dioryId}  ${attributeName}  ${value}
