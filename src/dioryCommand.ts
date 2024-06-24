@@ -49,13 +49,13 @@ const showAction = async (dioryId: string) => {
   }
 }
 
-const createAction = async (text: string) => {
+const createAction = async (text: string, id?: string) => {
   const room = await roomInFocus()
   const diograph = room.diograph
 
   try {
     const diory = diograph.addDiory({
-      id: Date.now().toString(),
+      id: id || Date.now().toString(),
       text,
     })
     console.log('diory', diory.toObjectWithoutImage())
@@ -63,6 +63,21 @@ const createAction = async (text: string) => {
     await room.saveRoom()
 
     console.log(chalk.green(`Diory created!`))
+  } catch (error: any) {
+    console.log(chalk.red(error.message))
+  }
+}
+
+const removeAction = async (id: string) => {
+  const room = await roomInFocus()
+  const diograph = room.diograph
+
+  try {
+    diograph.removeDiory({ id })
+
+    await room.saveRoom()
+
+    console.log(chalk.green(`Diory removed!`))
   } catch (error: any) {
     console.log(chalk.red(error.message))
   }
@@ -107,7 +122,9 @@ const dioryQueryCommand = new Command('query')
 
 const dioryShowCommand = new Command('show').arguments('<diory-id>').action(showAction)
 
-const dioryCreateCommand = new Command('create').arguments('<text>').action(createAction)
+const dioryCreateCommand = new Command('create').arguments('<text> [id]').action(createAction)
+
+const dioryRemoveCommand = new Command('remove').arguments('<id>').action(removeAction)
 
 const dioryLinkCommand = new Command('link').arguments('<fromId> <toId>').action(linkAction)
 
@@ -119,9 +136,9 @@ const dioryCommand = new Command('diory')
   .addCommand(dioryQueryCommand)
   .addCommand(dioryShowCommand)
   .addCommand(dioryCreateCommand)
+  .addCommand(dioryRemoveCommand)
   .addCommand(dioryLinkCommand)
   .addCommand(dioryUnlinkCommand)
-// .option('delete', 'Delete a diory')
 // .option('focus', 'Focus on a diory')
 
 export {
