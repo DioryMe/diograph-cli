@@ -34,8 +34,7 @@ const fileAction = async (filePath: string, options: fileActionOptions) => {
     diory.links = [] as any
   }
 
-  // TODO: addDiory should always link diory to some other diory if possible...
-  // - some --fromDioryId should be given as parameter
+  // TODO: Specify diory to be linked with --fromDioryId argument
   room.diograph.addDioryAndLink(diory as IDioryObject)
 
   // --copyContent
