@@ -94,12 +94,16 @@ Show Create Link Unlink Delete Diory
     Verify Exit Code Zero  ${exit_code}  ${output}  ${error_output}
     Verify Diory Links  bafkreihvgvtqocownctpbskgrwsdtr3l6z3yp4w2rirs32ny2u7epz7ona  new-diory-id
 
+    ${exit_code}  ${output}  ${error_output}=  Run Dcli Command  diory unlink bafkreihvgvtqocownctpbskgrwsdtr3l6z3yp4w2rirs32ny2u7epz7ona new-diory-id
+    Verify Exit Code Zero  ${exit_code}  ${output}  ${error_output}
+    Verify Not Diory Links  bafkreihvgvtqocownctpbskgrwsdtr3l6z3yp4w2rirs32ny2u7epz7ona  new-diory-id
+
     ${exit_code}  ${output}  ${error_output}=  Run Dcli Command  diory remove new-diory-id
     Verify Exit Code Zero  ${exit_code}  ${output}  ${error_output}
     Verify Diory Not Exists  new-diory-id
-    # FIXME: Shouldn't have the link any more after the diory is removed...
-    Verify Diory Links  bafkreihvgvtqocownctpbskgrwsdtr3l6z3yp4w2rirs32ny2u7epz7ona  new-diory-id
 
+    # FIXME: This would fail if unlink wouldn't happen as currently @diograph/diograph doesn't remove links to it when diory is removed
+    Verify Not Diory Links  bafkreihvgvtqocownctpbskgrwsdtr3l6z3yp4w2rirs32ny2u7epz7ona  new-diory-id
 
 Add Room
     ${exit_code}  ${output}  ${error_output}=  Run Dcli Command  room add --address ${CURDIR}/demo-content-room
