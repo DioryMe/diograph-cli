@@ -68,3 +68,9 @@ Verify Diory Data Attribute
     ${content}=  Get File  ${diograph_json_file_path}
     ${diographObject}=  Evaluate  json.loads('''${content}''')  json
     Should Be Equal  ${diographObject}[${dioryId}][data][0][${dataAttributeName}]  ${value}
+
+Verify Diory Not Exists
+    [Arguments]  ${dioryId}
+    ${content}=  Get File  ${diograph_json_file_path}
+    ${diographObject}=  Evaluate  json.loads('''${content}''')  json
+    Should Not Be True  '${dioryId}' in ${diographObject}
