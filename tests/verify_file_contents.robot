@@ -41,3 +41,30 @@ Compare File Contents
     ${file_content}=    Get File    ${resource_file_path}
     ${expected_output}=    Get File    ${expected_file_path}
     Should Be Equal    ${file_content.strip()}    ${expected_output.strip()}
+
+Should Be In Links Array
+    [Arguments]  ${linksArray}  ${match}
+    ${found}=  Set Variable  ${False}
+    FOR  ${item}  IN  @{linksArray}
+        ${found}=  Run Keyword If  '${item}[id]' == '${match}'  Set Variable  ${True}
+    END
+    Should Be True  ${found}
+
+Verify Diory Links
+    [Arguments]  ${dioryId}  ${linkToDioryId}
+    ${content}=  Get File  ${diograph_json_file_path}
+    ${diographObject}=  Evaluate  json.loads('''${content}''')  json
+    Should Be In Links Array  ${diographObject}[${dioryId}][links]  ${linkToDioryId}
+
+Verify Diory Attribute
+    [Arguments]  ${dioryId}  ${attributeName}  ${value}
+    ${content}=  Get File  ${diograph_json_file_path}
+    ${diographObject}=  Evaluate  json.loads('''${content}''')  json
+    # Should Be True  '${diographObject}[${key}][${subkey}]' == '${value}'  msg=Diory '${key}' doesn't have attribute '${subkey}' with the value '${value}' (actual: ${diographObject}[${key}][${subkey}])
+    Should Be Equal  ${diographObject}[${dioryId}][${attributeName}]  ${value}
+
+Verify Diory Data Attribute
+    [Arguments]  ${dioryId}  ${dataAttributeName}  ${value}
+    ${content}=  Get File  ${diograph_json_file_path}
+    ${diographObject}=  Evaluate  json.loads('''${content}''')  json
+    Should Be Equal  ${diographObject}[${dioryId}][data][0][${dataAttributeName}]  ${value}

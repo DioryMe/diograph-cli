@@ -41,7 +41,7 @@ jobs:
         run: mkdir /tmp/Diory\ Content && touch ~/.dcli
 
       - name: Install ffmpeg
-        run: sudo apt-get update && sudo apt-get install -y ffmpeg
+        run: sudo apt-get update && sudo apt-get install -y ffmpeg && /usr/bin/ffmpeg -version
 
       - name: Run Robot Framework tests
         env:
