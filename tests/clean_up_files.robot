@@ -19,7 +19,7 @@ Delete Room
     Should Not Contain  ${roomAddress}  .
     OperatingSystem.Run  rm ${roomAddress}/room.json
     OperatingSystem.Run  rm ${roomAddress}/diograph.json
-    OperatingSystem.Run  rm -rf ${roomAddress}/Diory\ Content
+    OperatingSystem.Run  rm -rf ${roomAddress}/Diory\\ Content
 Reset Room
     [Arguments]  ${roomAddress}
     Delete Room  ${roomAddress}
