@@ -4,6 +4,20 @@ import { connectionInFocus, listRooms } from './utils/configManager.js'
 import { getAvailableClients } from './utils/getAvailableClients.js'
 import { constructAndLoadRoom } from '@diograph/diograph'
 
+// TODO: Move this to configManager?
+const getRoom = async (roomId: string) => {
+  const roomConfig = (await listRooms())[roomId]
+
+  const availableClients = await getAvailableClients()
+  const room = await constructAndLoadRoom(
+    roomConfig.address,
+    roomConfig.clientType,
+    availableClients,
+  )
+
+  return room
+}
+
 const parseDioryStringArguments = async (fromDioryString: string, toDioryString: string) => {
   // ERROR 1: No "room-id:" in toDioryString means error
   if (!toDioryString.match(/.+:.+/)) {
@@ -24,20 +38,10 @@ const parseDioryStringArguments = async (fromDioryString: string, toDioryString:
       id: fromDioryId,
     })
 
-    // Get toDiory
     // NOTE: toDioryString is already validated to include a room-id so we can do this
     const [toDioryRoomId, toDioryId] = toDioryString.split(':')
-    // Focus to the room toDioryRoomId
 
-    // TODO: Some helper to configManager for this would be nice
-    const roomConfig = (await listRooms())[toDioryRoomId]
-
-    const availableClients = await getAvailableClients()
-    const toRoom = await constructAndLoadRoom(
-      roomConfig.address,
-      roomConfig.clientType,
-      availableClients,
-    )
+    const toRoom = await getRoom(toDioryRoomId)
 
     const parentDiory = toRoom.diograph.getDiory({
       id: toDioryId,
@@ -54,9 +58,26 @@ const parseDioryStringArguments = async (fromDioryString: string, toDioryString:
   // CASE 2: Copy from one room to another
   // - "room-id:" in fromDioryString means copying from room
 
-  // TODO: These should be errors but don't know yet how to handle them properly...
-  console.log(chalk.red('Not implemented yet'))
-  return {}
+  // Find from diory room & diory
+  const [fromDioryRoomId, fromDioryId] = fromDioryString.split(':')
+  const fromRoom = await getRoom(fromDioryRoomId)
+  const copyDiory = fromRoom.diograph.getDiory({
+    id: fromDioryId,
+  })
+
+  // Find to diory room & diory
+  const [toDioryRoomId, toDioryId] = toDioryString.split(':')
+  const toRoom = await getRoom(toDioryRoomId)
+  const parentDiory = toRoom.diograph.getDiory({
+    id: toDioryId,
+  })
+
+  return {
+    diory: copyDiory,
+    sourceRoom: fromRoom,
+    destinationRoom: toRoom,
+    parentDiory,
+  }
 }
 
 interface copyDioryActionOptions {
@@ -73,13 +94,10 @@ const copyDioryAction = async (
     toDioryString,
   )
 
-  // For typing purposes...
+  // For Typescript purposes...
   if (!diory || !destinationRoom || !parentDiory || !sourceRoom) {
     return
   }
-
-  // room focus
-  // -> already done? should be done explicitly?
 
   destinationRoom.diograph.addDioryAndLink(diory, parentDiory)
 
@@ -94,7 +112,7 @@ const copyDioryAction = async (
 
   await destinationRoom.saveRoom()
 
-  console.log('Copying diory', diory.id, 'to', parentDiory.id)
+  chalk.green('Diory copied successfully', diory.id, 'to', parentDiory.id)
 }
 
 const copyCommand = new Command('copy')
