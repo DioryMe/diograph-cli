@@ -99,6 +99,11 @@ const copyDioryAction = async (
     return
   }
 
+  // Remove links as they don't point to correct diories in the destination room
+  if (diory.links) {
+    diory.links = [] as any
+  }
+
   destinationRoom.diograph.addDioryAndLink(diory, parentDiory)
 
   // --copyContent

@@ -143,6 +143,8 @@ Copy diory from one room to another
 
     Verify Diory Attribute  3e2ddc49-b3b6-4212-8a0a-80b9150a57ae  id  3e2ddc49-b3b6-4212-8a0a-80b9150a57ae
     Verify Diory Links  /  3e2ddc49-b3b6-4212-8a0a-80b9150a57ae
+    # Links should be removed from the copied diory
+    Verify Not Diory Links  3e2ddc49-b3b6-4212-8a0a-80b9150a57ae  6abcc50e-422e-4802-9b14-84fcdd08f591
 
 
 Test CLI list rooms command
