@@ -11,6 +11,7 @@ import { importCommand } from './src/importCommand.js'
 import { configCommand } from './src/configCommand.js'
 import { getFfmpegPath } from './src/utils/configManager.js'
 import { serverCommand } from './src/serverCommand.js'
+import { copyCommand } from './src/copyCommand.js'
 
 const bootstrap = async () => {
   try {
@@ -35,6 +36,7 @@ const bootstrap = async () => {
 
   program.addCommand(importCommand)
   program.addCommand(exportCommand)
+  program.addCommand(copyCommand)
 
   program.addCommand(serverCommand)
 

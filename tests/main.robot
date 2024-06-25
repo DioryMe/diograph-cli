@@ -58,6 +58,8 @@ Import Two Files (with and without content)
     Verify Diory Links  /  bafkreihvgvtqocownctpbskgrwsdtr3l6z3yp4w2rirs32ny2u7epz7ona
     File Should Exist    /tmp/Diory\ Content/bafkreihvgvtqocownctpbskgrwsdtr3l6z3yp4w2rirs32ny2u7epz7ona
 
+    # TODO: Does the new content also exist on room.json CIDMapping?
+
     ${exit_code}  ${output}  ${error_output}=  Run Dcli Command  import file ${CURDIR}/demo-content-room/source/subsource/some-video.mp4
     Verify Exit Code Zero  ${exit_code}  ${output}  ${error_output}
 
@@ -124,9 +126,26 @@ Add Room
     # => authentic test case with demo-content-source-folder
     # Verify Output Contains  ${CURDIR}/demo_content_source_connection_diory_list.txt  ${output}
 
-# Copy diory from one room to another
-#     ${exit_code}  ${output}  ${error_output}=  Run Dcli Command  copy room-2:3e2ddc49-b3b6-4212-8a0a-80b9150a57ae room-1:/ --copyContent
-#     Verify Exit Code Zero  ${exit_code}  ${output}  ${error_output}
+Copy diory from connection to room and link it to the given diory with content
+    ${exit_code}  ${output}  ${error_output}=  Run Dcli Command  copy /Mary/PIXNIO-53799-6177x4118.jpeg room-1:/ --copyContent
+    Verify Exit Code Zero  ${exit_code}  ${output}  ${error_output}
+
+    Verify Diory Attribute  /Mary/PIXNIO-53799-6177x4118.jpeg  id  /Mary/PIXNIO-53799-6177x4118.jpeg
+    Verify Diory Data Attribute  /Mary/PIXNIO-53799-6177x4118.jpeg  @type  ImageObject
+    Verify Diory Links  /  /Mary/PIXNIO-53799-6177x4118.jpeg
+    File Should Exist    /tmp/Diory\ Content/bafkreihp3h6ggnxysuobjsgtsibaqq5khzjbaamyy6ec2adredtf2ixz3u
+
+    # TODO: Does the new content also exist on room.json CIDMapping?
+
+Copy diory from one room to another
+    ${exit_code}  ${output}  ${error_output}=  Run Dcli Command  copy room-2:3e2ddc49-b3b6-4212-8a0a-80b9150a57ae room-1:/
+    Verify Exit Code Zero  ${exit_code}  ${output}  ${error_output}
+
+    Verify Diory Attribute  3e2ddc49-b3b6-4212-8a0a-80b9150a57ae  id  3e2ddc49-b3b6-4212-8a0a-80b9150a57ae
+    Verify Diory Links  /  3e2ddc49-b3b6-4212-8a0a-80b9150a57ae
+    # Links should be removed from the copied diory
+    Verify Not Diory Links  3e2ddc49-b3b6-4212-8a0a-80b9150a57ae  6abcc50e-422e-4802-9b14-84fcdd08f591
+
 
 Test CLI list rooms command
     ${exit_code}  ${output}  ${error_output}=  Run Dcli Command  list rooms
