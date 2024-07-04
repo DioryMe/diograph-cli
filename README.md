@@ -23,6 +23,7 @@ dcli import file ~/MyPictures/my-pic.jpg
 npm link
 cd tests
 git clone git@github.com:DioryMe/demo-content-room.git
+sed -i '' 's|"/Diory Content",|"'$(pwd)'/demo-content-room/Diory Content",|g' demo-content-room/room.json
 robot main.robot
 ```
 
@@ -31,6 +32,11 @@ Troubleshooting:
 ```
 # PermissionError: [Errno 13] Permission denied: 'dcli'
 chmod +x ~/.nvm/versions/node/v20.10.0/bin/dcli
+```
+
+```
+# [Error: ENOENT: no such file or directory, open '/Diory Content/Mary/PIXNIO-53799-6177x4118.jpeg']
+sed -i '' 's|"/Diory Content",|"'$(pwd)'/tests/demo-content-room/Diory Content",|g' tests/demo-content-room/room.json
 ```
 
 ## App commands
