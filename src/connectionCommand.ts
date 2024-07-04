@@ -6,11 +6,10 @@ import {
   setConnectionInFocus,
 } from './utils/configManager.js'
 import { Command } from 'commander'
-// import { generateDiograph } from '@diograph/folder-generator'
+import { generateDiograph } from '@diograph/folder-generator'
 import { getClientAndVerify } from '@diograph/diograph'
 import { getAvailableClients } from './utils/getAvailableClients.js'
 
-/*
 const listContentsAction = async () => {
   const connectionAddress = await connectionInFocusAddress()
   const room = await roomInFocus()
@@ -23,9 +22,9 @@ const listContentsAction = async () => {
     process.exit(1)
   }
 
-  let connectionDiograph
+  let generateDiographReturnValue
   try {
-    connectionDiograph = await generateDiograph(connectionAddress)
+    generateDiographReturnValue = await generateDiograph(connectionAddress)
   } catch (error: any) {
     if (/^FFMPEG_PATH not defined/.test(error.message)) {
       console.error(
@@ -39,8 +38,11 @@ const listContentsAction = async () => {
     throw error
   }
 
-  connection.diograph.addDiograph(connectionDiograph.toObject())
-  connection.diograph.diories().forEach((diory) => {
+  const connectionDiograph = generateDiographReturnValue.diograph
+  const cidMapping = generateDiographReturnValue.paths
+
+  connection.diograph.initialise(connectionDiograph.toObject())
+  Object.values(connection.diograph.diograph).forEach((diory) => {
     if (diory.data && diory.data[0].contentUrl) {
       connection.addContentUrl(diory.data[0].contentUrl, diory.id)
     }
@@ -48,7 +50,6 @@ const listContentsAction = async () => {
 
   await room.saveRoom()
 }
-*/
 
 interface createActionOptions {
   contentClientType: string
@@ -102,12 +103,12 @@ const createConnectionCommand = new Command('create')
   // .option('--here', 'Create connection in current folder')
   .action(createAction)
 
-// const listContentsConnectionCommand = program.command('list-contents').action(listContentsAction)
+const listContentsConnectionCommand = new Command('list-contents').action(listContentsAction)
 
 const connectionCommand = new Command('connection')
   .description('Manage connections')
   .addCommand(createConnectionCommand)
-// .addCommand(listContentsConnectionCommand)
+  .addCommand(listContentsConnectionCommand)
 // .option('remove', 'Remove a connection')
 // .option('delete', 'Delete a connection')
 // NOTE: Focus needs the whole Connection object (no id or address)

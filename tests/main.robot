@@ -68,16 +68,16 @@ Import Two Files (with and without content)
     # Verify Diory Data Attribute  bafkreia2c44rszqme57sao4ydipv3xtwfoigag7b2lzfeuwtunctzfdx4a  duration  00:00:16.93
     Verify Diory Links  /  bafkreia2c44rszqme57sao4ydipv3xtwfoigag7b2lzfeuwtunctzfdx4a
 
-# Import Folder
-#     ${exit_code}  ${output}  ${error_output}=  Run Dcli Command  import folder ${CURDIR}/demo-content-room/source
-#     Verify Exit Code Zero  ${exit_code}  ${output}  ${error_output}
+Import Folder
+    ${exit_code}  ${output}  ${error_output}=  Run Dcli Command  import folder ${CURDIR}/demo-content-room/source
+    Verify Exit Code Zero  ${exit_code}  ${output}  ${error_output}
 
-# Connection list-contents
-#     ${exit_code}  ${output}  ${error_output}=  Run Dcli Command  connection create ${CURDIR}/demo-content-room/source
-#     Verify Exit Code Zero  ${exit_code}  ${output}  ${error_output}
+Connection list-contents
+    ${exit_code}  ${output}  ${error_output}=  Run Dcli Command  connection create ${CURDIR}/demo-content-room/source
+    Verify Exit Code Zero  ${exit_code}  ${output}  ${error_output}
 
-#     ${exit_code}  ${output}  ${error_output}=  Run Dcli Command  connection list-contents
-#     Verify Exit Code Zero  ${exit_code}  ${output}  ${error_output}
+    ${exit_code}  ${output}  ${error_output}=  Run Dcli Command  connection list-contents
+    Verify Exit Code Zero  ${exit_code}  ${output}  ${error_output}
 
 # FIXME: "queryDiograph() is disabled because it doesn't work with validated diographs"
 # Query Diograph By Text

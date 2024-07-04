@@ -1,5 +1,5 @@
 import chalk from 'chalk'
-import { IDioryObject } from '@diograph/diograph/types'
+import { generateDiograph } from '@diograph/folder-generator'
 import { generateDiory } from '@diograph/file-generator'
 import { roomInFocus } from './utils/configManager.js'
 import { readFile } from 'fs/promises'
@@ -43,13 +43,11 @@ const fileAction = async (filePath: string, options: fileActionOptions) => {
   chalk.green('Import file success!')
 }
 
-/* DISABLE
-
 const folderAction = async (filePath: string) => {
   const room = await roomInFocus()
-  let diograph
+  let generateDiographReturnValue
   try {
-    diograph = await generateDiograph(filePath)
+    generateDiographReturnValue = await generateDiograph(filePath)
   } catch (error: any) {
     if (/^FFMPEG_PATH not defined/.test(error.message)) {
       console.error(
@@ -62,7 +60,10 @@ const folderAction = async (filePath: string) => {
     console.log(error.message)
     throw error
   }
-  room.diograph.addDiograph(diograph.toObject())
+
+  const diograph = generateDiographReturnValue.diograph
+
+  room.diograph.initialise(diograph.toObject())
 
   // TODO: Copy content to Content folder / connection (in focus)
 
@@ -71,23 +72,20 @@ const folderAction = async (filePath: string) => {
   console.log(Object.keys(diograph.toObject()))
   chalk.green('Import folder success!')
 }
-*/
 
 const importFileCommand = new Command('file')
   .arguments('<filePath>')
   .option('--copyContent', 'Copy content')
   .action(fileAction)
 
-/*
 const importFolderCommand = new Command('folder')
   .arguments('<filePath>')
   // .option('--copyContent', 'Copy content')
   .action(folderAction)
-*/
 
 const importCommand = new Command('import')
   .description('Import resources')
   .addCommand(importFileCommand)
-// .addCommand(importFolderCommand)
+  .addCommand(importFolderCommand)
 
 export { importCommand }
