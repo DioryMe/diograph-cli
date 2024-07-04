@@ -27,15 +27,8 @@ const fileAction = async (filePath: string, options: fileActionOptions) => {
     throw error
   }
 
-  // Monkey patch: can't upgrade @diograph/file-generator to latest (0.1.2-rc12)
-  // - current 0.1.2-rc4 uses different @diograph/diograph than currently used here in diograph-cli
-  // - assumed that generateDiory never makes any links (so we can safely convert them to empty array)
-  if (diory.links) {
-    diory.links = [] as any
-  }
-
   // TODO: Specify diory to be linked with --fromDioryId argument
-  room.diograph.addDioryAndLink(diory as IDioryObject)
+  room.diograph.addDioryAndLink(diory)
 
   // --copyContent
   if (options.copyContent) {

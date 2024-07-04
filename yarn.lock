@@ -636,7 +636,7 @@
     path-browserify "^1.0.1"
     uuid "8.3.2"
 
-"@diograph/diograph@0.2.3", "@diograph/diograph@^0.2.2-rc2":
+"@diograph/diograph@0.2.3":
   version "0.2.3"
   resolved "https://registry.yarnpkg.com/@diograph/diograph/-/diograph-0.2.3.tgz#64186e1e3403e813833dca2d4dda3119e0fa33c1"
   integrity sha512-wADNWn/ex9QlPWeyilZVYmQ4GUdxOv1c0JPKe0hCE2nFXhw/ZPTJ1996ujIy63WfYSQWt7r9mozJkVQxJ6AQXQ==
@@ -669,14 +669,12 @@
     path-browserify "^1.0.1"
     uuid "8.3.2"
 
-"@diograph/file-generator@0.1.2-rc4":
-  version "0.1.2-rc4"
-  resolved "https://registry.yarnpkg.com/@diograph/file-generator/-/file-generator-0.1.2-rc4.tgz#2a56dd2b63212af62088a14c9ac85b3d5c53376d"
-  integrity sha512-tX+KcZ6Adr6vJAQUy7ddTwHUMWIff/1Tw8fuuESY/6uQ/T0023mWT3iAwCXMigrCd/HnhaQkew8Tel5hElN2qQ==
+"@diograph/file-generator@0.2.0-rc1":
+  version "0.2.0-rc1"
+  resolved "https://registry.yarnpkg.com/@diograph/file-generator/-/file-generator-0.2.0-rc1.tgz#edaa8212172347e29d2c06c6aa655ecd0bf8fdcb"
+  integrity sha512-FuqM1GpYHev0/5/BooVKxCOf5hOLbrEe3GtgmhSqYqyjQfLUHomcnrM7znYxWYJ7u13HP309qZwK9twtwpG3bQ==
   dependencies:
-    "@diograph/diograph" "^0.2.2-rc2"
-    "@types/sharp" "0.31.0"
-    "@types/uuid" "^9.0.0"
+    "@diograph/diograph" "0.2.5-rc1"
     exifreader "^4.8.1"
     file-type "^16.4.0"
     multiformats "^9.6.0"
@@ -1231,13 +1229,6 @@
   resolved "https://registry.yarnpkg.com/@types/ini/-/ini-4.1.0.tgz#20e7327b3133627f84304210670d6406cceaba25"
   integrity sha512-mTehMtc+xtnWBBvqizcqYCktKDBH2WChvx1GU3Sfe4PysFDXiNe+1YwtpVX1MDtCa4NQrSPw2+3HmvXHY3gt1w==
 
-"@types/node@*":
-  version "20.14.0"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-20.14.0.tgz#49ceec7b34f8621470cff44677fa9d461a477f17"
-  integrity sha512-5cHBxFGJx6L4s56Bubp4fglrEpmyJypsqI6RgzMfBHWUJQGWAAi8cWcgetEbZXHYXo9C2Fa4EEds/uSyS4cxmA==
-  dependencies:
-    undici-types "~5.26.4"
-
 "@types/node@^20.11.28":
   version "20.12.8"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-20.12.8.tgz#35897bf2bfe3469847ab04634636de09552e8256"
@@ -1250,22 +1241,10 @@
   resolved "https://registry.yarnpkg.com/@types/path-browserify/-/path-browserify-1.0.2.tgz#14b62d4371316016f254b9cca5c10e60ef33dcc0"
   integrity sha512-ZkC5IUqqIFPXx3ASTTybTzmQdwHwe2C0u3eL75ldQ6T9E9IWFJodn6hIfbZGab73DfyiHN4Xw15gNxUq2FbvBA==
 
-"@types/sharp@0.31.0":
-  version "0.31.0"
-  resolved "https://registry.yarnpkg.com/@types/sharp/-/sharp-0.31.0.tgz#c4af03a7e1d126f0d428a265e126fabd86ab6d0f"
-  integrity sha512-nwivOU101fYInCwdDcH/0/Ru6yIRXOpORx25ynEOc6/IakuCmjOAGpaO5VfUl4QkDtUC6hj+Z2eCQvgXOioknw==
-  dependencies:
-    "@types/node" "*"
-
 "@types/uuid@8.3.2":
   version "8.3.2"
   resolved "https://registry.yarnpkg.com/@types/uuid/-/uuid-8.3.2.tgz#b7077bdfc866dbb39939029774806f24e95be791"
   integrity sha512-u40ViizKDmdl5FhOXn9WQbulpigYCaiD5hD4KqR3xyQww6l3+0ND+A9TeFla8tFpqvR+UAkJdYb/8jdaQG4/nw==
-
-"@types/uuid@^9.0.0":
-  version "9.0.8"
-  resolved "https://registry.yarnpkg.com/@types/uuid/-/uuid-9.0.8.tgz#7545ba4fc3c003d6c756f651f3bf163d8f0f29ba"
-  integrity sha512-jg+97EGIcY9AGHJJRaaPVgetKDsrTgbRjQ5Msgjh/DQKEFl0DtyRr/VCOyD1T2R1MNeWPK/u7JoGhlDZnKBAfA==
 
 "@xmldom/xmldom@^0.8.10":
   version "0.8.10"
