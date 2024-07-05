@@ -12,7 +12,7 @@ Suite Setup  Clean Up Files  /tmp
 Test CLI Output --version
     ${exit_code}  ${output}  ${error_output}=  Run Dcli Command  --version
     Verify Exit Code Zero  ${exit_code}  ${output}  ${error_output}
-    Should Be Equal  ${output.strip()}  0.1.2
+    Should Be Equal  ${output.strip()}  0.1.3
 
 Test CLI status command
     ${exit_code}  ${output}  ${error_output}=  Run Dcli Command  status
@@ -67,17 +67,6 @@ Import Two Files (with and without content)
     # FIXME: Gives 00:00:16.94 in Github Actions
     # Verify Diory Data Attribute  bafkreia2c44rszqme57sao4ydipv3xtwfoigag7b2lzfeuwtunctzfdx4a  duration  00:00:16.93
     Verify Diory Links  /  bafkreia2c44rszqme57sao4ydipv3xtwfoigag7b2lzfeuwtunctzfdx4a
-
-# Import Folder
-#     ${exit_code}  ${output}  ${error_output}=  Run Dcli Command  import folder ${CURDIR}/demo-content-room/source
-#     Verify Exit Code Zero  ${exit_code}  ${output}  ${error_output}
-
-# Connection list-contents
-#     ${exit_code}  ${output}  ${error_output}=  Run Dcli Command  connection create ${CURDIR}/demo-content-room/source
-#     Verify Exit Code Zero  ${exit_code}  ${output}  ${error_output}
-
-#     ${exit_code}  ${output}  ${error_output}=  Run Dcli Command  connection list-contents
-#     Verify Exit Code Zero  ${exit_code}  ${output}  ${error_output}
 
 # FIXME: "queryDiograph() is disabled because it doesn't work with validated diographs"
 # Query Diograph By Text
@@ -145,6 +134,17 @@ Copy diory from one room to another
     Verify Diory Links  /  3e2ddc49-b3b6-4212-8a0a-80b9150a57ae
     # Links should be removed from the copied diory
     Verify Not Diory Links  3e2ddc49-b3b6-4212-8a0a-80b9150a57ae  6abcc50e-422e-4802-9b14-84fcdd08f591
+
+Import Folder
+    ${exit_code}  ${output}  ${error_output}=  Run Dcli Command  import folder ${CURDIR}/demo-content-room/source
+    Verify Exit Code Zero  ${exit_code}  ${output}  ${error_output}
+
+Connection list-contents
+    ${exit_code}  ${output}  ${error_output}=  Run Dcli Command  connection create ${CURDIR}/demo-content-room/source
+    Verify Exit Code Zero  ${exit_code}  ${output}  ${error_output}
+
+    ${exit_code}  ${output}  ${error_output}=  Run Dcli Command  connection list-contents
+    Verify Exit Code Zero  ${exit_code}  ${output}  ${error_output}
 
 
 Test CLI list rooms command
