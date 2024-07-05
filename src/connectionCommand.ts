@@ -83,11 +83,7 @@ const createAction = async (
   return
 }
 
-export const createConnectionToRoom = async (
-  room: Room,
-  address: string,
-  contentClientType: string,
-) => {
+const createConnectionToRoom = async (room: Room, address: string, contentClientType: string) => {
   const availableClients = await getAvailableClients()
   const connectionClient = await getClientAndVerify(address, contentClientType, availableClients)
   const connection = new Connection(connectionClient)
@@ -97,6 +93,17 @@ export const createConnectionToRoom = async (
   return connection
 }
 
+// interface exportActionOptions {
+//   address: string
+// }
+
+const exportAction = async () =>
+  // options: exportActionOptions,
+  {
+    console.log('exportAction')
+    throw new Error('Not implemented')
+  }
+
 const createConnectionCommand = new Command('create')
   .arguments('<address>')
   .option('--clientType', 'Set connection client type (default: LocalClient)')
@@ -105,10 +112,13 @@ const createConnectionCommand = new Command('create')
 
 const listContentsConnectionCommand = new Command('list-contents').action(listContentsAction)
 
+const exportConnectionCommand = new Command('export').action(exportAction)
+
 const connectionCommand = new Command('connection')
   .description('Manage connections')
   .addCommand(createConnectionCommand)
   .addCommand(listContentsConnectionCommand)
+  .addCommand(exportConnectionCommand)
 // .option('remove', 'Remove a connection')
 // .option('delete', 'Delete a connection')
 // NOTE: Focus needs the whole Connection object (no id or address)
