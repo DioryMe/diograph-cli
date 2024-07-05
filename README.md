@@ -1,6 +1,14 @@
 # Diograph CLI
 
-## Usage
+## Config
+
+`.dcli` file is saved to home folder.
+
+- Connected rooms
+- Room in focus
+- FFMPEG_PATH
+
+## Creating a room
 
 Create room to /tmp folder and save app state to ./tmp/app-data.json
 
@@ -22,12 +30,11 @@ dcli import file ~/MyPictures/my-pic.jpg
 ```
 npm link
 cd tests
-git clone git@github.com:DioryMe/demo-content-room.git
 sed -i '' 's|"/Diory Content",|"'$(pwd)'/demo-content-room/Diory Content",|g' demo-content-room/room.json
 robot main.robot
 ```
 
-Troubleshooting:
+## Troubleshooting
 
 ```
 # PermissionError: [Errno 13] Permission denied: 'dcli'
@@ -41,24 +48,39 @@ sed -i '' 's|"/Diory Content",|"'$(pwd)'/tests/demo-content-room/Diory Content",
 
 ## App commands
 
+Use `dcli help` and `dcli room add --help` for full list of commands and options.
+
 ```
-dryRun
-- runs app and exits without doing anything
 
-resetApp()
-- removes App data (=app-data.json)
+status
+- shows room in focus and connection in focus
 
-status()
-- shows app-data path, room in focus, connection in focus
-
-listRooms (or listAppRooms)
+list rooms
 - list available rooms in the app
 
-setRoomInFocus(roomIndex)
-- set room with given into focus in app
+list connections
+- list available connections in the app
 
-setConnectionInFocus(connectionIndex)
-- set connection with given into focus in app
+room focus <roomId>
+- set room into focus
+
+room create <address>
+- create new room and set it in focus
+
+room add <address>
+- add existing room into app and set it in focus
+
+connection create <address>
+- connect to given folder
+- saves connection info to the room in focus
+
+connection list-contents <connectionAddress>
+- not implemented yet!
+- set connection in focus
+
+connection focus <connectionAddress>
+- not implemented yet!
+- set connection in focus
 
 getDiograph()
 - show room in focus diograph contents
