@@ -99,16 +99,21 @@ const createConnectionToRoom = async (room: Room, address: string, contentClient
   return connection
 }
 
-// interface exportActionOptions {
-//   address: string
-// }
+interface ExportActionOptions {
+  address?: string
+  here?: boolean
+}
 
-const exportAction = async () =>
-  // options: exportActionOptions,
-  {
-    console.log('exportAction')
-    throw new Error('Not implemented')
+const exportAction = async (options: ExportActionOptions) => {
+  if (Object.keys(options).length === 0) {
+    console.log(chalk.red('Please provide a path for exported connection: --address or --here'))
+    return
   }
+
+  const exportAddress = options.here || !options.address ? process.cwd() : options.address
+
+  console.log('exportAction', options, exportAddress)
+}
 
 const createConnectionCommand = new Command('create')
   .option('--clientType', 'Set connection client type (default: LocalClient)')
@@ -118,7 +123,11 @@ const createConnectionCommand = new Command('create')
 
 const listContentsConnectionCommand = new Command('list-contents').action(listContentsAction)
 
-const exportConnectionCommand = new Command('export').action(exportAction)
+const exportConnectionCommand = new Command('export')
+  .description('Export connection as room')
+  .option('--address <value>', 'Address where to export connection')
+  .option('--here', 'Export connection to current directory')
+  .action(exportAction)
 
 const connectionCommand = new Command('connection')
   .description('Manage connections')
