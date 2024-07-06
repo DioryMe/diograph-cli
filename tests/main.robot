@@ -140,7 +140,7 @@ Import Folder
     Verify Exit Code Zero  ${exit_code}  ${output}  ${error_output}
 
 Connection list-contents
-    ${exit_code}  ${output}  ${error_output}=  Run Dcli Command  connection create ${CURDIR}/demo-content-room/source
+    ${exit_code}  ${output}  ${error_output}=  Run Dcli Command  connection create --address ${CURDIR}/demo-content-room/source
     Verify Exit Code Zero  ${exit_code}  ${output}  ${error_output}
 
     ${exit_code}  ${output}  ${error_output}=  Run Dcli Command  connection list-contents
