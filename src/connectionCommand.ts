@@ -50,6 +50,10 @@ const listContentsAction = async () => {
     }
   })
 
+  Object.entries(cidMapping).forEach(([id, path]) => {
+    connection.contentUrls[id] = path
+  })
+
   await room.saveRoom()
 }
 
