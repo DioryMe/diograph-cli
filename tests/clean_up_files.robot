@@ -8,7 +8,11 @@ Clean Up Files
     Delete Config File
     Initiate Config File
     Delete Room  ${roomAddress}
+    Delete Room  ${roomAddress}/exported-room
     Initiate Room  ${roomAddress}
+    OperatingSystem.Run  mkdir -p ${roomAddress}/exported-room
+    OperatingSystem.Run  mkdir -p ${roomAddress}/exported-room/Diory\\ Content
+
 Initiate Room
     [Arguments]  ${roomAddress}
     OperatingSystem.Run  touch ~/.dcli && mkdir /tmp/Diory\\ Content

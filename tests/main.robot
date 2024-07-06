@@ -16,12 +16,11 @@ Test CLI Output --version
 
 Test CLI status command
     ${exit_code}  ${output}  ${error_output}=  Run Dcli Command  status
-    Verify Exit Code Zero  ${exit_code}  ${output}  ${error_output}
     Should Be Equal  ${output.strip()}  No roomInFocus defined in config file
 
 Create Room
     ${exit_code}  ${output}  ${error_output}=  Run Dcli Command  room create
-    Verify Exit Code Zero  ${exit_code}  ${output}  ${error_output}
+    Should Be Equal  ${output.strip()}  Please provide a room --address or --here
 
     ${exit_code}  ${output}  ${error_output}=  Run Dcli Command  room create --address /tmp
     Verify Exit Code Zero  ${exit_code}  ${output}  ${error_output}
@@ -35,7 +34,7 @@ Create Room
     Should Be Equal As Integers  ${exit_code}  1
 
 Create Connection
-    ${exit_code}  ${output}  ${error_output}=  Run Dcli Command  connection create /tmp
+    ${exit_code}  ${output}  ${error_output}=  Run Dcli Command  connection create --address /tmp
     Verify Exit Code Zero  ${exit_code}  ${output}  ${error_output}
 
     Verify Config File Contents  ${CURDIR}/create_connection_dcli_contents.txt
@@ -140,12 +139,11 @@ Import Folder
     Verify Exit Code Zero  ${exit_code}  ${output}  ${error_output}
 
 Connection list-contents
-    ${exit_code}  ${output}  ${error_output}=  Run Dcli Command  connection create ${CURDIR}/demo-content-room/source
+    ${exit_code}  ${output}  ${error_output}=  Run Dcli Command  connection create --address ${CURDIR}/demo-content-room/source
     Verify Exit Code Zero  ${exit_code}  ${output}  ${error_output}
 
     ${exit_code}  ${output}  ${error_output}=  Run Dcli Command  connection list-contents
     Verify Exit Code Zero  ${exit_code}  ${output}  ${error_output}
-
 
 Test CLI list rooms command
     ${exit_code}  ${output}  ${error_output}=  Run Dcli Command  list rooms
@@ -154,3 +152,10 @@ Test CLI list rooms command
 Test CLI list connections command
     ${exit_code}  ${output}  ${error_output}=  Run Dcli Command  list connections
     Verify Exit Code Zero  ${exit_code}  ${output}  ${error_output}
+
+Export Connection As Room
+    ${exit_code}  ${output}  ${error_output}=  Run Dcli Command  connection export --address /tmp/exported-room
+    Verify Exit Code Zero  ${exit_code}  ${output}  ${error_output}
+
+    File Should Exist    /tmp/exported-room/room.json
+    File Should Exist    /tmp/exported-room/diograph.json

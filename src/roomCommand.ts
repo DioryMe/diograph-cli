@@ -27,6 +27,7 @@ interface createActionOptions {
 const createAction = async (options: createActionOptions) => {
   if (Object.keys(options).length === 0) {
     console.log(chalk.red('Please provide a room --address or --here'))
+    process.exitCode = 1
     return
   }
 
@@ -47,7 +48,8 @@ const createAction = async (options: createActionOptions) => {
     await setRoomInFocus(room)
   } catch (error) {
     console.error(chalk.red(`createRoom error: ${error}`))
-    process.exit(1)
+    process.exitCode = 1
+    return
   }
 
   console.log('Room created.')
@@ -56,6 +58,7 @@ const createAction = async (options: createActionOptions) => {
 const addAction = async (options: createActionOptions) => {
   if (Object.keys(options).length === 0) {
     console.log(chalk.red('Please provide a room --address or --here'))
+    process.exitCode = 1
     return
   }
 
@@ -71,7 +74,8 @@ const addAction = async (options: createActionOptions) => {
     await setRoomInFocus(room)
   } catch (error) {
     console.error(chalk.red(`addRoom error: ${error}`))
-    process.exit(1)
+    process.exitCode = 1
+    return
   }
 
   console.log(chalk.green('Room added.'))

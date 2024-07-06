@@ -17,6 +17,7 @@ const generateOutput = async () => {
       `Connection in focus: ${loadedConnectionInFocusAddress}`,
     ].join('\n')
   } catch (error: any) {
+    process.exitCode = 1
     return chalk.red(error.message)
   }
 }
