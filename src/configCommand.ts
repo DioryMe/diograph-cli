@@ -14,6 +14,7 @@ const setAction = async (configKey: string, configValue: string) => {
             'Invalid value for s3-credentials, should be given as: "[ACCESS_KEY] [SECRET_KEY]"',
           ),
         )
+        process.exitCode = 1
         return
       }
       const [accessKeyId, secretAccessKey] = configValue.split(' ')
@@ -21,6 +22,7 @@ const setAction = async (configKey: string, configValue: string) => {
       break
     default:
       console.log(chalk.red(`Unknown key ${configKey}`))
+      process.exitCode = 1
       return
   }
   console.log(chalk.green(`${configKey} set to the given value`))

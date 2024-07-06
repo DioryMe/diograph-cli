@@ -10,6 +10,7 @@ interface queryActionOptions {
 const queryAction = async (options: queryActionOptions) => {
   if (Object.keys(options).length === 0) {
     console.log(chalk.red('Please provide a query criteria or --all'))
+    process.exitCode = 1
     return
   }
 
@@ -46,6 +47,8 @@ const showAction = async (dioryId: string) => {
     }
   } catch (error: any) {
     console.log(chalk.red(error.message))
+    process.exitCode = 1
+    return
   }
 }
 
@@ -65,6 +68,8 @@ const createAction = async (text: string, id?: string) => {
     console.log(chalk.green(`Diory created!`))
   } catch (error: any) {
     console.log(chalk.red(error.message))
+    process.exitCode = 1
+    return
   }
 }
 
@@ -80,6 +85,8 @@ const removeAction = async (id: string) => {
     console.log(chalk.green(`Diory removed!`))
   } catch (error: any) {
     console.log(chalk.red(error.message))
+    process.exitCode = 1
+    return
   }
 }
 
@@ -96,6 +103,8 @@ const linkAction = async (fromId: string, toId: string) => {
     console.log(chalk.green(`Diories linked!`))
   } catch (error: any) {
     console.log(chalk.red(error.message))
+    process.exitCode = 1
+    return
   }
 }
 
@@ -112,6 +121,8 @@ const unlinkAction = async (fromId: string, toId: string) => {
     console.log(chalk.green(`Diories unlinked!`))
   } catch (error: any) {
     console.log(chalk.red(error.message))
+    process.exitCode = 1
+    return
   }
 }
 

@@ -21,6 +21,7 @@ const fileAction = async (filePath: string, options: fileActionOptions) => {
           `Folder includes a video file which requires FFMPEG for diory generation. \nPlease use \`dcli config set FFMPEG_PATH [path to ffmpeg]\` to set it.`,
         ),
       )
+      process.exitCode = 1
       return
     }
     console.log(error.message)
@@ -55,6 +56,7 @@ const folderAction = async (filePath: string) => {
           `Folder includes a video file which requires FFMPEG for diory generation. \nPlease use \`dcli config set FFMPEG_PATH [path to ffmpeg]\` to set it.`,
         ),
       )
+      process.exitCode = 1
       return
     }
     console.log(error.message)

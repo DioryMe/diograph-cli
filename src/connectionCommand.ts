@@ -21,7 +21,8 @@ const listContentsAction = async () => {
     console.error(
       chalk.red(`Connection "${connectionAddress}" not found from room "${room.address}"`),
     )
-    process.exit(1)
+    process.exitCode = 1
+    return
   }
 
   let generateDiographReturnValue
@@ -34,6 +35,7 @@ const listContentsAction = async () => {
           `Folder includes a video file which requires FFMPEG for diory generation. \nPlease use \`dcli config set FFMPEG_PATH [path to ffmpeg]\` to set it.`,
         ),
       )
+      process.exitCode = 1
       return
     }
     console.log(error.message)
@@ -66,6 +68,7 @@ interface createActionOptions {
 const createAction = async (options: createActionOptions) => {
   if (Object.keys(options).length === 0) {
     console.log(chalk.red('Please provide a connection --address or --here'))
+    process.exitCode = 1
     return
   }
 
@@ -77,7 +80,8 @@ const createAction = async (options: createActionOptions) => {
     room = await roomInFocus()
   } catch (error) {
     console.error(chalk.red(`createConnection failed: ${error}`))
-    process.exit(1)
+    process.exitCode = 1
+    return
   }
 
   if (room.connections.find((connection) => connectionAddress == connection.address)) {
@@ -86,7 +90,8 @@ const createAction = async (options: createActionOptions) => {
         `createConnection error: Connection with address ${connectionAddress} already exists`,
       ),
     )
-    process.exit(1)
+    process.exitCode = 1
+    return
   }
 
   const connection = await createConnectionToRoom(room, connectionAddress, contentClientType)
@@ -113,6 +118,7 @@ interface ExportActionOptions {
 const exportAction = async (options: ExportActionOptions) => {
   if (Object.keys(options).length === 0) {
     console.log(chalk.red('Please provide a path for exported connection: --address or --here'))
+    process.exitCode = 1
     return
   }
 
