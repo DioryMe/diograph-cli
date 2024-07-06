@@ -53,13 +53,19 @@ const listContentsAction = async () => {
 
 interface createActionOptions {
   contentClientType: string
+  address?: string
+  here?: boolean
 }
 
-const createAction = async (
-  connectionAddress: string = process.cwd(),
-  options: createActionOptions,
-) => {
-  const contentClientType = options.contentClientType || 'LocalClient'
+const createAction = async (options: createActionOptions) => {
+  if (Object.keys(options).length === 0) {
+    console.log(chalk.red('Please provide a connection --address or --here'))
+    return
+  }
+
+  const contentClientType = options.contentClientType ?? 'LocalClient'
+  const connectionAddress = options.here || !options.address ? process.cwd() : options.address
+
   let room: Room
   try {
     room = await roomInFocus()
@@ -105,9 +111,9 @@ const exportAction = async () =>
   }
 
 const createConnectionCommand = new Command('create')
-  .arguments('<address>')
   .option('--clientType', 'Set connection client type (default: LocalClient)')
-  // .option('--here', 'Create connection in current folder')
+  .option('--address <value>', 'Create connection to given address')
+  .option('--here', 'Create connection in current directory')
   .action(createAction)
 
 const listContentsConnectionCommand = new Command('list-contents').action(listContentsAction)

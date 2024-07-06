@@ -35,7 +35,7 @@ Create Room
     Should Be Equal As Integers  ${exit_code}  1
 
 Create Connection
-    ${exit_code}  ${output}  ${error_output}=  Run Dcli Command  connection create /tmp
+    ${exit_code}  ${output}  ${error_output}=  Run Dcli Command  connection create --address /tmp
     Verify Exit Code Zero  ${exit_code}  ${output}  ${error_output}
 
     Verify Config File Contents  ${CURDIR}/create_connection_dcli_contents.txt
