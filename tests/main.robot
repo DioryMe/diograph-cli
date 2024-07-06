@@ -146,11 +146,14 @@ Connection list-contents
     ${exit_code}  ${output}  ${error_output}=  Run Dcli Command  connection list-contents
     Verify Exit Code Zero  ${exit_code}  ${output}  ${error_output}
 
-
 Test CLI list rooms command
     ${exit_code}  ${output}  ${error_output}=  Run Dcli Command  list rooms
     Verify Exit Code Zero  ${exit_code}  ${output}  ${error_output}
 
 Test CLI list connections command
     ${exit_code}  ${output}  ${error_output}=  Run Dcli Command  list connections
+    Verify Exit Code Zero  ${exit_code}  ${output}  ${error_output}
+
+Export Connection As Room
+    ${exit_code}  ${output}  ${error_output}=  Run Dcli Command  connection export --here
     Verify Exit Code Zero  ${exit_code}  ${output}  ${error_output}
