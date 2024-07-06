@@ -1,5 +1,15 @@
 # Room with photos from scratch
 
+Create room from list-contents:
+
+```
+dcli connection create --address ~/2023-tmp
+dcli connection list-contents
+mkdir /tmp/export3 && mkdir /tmp/export3/Diory\ Content
+dcli connection export --address /tmp/export3
+=> open browser and select room (+ wait for 2min...)
+```
+
 ## Local
 
 1. Create a folder for the room and app data
@@ -27,7 +37,7 @@ dcli connection create ~/PhotoRoom/MyPictures
 NOTE: You need ffmpeg dependency and FFMPEG_PATH if you have videos in the MyPictures folder (otherwise it can be omitted)
 
 ```
-dcli config set FFMPEG_PATH=/opt/homebrew/bin/ffmpeg 
+dcli config set FFMPEG_PATH=/opt/homebrew/bin/ffmpeg
 dcli connection listContents
 ```
 
@@ -53,7 +63,7 @@ dcli export file --contentId bafkreig6w4bromttln6hqnw3f3kqfhm7pcfbbtsgezaxvh7a2i
 
 8.  List room stuff
 
-9. Filter room stuff by geo location
+9.  Filter room stuff by geo location
 
 ## S3
 
