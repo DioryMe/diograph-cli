@@ -155,5 +155,8 @@ Test CLI list connections command
     Verify Exit Code Zero  ${exit_code}  ${output}  ${error_output}
 
 Export Connection As Room
-    ${exit_code}  ${output}  ${error_output}=  Run Dcli Command  connection export --here
+    ${exit_code}  ${output}  ${error_output}=  Run Dcli Command  connection export --address /tmp/exported-room
     Verify Exit Code Zero  ${exit_code}  ${output}  ${error_output}
+
+    File Should Exist    /tmp/exported-room/room.json
+    File Should Exist    /tmp/exported-room/diograph.json

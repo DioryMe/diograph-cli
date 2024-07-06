@@ -1,6 +1,7 @@
 import chalk from 'chalk'
 import { Connection, Room } from '@diograph/diograph'
 import {
+  connectionInFocus,
   connectionInFocusAddress,
   roomInFocus,
   setConnectionInFocus,
@@ -9,6 +10,7 @@ import { Command } from 'commander'
 import { generateDiograph } from '@diograph/folder-generator'
 import { getClientAndVerify } from '@diograph/diograph'
 import { getAvailableClients } from './utils/getAvailableClients.js'
+import { createAction as roomCreateAction } from './roomCommand.js'
 
 const listContentsAction = async () => {
   const connectionAddress = await connectionInFocusAddress()
@@ -112,7 +114,13 @@ const exportAction = async (options: ExportActionOptions) => {
 
   const exportAddress = options.here || !options.address ? process.cwd() : options.address
 
-  console.log('exportAction', options, exportAddress)
+  const connection = await connectionInFocus()
+  await roomCreateAction(options)
+  const room = await roomInFocus()
+  room.diograph.initialise(connection.diograph.toObject())
+  connection.diograph.resetDiograph()
+  room.addConnection(connection)
+  room.saveRoom()
 }
 
 const createConnectionCommand = new Command('create')
