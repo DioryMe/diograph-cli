@@ -1,3 +1,4 @@
 [submodule "tests/demo-content-room"]
 	path = tests/demo-content-room
 	url = git@github.com:DioryMe/demo-content-room.git
+  ignore = dirty
