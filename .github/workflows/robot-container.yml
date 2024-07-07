@@ -9,6 +9,12 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Checkout demo-content-room
+        uses: actions/checkout@v4
+        with:
+          path: 'tests/demo-content-room'
+          repository: 'DioryMe/demo-content-room'
+
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
