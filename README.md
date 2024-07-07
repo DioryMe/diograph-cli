@@ -34,15 +34,6 @@ docker build -t robot-tests .
 docker run robot-tests
 ```
 
-Manually:
-
-```
-npm link
-cd tests
-sed -i '' 's|"/Diory Content",|"'$(pwd)'/demo-content-room/Diory Content",|g' demo-content-room/room.json
-robot main.robot
-```
-
 ## Troubleshooting
 
 ```
