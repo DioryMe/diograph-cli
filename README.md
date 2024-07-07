@@ -27,6 +27,15 @@ dcli import file ~/MyPictures/my-pic.jpg
 
 ## Tests
 
+Docker container:
+
+```
+docker build -t robot-tests .
+docker run robot-tests
+```
+
+Manually:
+
 ```
 npm link
 cd tests
