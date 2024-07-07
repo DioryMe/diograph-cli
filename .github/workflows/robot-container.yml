@@ -18,7 +18,8 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
-      - name: Build and Run Docker Image
-        run: |
-          docker build -t robot-tests .
-          docker run robot-tests
+      - name: Build Docker Image
+        run: docker build -t robot-tests .
+
+      - name: Run Docker Image
+        run: docker run robot-tests
