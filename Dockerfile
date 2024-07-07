@@ -11,6 +11,7 @@ RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - \
 
 # Install ffmpeg
 RUN apt-get update && apt-get install -y ffmpeg
+ENV FFMPEG_PATH=/usr/bin/ffmpeg
 
 # Set the working directory in the container
 WORKDIR /usr/src/app
@@ -19,16 +20,15 @@ WORKDIR /usr/src/app
 COPY package.json yarn.lock ./
 RUN yarn
 
-# Copy the current directory contents into the container at /usr/src/app
+# Copy and build the source code
 COPY . .
-
 RUN yarn build
 
+# Enable dcli command
 RUN npm link
 
-# Set environment variables
-ENV FFMPEG_PATH=/usr/bin/ffmpeg
+# Set correct path as demo-content-room address
+RUN sed -i 's|"/Diory Content",|"'$(pwd)'/tests/demo-content-room/Diory Content",|g' tests/demo-content-room/room.json
 
 # Run robot tests when the container launches
-CMD ["dcli", "--version"]
-# CMD ["robot", "tests/main.robot"]
+CMD ["robot", "tests/main.robot"]
