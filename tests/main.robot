@@ -1,12 +1,20 @@
 *** Settings ***
-Resource  clean_up_files.robot
+# Resource  clean_up_files.robot
 Resource  verify_file_contents.robot
 Library  Process
 Library  OperatingSystem
 Library  ./get_config_file_path.py
 Library  ./run_dcli_command.py
 
-Suite Setup  Clean Up Files  /tmp
+Suite Setup  Initiate necessary files and folders
+
+*** Keywords ***
+Initiate necessary files and folders
+    ${config_file_path}=  Get Config File Path
+    OperatingSystem.Run  touch ${config_file_path}
+    OperatingSystem.Run  mkdir -p /tmp/Diory\\ Content
+    OperatingSystem.Run  mkdir -p /tmp/exported-room
+    OperatingSystem.Run  mkdir -p /tmp/exported-room/Diory\\ Content
 
 *** Test Cases ***
 Test CLI Output --version

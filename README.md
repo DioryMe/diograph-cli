@@ -27,11 +27,11 @@ dcli import file ~/MyPictures/my-pic.jpg
 
 ## Tests
 
+Docker container:
+
 ```
-npm link
-cd tests
-sed -i '' 's|"/Diory Content",|"'$(pwd)'/demo-content-room/Diory Content",|g' demo-content-room/room.json
-robot main.robot
+docker build -t robot-tests .
+docker run robot-tests
 ```
 
 ## Troubleshooting

@@ -1,42 +1,46 @@
-*** Settings ***
-Library  OperatingSystem
-Library  ./get_config_file_path.py
+### Not needed anymore with Docker container
 
-*** Keywords ***
-Clean Up Files
-    [Arguments]  ${roomAddress}
-    Delete Config File
-    Initiate Config File
-    Delete Room  ${roomAddress}
-    Delete Room  ${roomAddress}/exported-room
-    Initiate Room  ${roomAddress}
-    OperatingSystem.Run  mkdir -p ${roomAddress}/exported-room
-    OperatingSystem.Run  mkdir -p ${roomAddress}/exported-room/Diory\\ Content
+# *** Settings ***
+# Library  OperatingSystem
+# Library  ./get_config_file_path.py
 
-Initiate Room
-    [Arguments]  ${roomAddress}
-    OperatingSystem.Run  touch ~/.dcli && mkdir /tmp/Diory\\ Content
-Delete Room
-    [Arguments]  ${roomAddress}
-    Should Not Be Empty  ${roomAddress}
-    Should Not Contain  ${roomAddress}  *
-    Should Not Contain  ${roomAddress}  .
-    OperatingSystem.Run  rm ${roomAddress}/room.json
-    OperatingSystem.Run  rm ${roomAddress}/diograph.json
-    OperatingSystem.Run  rm -rf ${roomAddress}/Diory\\ Content
-Reset Room
-    [Arguments]  ${roomAddress}
-    Delete Room  ${roomAddress}
-    Initiate Room  ${roomAddress}
+# *** Keywords ***
+# Clean Up Files
+#     [Arguments]  ${roomAddress}
+#     Delete Config File
+#     Initiate Config File
+#     Delete Room  ${roomAddress}
+#     Delete Room  ${roomAddress}/exported-room
+#     Initiate Room  ${roomAddress}
+#     OperatingSystem.Run  mkdir -p ${roomAddress}/exported-room
+#     OperatingSystem.Run  mkdir -p ${roomAddress}/exported-room/Diory\\ Content
 
-Reset Config File
-    Delete Config File
-    Initiate Config File
+# Initiate Room
+#     [Arguments]  ${roomAddress}
+#     OperatingSystem.Run  touch ~/.dcli && mkdir /tmp/Diory\\ Content
 
-Initiate Config File
-    ${config_file_path}=  Get Config File Path
-    OperatingSystem.Run  touch ${config_file_path}
+# Delete Room
+#     [Arguments]  ${roomAddress}
+#     Should Not Be Empty  ${roomAddress}
+#     Should Not Contain  ${roomAddress}  *
+#     Should Not Contain  ${roomAddress}  .
+#     OperatingSystem.Run  rm ${roomAddress}/room.json
+#     OperatingSystem.Run  rm ${roomAddress}/diograph.json
+#     OperatingSystem.Run  rm -rf ${roomAddress}/Diory\\ Content
 
-Delete Config File
-    ${config_file_path}=  Get Config File Path
-    OperatingSystem.Run  rm ${config_file_path}
+# Reset Room
+#     [Arguments]  ${roomAddress}
+#     Delete Room  ${roomAddress}
+#     Initiate Room  ${roomAddress}
+
+# Reset Config File
+#     Delete Config File
+#     Initiate Config File
+
+# Initiate Config File
+#     ${config_file_path}=  Get Config File Path
+#     OperatingSystem.Run  touch ${config_file_path}
+
+# Delete Config File
+#     ${config_file_path}=  Get Config File Path
+#     OperatingSystem.Run  rm ${config_file_path}
