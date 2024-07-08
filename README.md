@@ -65,7 +65,7 @@ list connections
 room focus <roomId>
 - set given room into focus
 
-room create <address>
+room create --address <address>
 - create new room to given path
 - set it in focus
 - set its connection in focus
@@ -84,13 +84,17 @@ room destroy <room-id>
 - same as room remove but also deletes files and folders
   - including Diory Content connection
 
-connection create <address>
+connection create --address <address>
 - connect given folder
 - set connection in focus
 - saves connection info to the room in focus
 
 connection list-contents <connectionAddress>
 - generate diograph for the connection from folder contents
+
+connection export --address <address>
+- export connection in focus as room to given address
+- necessary to be able to show it in diory-browser-electron
 
 connection focus <connectionAddress>
 - NOT IMPLEMENTED YET!
@@ -129,31 +133,20 @@ export content <CID> <destinationPath>
 - NOT IMPLEMENTED YET!
 - reads buffer of the content from connection wherever it is available for the app
 - write given content to disk with chosen fileName
+
+server
+- launch web server to provide thumbnails and content via http
+  - http://localhost:3000//room-1/thumbnail?dioryId=[dioryId]
+  - http://localhost:3000/room-1/content?cid=[contentId]&mime=image/jpeg
 ```
 
 ## Diograph commands
 
 ```
-getDiograph
-getDiory
-createDiory
-deleteDiory
-```
-
-## App data
-
-Stores room addresses (and in the future possibly other app-specific data)
-
-app-data.json example:
-
-```
-{
-  "roomInFocus": "/diograph-cli/tmp"
-  "connectionInFocus": "/diograph-cli/tmp/Diory Content"
-  "rooms": [
-    {
-      "address": "/diograph-cli/tmp"
-    }
-  ]
-}
+diory query [options]
+diory show <diory-id>
+diory create <text> [id]
+diory remove <id>
+diory link <fromId> <toId>
+diory unlink <fromId> <toId>
 ```
