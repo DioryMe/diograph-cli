@@ -82,6 +82,7 @@ room remove <room-id>
 room destroy <room-id>
 - NOT IMPLEMENTED YET!
 - same as room remove but also deletes files and folders
+  - including Diory Content connection
 
 connection create <address>
 - connect given folder
@@ -95,6 +96,13 @@ connection focus <connectionAddress>
 - NOT IMPLEMENTED YET!
 - set given connection in focus
 
+connection remove <connectionAddress>
+- NOT IMPLEMENTED YET!
+- deletes all the information about the connection
+- connection doesn't have destroy as it is either
+  - part of the room (=diory contents) or
+  - something we shouldn't touch (=user's personal photos)
+
 diory query --all
 - NOT IMPLEMENTED YET!
 - show all diories in room in focus
@@ -103,59 +111,24 @@ diory query --all --useConnectionInFocus
 - NOT IMPLEMENTED YET!
 - show all diories in connection in focus
 
+import file <filePath> --copyContent
+- generate diory from given file contents
+- add content to room in focus native connection
+- link it to the root diory of the room in focus
+
+import folder <folderPath>
+- generate diograph from given folder structure
+- add diograph to room in focus
+
+copy <fromDioryId> <toDioryId>
+- copy diory from one room or connection to another room
+- link the newly created diory to toDiory
+- copy fromDiory content to destination room's native connection
+
 export content <CID> <destinationPath>
 - NOT IMPLEMENTED YET!
+- reads buffer of the content from connection wherever it is available for the app
 - write given content to disk with chosen fileName
-```
-
-## Room commands
-
-```
-listConnections() (or listRoomConnections)
-- list connections of room in focus
-
-deleteRoom()
-- remove room.json and diograph.json from the room path
-- remove it also from app-data
-
-removeConnection()
-- removes connection from room.json
-- set other connection to focus in app
-
-deleteConnection()
-- removes the connection folder contents (=`rm -rf`)
-- removes connection from room.json
-- set other connection to focus in app
-
-createConnection(connectionPath)
-- create connection to given (or current) path
-- add for room in focus
-- e.g. ... createConnection /path/to/source/folder
-
-importDioryFromFile
-- copy file to appTempFolder
-- generateDioryFromFile
-- add diory to room (in focus) diograph
-- add content to room (in focus) native connection
-
-copyDioryFromRoom(shouldCopyContent)
-- add diory in focus in connection's diograph to room
-- add diory's content to room in focus (+ change contentUrl?)
-
-importDioryFromContentSource(connectionInternalPathId, copyContent)
-- copy diory (and content) from connection to room
-- boolean to define if content should be made available also on native-connection
-- e.g. ... import /two-test-image.jpg true
-
-readContent(contentUrl)
-- reads buffer of the content from connection where it is available
-
-listConnectionContents
-- uses listContentSource tool to list contents (in diograph)
-- should be: list content source contents
-- e.g. ... listConnectionContents
-  - currently lists contents of the second connection in the room
-  - should this return something?
 ```
 
 ## Diograph commands
