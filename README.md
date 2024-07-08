@@ -2,11 +2,12 @@
 
 ## Config
 
-`.dcli` file is saved to home folder.
+Application state is saved to `.dcli` file in home folder
 
 - Connected rooms
 - Room in focus
 - FFMPEG_PATH
+- S3 credentials
 
 ## Creating a room
 
@@ -27,7 +28,7 @@ dcli import file ~/MyPictures/my-pic.jpg
 
 ## Tests
 
-Docker container:
+Running inside container ensures clean initial state and prevents unwanted side effects to local environment.
 
 ```
 docker build -t robot-tests .
@@ -62,49 +63,48 @@ list connections
 - list available connections in the app
 
 room focus <roomId>
-- set room into focus
+- set given room into focus
 
 room create <address>
-- create new room and set it in focus
+- create new room to given path
+- set it in focus
+- set its connection in focus
+- saves room info to config file
 
 room add <address>
 - add existing room into app and set it in focus
 
+room remove <room-id>
+- NOT IMPLEMENTED YET!
+- removes room info from config file
+- doesn't delete any files or folders
+
+room destroy <room-id>
+- NOT IMPLEMENTED YET!
+- same as room remove but also deletes files and folders
+
 connection create <address>
-- connect to given folder
+- connect given folder
+- set connection in focus
 - saves connection info to the room in focus
 
 connection list-contents <connectionAddress>
-- not implemented yet!
-- set connection in focus
+- generate diograph for the connection from folder contents
 
 connection focus <connectionAddress>
-- not implemented yet!
-- set connection in focus
+- NOT IMPLEMENTED YET!
+- set given connection in focus
 
-getDiograph()
-- show room in focus diograph contents
+diory query --all
+- NOT IMPLEMENTED YET!
+- show all diories in room in focus
 
-listAppConnections()
-- list all the available connections in the app
+diory query --all --useConnectionInFocus
+- NOT IMPLEMENTED YET!
+- show all diories in connection in focus
 
-listConnections()
-- list available connections in the room in focus
-
-getConnectionDiograph()
-- show connection in focus diograph contents
-
-createRoom(roomPath)
-- adds room to given path
-- creates LocalClient, RoomClient and Room
-- saves room address to app-data
-- e.g. ... createRoom /room/folder
-
-removeRoom()
-- removes room from app-data
-- doesn't delete any files or folders
-
-writeFileFromContent(contentId, fileName)
+export content <CID> <destinationPath>
+- NOT IMPLEMENTED YET!
 - write given content to disk with chosen fileName
 ```
 
