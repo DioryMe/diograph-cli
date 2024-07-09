@@ -31,8 +31,7 @@ dcli import file ~/MyPictures/my-pic.jpg
 Running inside container ensures clean initial state and prevents unwanted side effects to local environment.
 
 ```
-docker build -t robot-tests .
-docker run robot-tests
+docker build -t robot-tests . && docker run robot-tests
 ```
 
 ## Troubleshooting
@@ -55,6 +54,11 @@ Use `dcli help` and `dcli room add --help` for full list of commands and options
 
 status
 - shows room in focus and connection in focus
+
+config set
+- set config values: FFMPEG_PATH or s3-credentials
+- `dcli config set s3-credentials "[ACCESS_KEY] [SECRET_KEY]"`
+- `dcli config set FFMPEG_PATH /opt/homebrew/bin/ffmpeg`
 
 list rooms
 - list available rooms in the app
@@ -94,7 +98,7 @@ connection list-contents <connectionAddress>
 
 connection export --address <address>
 - export connection in focus as room to given address
-- necessary to be able to show it in diory-browser-electron
+- NOTE: only necessary to be able to show it in diory-browser-electron
 
 connection focus <connectionAddress>
 - NOT IMPLEMENTED YET!
