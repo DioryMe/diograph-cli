@@ -1,29 +1,9 @@
 # Diograph CLI
 
-## Config
-
-Application state is saved to `.dcli` file in home folder
-
-- Connected rooms
-- Room in focus
-- FFMPEG_PATH
-- S3 credentials
-
-## Creating a room
-
-Create room to /tmp folder and save app state to ./tmp/app-data.json
+## Install
 
 ```
-mkdir ./tmp
-mkdir ./tmp/room
-mkdir ./tmp/room/Diory\ Content
-dcli room create ./tmp
-```
-
-Import image diory to that room
-
-```
-dcli import file ~/MyPictures/my-pic.jpg
+npm install -g diograph-cli
 ```
 
 ## Tests
@@ -32,18 +12,6 @@ Running inside container ensures clean initial state and prevents unwanted side 
 
 ```
 docker build -t robot-tests . && docker run robot-tests
-```
-
-## Troubleshooting
-
-```
-# PermissionError: [Errno 13] Permission denied: 'dcli'
-chmod +x ~/.nvm/versions/node/v20.10.0/bin/dcli
-```
-
-```
-# [Error: ENOENT: no such file or directory, open '/Diory Content/Mary/PIXNIO-53799-6177x4118.jpeg']
-sed -i '' 's|"/Diory Content",|"'$(pwd)'/tests/demo-content-room/Diory Content",|g' tests/demo-content-room/room.json
 ```
 
 ## App commands
@@ -153,4 +121,29 @@ diory create <text> [id]
 diory remove <id>
 diory link <fromId> <toId>
 diory unlink <fromId> <toId>
+```
+
+## Usage
+
+See [tutorial.md](./docs/tutorial.md) for examples.
+
+## Config
+
+Application state is saved to `.dcli` file in home folder
+
+- Rooms
+- Room in focus
+- FFMPEG_PATH
+- S3 credentials
+
+## Troubleshooting
+
+```
+# PermissionError: [Errno 13] Permission denied: 'dcli'
+chmod +x ~/.nvm/versions/node/v20.10.0/bin/dcli
+```
+
+```
+# [Error: ENOENT: no such file or directory, open '/Diory Content/Mary/PIXNIO-53799-6177x4118.jpeg']
+sed -i '' 's|"/Diory Content",|"'$(pwd)'/tests/demo-content-room/Diory Content",|g' tests/demo-content-room/room.json
 ```
