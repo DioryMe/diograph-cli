@@ -1,4 +1,4 @@
-import fs from 'fs/promises'
+import fs, { access } from 'fs/promises'
 import ini from 'ini'
 import { dcliConfigPath } from './appConfig.js'
 import { Connection, Room } from '@diograph/diograph'
@@ -166,21 +166,26 @@ const findRoom = async (roomAddress: string): Promise<RoomConfigData> => {
 }
 
 const readConfig = async (): Promise<ConfigObject> => {
-  const iniContent = await fs.readFile(dcliConfigPath, 'utf-8')
-  const parsedConfigObject = ini.parse(iniContent)
-
-  // TODO: Validate parsed configObject to verify that it has the correct structure
-  // - s3Credentials should be type @diograph/s3-client/S3ClientCredentials
-
-  if (Object.keys(parsedConfigObject).length === 0) {
-    return defaultConfigObject
+  let parsedConfigObject
+  try {
+    const iniContent = await fs.readFile(dcliConfigPath, 'utf-8')
+    parsedConfigObject = ini.parse(iniContent)
+  } catch (e: any) {
+    if (e.code === 'ENOENT') {
+      parsedConfigObject = defaultConfigObject
+      await writeConfig(parsedConfigObject)
+    }
+    throw e
   }
 
+  // If rooms is empty in ConfigObject it is not written to the .dcli file
   if (!parsedConfigObject.rooms) {
     parsedConfigObject.rooms = {}
   }
 
   // Validate RoomConfigData
+  // - TODO: Currently only RoomConfigData is validated, the whole parsed configObject should be validated
+  // - e.g. s3Credentials should be type @diograph/s3-client/S3ClientCredentials
   Object.values(parsedConfigObject.rooms).forEach((parsedRoomConfigDataObject) => {
     validateRoomConfigData(parsedRoomConfigDataObject as RoomConfigData)
   })

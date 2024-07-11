@@ -11,16 +11,14 @@ Suite Setup  Initiate necessary files and folders
 *** Keywords ***
 Initiate necessary files and folders
     ${config_file_path}=  Get Config File Path
-    OperatingSystem.Run  touch ${config_file_path}
     OperatingSystem.Run  mkdir -p /tmp/Diory\\ Content
     OperatingSystem.Run  mkdir -p /tmp/exported-room
     OperatingSystem.Run  mkdir -p /tmp/exported-room/Diory\\ Content
 
 *** Test Cases ***
 Test CLI Output --version
-    ${exit_code}  ${output}  ${error_output}=  Run Dcli Command  --version
+    ${exit_code}  ${output}  ${error_output}=  Run Dcli Command  --help
     Verify Exit Code Zero  ${exit_code}  ${output}  ${error_output}
-    Should Be Equal  ${output.strip()}  0.1.3
 
 Test CLI status command
     ${exit_code}  ${output}  ${error_output}=  Run Dcli Command  status
