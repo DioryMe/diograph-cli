@@ -37,7 +37,7 @@ dcli connection create --address ~/MyPictures
 NOTE: You need ffmpeg dependency and FFMPEG_PATH if you have videos in the MyPictures folder (otherwise it can be omitted)
 
 ```
-dcli config set FFMPEG_PATH=/opt/homebrew/bin/ffmpeg
+dcli config set FFMPEG_PATH /opt/homebrew/bin/ffmpeg
 dcli connection list-contents
 ```
 
