@@ -1,49 +1,17 @@
 # Diograph CLI
 
-## Config
-
-`.dcli` file is saved to home folder.
-
-- Connected rooms
-- Room in focus
-- FFMPEG_PATH
-
-## Creating a room
-
-Create room to /tmp folder and save app state to ./tmp/app-data.json
+## Install
 
 ```
-mkdir ./tmp
-mkdir ./tmp/room
-mkdir ./tmp/room/Diory\ Content
-dcli room create ./tmp
-```
-
-Import image diory to that room
-
-```
-dcli import file ~/MyPictures/my-pic.jpg
+npm install -g diograph-cli
 ```
 
 ## Tests
 
-Docker container:
+Running inside container ensures clean initial state and prevents unwanted side effects to local environment.
 
 ```
-docker build -t robot-tests .
-docker run robot-tests
-```
-
-## Troubleshooting
-
-```
-# PermissionError: [Errno 13] Permission denied: 'dcli'
-chmod +x ~/.nvm/versions/node/v20.10.0/bin/dcli
-```
-
-```
-# [Error: ENOENT: no such file or directory, open '/Diory Content/Mary/PIXNIO-53799-6177x4118.jpeg']
-sed -i '' 's|"/Diory Content",|"'$(pwd)'/tests/demo-content-room/Diory Content",|g' tests/demo-content-room/room.json
+docker build -t robot-tests . && docker run robot-tests
 ```
 
 ## App commands
@@ -55,6 +23,11 @@ Use `dcli help` and `dcli room add --help` for full list of commands and options
 status
 - shows room in focus and connection in focus
 
+config set
+- set config values: FFMPEG_PATH or s3-credentials
+- `dcli config set s3-credentials "[ACCESS_KEY] [SECRET_KEY]"`
+- `dcli config set FFMPEG_PATH /opt/homebrew/bin/ffmpeg`
+
 list rooms
 - list available rooms in the app
 
@@ -62,125 +35,115 @@ list connections
 - list available connections in the app
 
 room focus <roomId>
-- set room into focus
+- set given room into focus
 
-room create <address>
-- create new room and set it in focus
+room create --address <address>
+- create new room to given path
+- set it in focus
+- set its connection in focus
+- saves room info to config file
 
 room add <address>
 - add existing room into app and set it in focus
 
-connection create <address>
-- connect to given folder
+room remove <room-id>
+- NOT IMPLEMENTED YET!
+- removes room info from config file
+- doesn't delete any files or folders
+
+room destroy <room-id>
+- NOT IMPLEMENTED YET!
+- same as room remove but also deletes files and folders
+  - including Diory Content connection
+
+connection create --address <address>
+- connect given folder
+- set connection in focus
 - saves connection info to the room in focus
 
 connection list-contents <connectionAddress>
-- not implemented yet!
-- set connection in focus
+- generate diograph for the connection from folder contents
+
+connection export --address <address>
+- export connection in focus as room to given address
+- NOTE: only necessary to be able to show it in diory-browser-electron
 
 connection focus <connectionAddress>
-- not implemented yet!
-- set connection in focus
+- NOT IMPLEMENTED YET!
+- set given connection in focus
 
-getDiograph()
-- show room in focus diograph contents
+connection remove <connectionAddress>
+- NOT IMPLEMENTED YET!
+- deletes all the information about the connection
+- connection doesn't have destroy as it is either
+  - part of the room (=diory contents) or
+  - something we shouldn't touch (=user's personal photos)
 
-listAppConnections()
-- list all the available connections in the app
+diory query --all
+- NOT IMPLEMENTED YET!
+- show all diories in room in focus
 
-listConnections()
-- list available connections in the room in focus
+diory query --all --useConnectionInFocus
+- NOT IMPLEMENTED YET!
+- show all diories in connection in focus
 
-getConnectionDiograph()
-- show connection in focus diograph contents
+import file <filePath> --copyContent
+- generate diory from given file contents
+- add content to room in focus native connection
+- link it to the root diory of the room in focus
 
-createRoom(roomPath)
-- adds room to given path
-- creates LocalClient, RoomClient and Room
-- saves room address to app-data
-- e.g. ... createRoom /room/folder
+import folder <folderPath>
+- generate diograph from given folder structure
+- add diograph to room in focus
 
-removeRoom()
-- removes room from app-data
-- doesn't delete any files or folders
+copy <fromDioryId> <toDioryId>
+- copy diory from one room or connection to another room
+- link the newly created diory to toDiory
+- copy fromDiory content to destination room's native connection
 
-writeFileFromContent(contentId, fileName)
+export content <CID> <destinationPath>
+- NOT IMPLEMENTED YET!
+- reads buffer of the content from connection wherever it is available for the app
 - write given content to disk with chosen fileName
-```
 
-## Room commands
-
-```
-listConnections() (or listRoomConnections)
-- list connections of room in focus
-
-deleteRoom()
-- remove room.json and diograph.json from the room path
-- remove it also from app-data
-
-removeConnection()
-- removes connection from room.json
-- set other connection to focus in app
-
-deleteConnection()
-- removes the connection folder contents (=`rm -rf`)
-- removes connection from room.json
-- set other connection to focus in app
-
-createConnection(connectionPath)
-- create connection to given (or current) path
-- add for room in focus
-- e.g. ... createConnection /path/to/source/folder
-
-importDioryFromFile
-- copy file to appTempFolder
-- generateDioryFromFile
-- add diory to room (in focus) diograph
-- add content to room (in focus) native connection
-
-copyDioryFromRoom(shouldCopyContent)
-- add diory in focus in connection's diograph to room
-- add diory's content to room in focus (+ change contentUrl?)
-
-importDioryFromContentSource(connectionInternalPathId, copyContent)
-- copy diory (and content) from connection to room
-- boolean to define if content should be made available also on native-connection
-- e.g. ... import /two-test-image.jpg true
-
-readContent(contentUrl)
-- reads buffer of the content from connection where it is available
-
-listConnectionContents
-- uses listContentSource tool to list contents (in diograph)
-- should be: list content source contents
-- e.g. ... listConnectionContents
-  - currently lists contents of the second connection in the room
-  - should this return something?
+server
+- launch web server to provide thumbnails and content via http
+  - http://localhost:3000//room-1/thumbnail?dioryId=[dioryId]
+  - http://localhost:3000/room-1/content?cid=[contentId]&mime=image/jpeg
 ```
 
 ## Diograph commands
 
 ```
-getDiograph
-getDiory
-createDiory
-deleteDiory
+diory query [options]
+diory show <diory-id>
+diory create <text> [id]
+diory remove <id>
+diory link <fromId> <toId>
+diory unlink <fromId> <toId>
 ```
 
-## App data
+## Usage
 
-Stores room addresses (and in the future possibly other app-specific data)
+See [tutorial.md](./docs/tutorial.md) for examples.
 
-app-data.json example:
+## Config
+
+Application state is saved to `.dcli` file in home folder
+
+- Rooms
+- Room in focus
+- FFMPEG_PATH
+- S3 credentials
+
+## Troubleshooting
 
 ```
-{
-  "roomInFocus": "/diograph-cli/tmp"
-  "connectionInFocus": "/diograph-cli/tmp/Diory Content"
-  "rooms": [
-    {
-      "address": "/diograph-cli/tmp"
-    }
-  ]
-}
+# PermissionError: [Errno 13] Permission denied: 'dcli'
+chmod +x ~/.nvm/versions/node/v20.10.0/bin/dcli
+```
+
+```
+# [Error: ENOENT: no such file or directory, open '/Diory Content/Mary/PIXNIO-53799-6177x4118.jpeg']
+sed -i '' 's|"/Diory Content",|"'$(pwd)'/tests/demo-content-room/Diory Content",|g' tests/demo-content-room/room.json
 ```

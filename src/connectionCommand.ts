@@ -46,11 +46,13 @@ const listContentsAction = async () => {
   const cidMapping = generateDiographReturnValue.paths
 
   connection.diograph.initialise(connectionDiograph.toObject())
-  Object.values(connection.diograph.diograph).forEach((diory) => {
-    if (diory.data && diory.data[0].contentUrl) {
-      connection.addContentUrl(diory.data[0].contentUrl, diory.id)
-    }
-  })
+
+  // Is this necessary? Or even incorrect?
+  // Object.values(connection.diograph.diograph).forEach((diory) => {
+  //   if (diory.data && diory.data[0].contentUrl) {
+  //     connection.addContentUrl(diory.data[0].contentUrl, diory.id)
+  //   }
+  // })
 
   Object.entries(cidMapping).forEach(([id, path]) => {
     connection.contentUrls[id] = path
