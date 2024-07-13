@@ -16,7 +16,7 @@ Initiate necessary files and folders
     OperatingSystem.Run  mkdir -p /tmp/exported-room/Diory\\ Content
 
 *** Test Cases ***
-Test CLI Output --version
+Test CLI Output --help
     ${exit_code}  ${output}  ${error_output}=  Run Dcli Command  --help
     Verify Exit Code Zero  ${exit_code}  ${output}  ${error_output}
 
@@ -105,20 +105,18 @@ Add Room
     ${exit_code}  ${output}  ${error_output}=  Run Dcli Command  room add --address ${CURDIR}/demo-content-room
     Verify Exit Code Zero  ${exit_code}  ${output}  ${error_output}
 
-# FIXME: "queryDiograph() is disabled because it doesn't work with validated diographs"
-# Test global flag default to be room in focus
-#     ${exit_code}  ${output}  ${error_output}=  Run Dcli Command  diory query --all
-#     Verify Exit Code Zero  ${exit_code}  ${output}  ${error_output}
-#     Verify Output Contains  ${CURDIR}/demo_content_room_diory_list.txt  ${output}
+Test global flag default to be room in focus
+    ${exit_code}  ${output}  ${error_output}=  Run Dcli Command  diory query --all
+    Verify Exit Code Zero  ${exit_code}  ${output}  ${error_output}
+    Verify Output Contains  ${CURDIR}/demo_content_room_diory_list.txt  ${output}
 
-# FIXME: "queryDiograph() is disabled because it doesn't work with validated diographs"
-# Test global flag to set connection in focus (create & query diory)
-#     ${exit_code}  ${output}  ${error_output}=  Run Dcli Command  diory query --all --useConnectionInFocus
-#     Verify Exit Code Zero  ${exit_code}  ${output}  ${error_output}
+Test global flag to set connection in focus (create & query diory)
+    ${exit_code}  ${output}  ${error_output}=  Run Dcli Command  diory query --all --useConnectionInFocus
+    Verify Exit Code Zero  ${exit_code}  ${output}  ${error_output}
 
     # TODO: Fix importAction & Connection list-contents
     # => authentic test case with demo-content-source-folder
-    # Verify Output Contains  ${CURDIR}/demo_content_source_connection_diory_list.txt  ${output}
+    Verify Output Contains  ${CURDIR}/demo_content_source_connection_diory_list.txt  ${output}
 
 Copy diory from connection to room and link it to the given diory with content
     ${exit_code}  ${output}  ${error_output}=  Run Dcli Command  copy /Mary/PIXNIO-53799-6177x4118.jpeg room-1:/ --copyContent
@@ -165,3 +163,33 @@ Export Connection As Room
 
     File Should Exist    /tmp/exported-room/room.json
     File Should Exist    /tmp/exported-room/diograph.json
+
+
+Query Diograph By Text
+
+
+    ${exit_code}  ${output}  ${error_output}=  Run Dcli Command  diory query --all
+    Verify Exit Code Zero  ${exit_code}  ${output}  ${error_output}
+
+    ${exit_code}  ${output}  ${error_output}=  Run Dcli Command  diory query --text some-video
+    Verify Exit Code Zero  ${exit_code}  ${output}  ${error_output}
+    # Yksi rivi vain
+
+Query Diograph By Date
+    ${exit_code}  ${output}  ${error_output}=  Run Dcli Command  diory query --date 2021-04-07T00:00:00Z
+    Verify Exit Code Zero  ${exit_code}  ${output}  ${error_output}
+    Should Contain    ${output}    Date geo searchResult [ 'bafkreia2c44rszqme57sao4ydipv3xtwfoigag7b2lzfeuwtunctzfdx4a' ]
+
+    ${exit_code}  ${output}  ${error_output}=  Run Dcli Command  diory query --dateStart 2021-01-01T00:00:00Z --dateEnd 2022-01-01T00:00:00Z
+    Verify Exit Code Zero  ${exit_code}  ${output}  ${error_output}
+    Should Contain    ${output}   Date geo searchResult [ 'bafkreia2c44rszqme57sao4ydipv3xtwfoigag7b2lzfeuwtunctzfdx4a' ]
+
+Query Diograph By LatLng
+    ${exit_code}  ${output}  ${error_output}=  Run Dcli Command  diory query --latlngStart 43.464500N,11.88147800E --latlngEnd 43.464400N,11.88147900E
+    Should Contain    ${output}    bafkreihoednm4s2g4vpame3mweewfq5of3hks2mbmkvoksxg3z4rhmweeu
+    Verify Exit Code Zero  ${exit_code}  ${output}  ${error_output}
+
+    ${exit_code}  ${output}  ${error_output}=  Run Dcli Command  diory query --latlngStart 43.464600N,11.88147800E --latlngEnd 43.464500N,11.88147900E
+    Verify Exit Code Zero  ${exit_code}  ${output}  ${error_output}
+
+    Should Not Contain    ${output}    'bafkreihoednm4s2g4vpame3mweewfq5of3hks2mbmkvoksxg3z4rhmweeu'

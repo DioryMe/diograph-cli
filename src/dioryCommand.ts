@@ -3,6 +3,11 @@ import { connectionInFocus, roomInFocus } from './utils/configManager.js'
 import { Command, program } from 'commander'
 
 interface queryActionOptions {
+  date?: string
+  dateStart?: string
+  dateEnd?: string
+  latlngStart?: string
+  latlngEnd?: string
   text?: string
   all?: boolean
 }
@@ -21,8 +26,20 @@ const queryAction = async (options: queryActionOptions) => {
   const room = await (program.opts().useConnectionInFocus ? connectionInFocus() : roomInFocus())
   const diograph = room.diograph
 
-  const searchResult = diograph.queryDiograph(options)
-  console.log('searchResult', Object.keys(searchResult.toObject()))
+  if (Object.keys(options).length === 0) {
+    const searchResult = diograph.queryDiograph(options)
+    console.log('searchResult', Object.keys(searchResult))
+    return
+  }
+
+  if (options.text) {
+    const textSearchResult = diograph.queryDiograph(options)
+    console.log('Text searchResult', Object.keys(textSearchResult))
+    return
+  }
+
+  const searchResult = diograph.queryDiographByDateAndGeo(options)
+  console.log('Date geo searchResult', Object.keys(searchResult))
 }
 
 const showAction = async (dioryId: string) => {
@@ -127,8 +144,13 @@ const unlinkAction = async (fromId: string, toId: string) => {
 }
 
 const dioryQueryCommand = new Command('query')
-  .option('--text <value>', 'Query from text field')
   .option('--all', 'List all')
+  .option('--text <value>', 'Query from text field')
+  .option('--date <value>', 'Filter by date')
+  .option('--dateStart <value>', 'Filter by startDate')
+  .option('--dateEnd <value>', 'Filter by endDate')
+  .option('--latlngStart <value>', 'Filter by latlngStart')
+  .option('--latlngEnd <value>', 'Filter by latlngEnd')
   .action(queryAction)
 
 const dioryShowCommand = new Command('show').arguments('<diory-id>').action(showAction)
