@@ -1,4 +1,4 @@
-import fs, { access } from 'fs/promises'
+import fs from 'fs/promises'
 import ini from 'ini'
 import { dcliConfigPath } from './appConfig.js'
 import { Connection, Room } from '@diograph/diograph'
@@ -147,23 +147,6 @@ const getS3Credentials = async (): Promise<S3ClientCredentials> => {
 }
 
 // private
-
-// TODO: Credentials missing here...
-const findRoom = async (roomAddress: string): Promise<RoomConfigData> => {
-  const configObject = await readConfig()
-
-  if (Object.keys(configObject.rooms).length === 0) {
-    throw new Error('No rooms found')
-  }
-
-  const roomConfig = Object.values(configObject.rooms).find((room) => room.address === roomAddress)
-
-  if (!roomConfig) {
-    throw new Error(`Room with address ${roomAddress} not found`)
-  }
-
-  return roomConfig
-}
 
 const readConfig = async (): Promise<ConfigObject> => {
   let parsedConfigObject

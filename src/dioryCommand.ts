@@ -1,10 +1,38 @@
 import chalk from 'chalk'
-import { connectionInFocus, roomInFocus } from './utils/configManager.js'
+import { connectionInFocus, listRooms, roomInFocus } from './utils/configManager.js'
 import { Command, program } from 'commander'
+import { IDiograph } from '@diograph/diograph/types'
+import { getAvailableClients } from './utils/getAvailableClients.js'
+import { constructAndLoadRoom } from '@diograph/diograph'
+
+const searchFromRoom = (diograph: IDiograph, options: queryActionOptions) => {
+  if (Object.keys(options).length === 0) {
+    const searchResult = diograph.queryDiograph(options)
+    // console.debug('searchResult', Object.keys(searchResult))
+    return searchResult
+  }
+
+  if (options.text) {
+    const textSearchResult = diograph.queryDiograph(options)
+    // console.debug('Text searchResult', Object.keys(textSearchResult))
+    return textSearchResult
+  }
+
+  const searchResult = diograph.queryDiographByDateAndGeo(options)
+  // console.debug('Date geo searchResult', Object.keys(searchResult))
+
+  return searchResult
+}
 
 interface queryActionOptions {
+  date?: string
+  dateStart?: string
+  dateEnd?: string
+  latlngStart?: string
+  latlngEnd?: string
   text?: string
   all?: boolean
+  allRooms?: boolean
 }
 
 const queryAction = async (options: queryActionOptions) => {
@@ -18,11 +46,31 @@ const queryAction = async (options: queryActionOptions) => {
     options = {}
   }
 
+  if (options.allRooms) {
+    const roomConfigs = await listRooms()
+    const availableClients = await getAvailableClients()
+    Promise.all(
+      Object.values(roomConfigs)
+        .filter((roomConfig) => roomConfig.clientType === 'LocalClient')
+        .map(async (localRoomConfig) => {
+          const room = await constructAndLoadRoom(
+            localRoomConfig.address,
+            localRoomConfig.clientType,
+            availableClients,
+          )
+          const diograph = room.diograph
+          const results = searchFromRoom(diograph, options)
+          console.log(`Search results: ${localRoomConfig.id}`, Object.keys(results))
+        }),
+    )
+    return
+  }
+
   const room = await (program.opts().useConnectionInFocus ? connectionInFocus() : roomInFocus())
   const diograph = room.diograph
 
-  const searchResult = diograph.queryDiograph(options)
-  console.log('searchResult', Object.keys(searchResult.toObject()))
+  const results = searchFromRoom(diograph, options)
+  console.log('Search results:', Object.keys(results))
 }
 
 const showAction = async (dioryId: string) => {
@@ -127,8 +175,14 @@ const unlinkAction = async (fromId: string, toId: string) => {
 }
 
 const dioryQueryCommand = new Command('query')
-  .option('--text <value>', 'Query from text field')
   .option('--all', 'List all')
+  .option('--text <value>', 'Query from text field')
+  .option('--date <value>', 'Filter by date')
+  .option('--dateStart <value>', 'Filter by startDate')
+  .option('--dateEnd <value>', 'Filter by endDate')
+  .option('--latlngStart <value>', 'Filter by latlngStart')
+  .option('--latlngEnd <value>', 'Filter by latlngEnd')
+  .option('--allRooms', 'Search from all rooms')
   .action(queryAction)
 
 const dioryShowCommand = new Command('show').arguments('<diory-id>').action(showAction)

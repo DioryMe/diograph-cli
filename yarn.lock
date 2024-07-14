@@ -658,6 +658,19 @@
     path-browserify "^1.0.1"
     uuid "8.3.2"
 
+"@diograph/diograph@0.2.6-rc2":
+  version "0.2.6-rc2"
+  resolved "https://registry.yarnpkg.com/@diograph/diograph/-/diograph-0.2.6-rc2.tgz#468949ad6d1b8f28e39751c068cf3cb9516c8b7a"
+  integrity sha512-KYeXBYzv+UfJXFuHr0X59ht5BBCGRrgYP7BHCP7Lt2WYexgVwFd1p0tfjr04cNHERunWE9u4Fh4XEyMB7BpBbQ==
+  dependencies:
+    "@turf/boolean-point-in-polygon" "^6"
+    "@turf/helpers" "^6"
+    "@types/path-browserify" "^1.0.0"
+    ajv "^8.12.0"
+    date-fns "^3.6.0"
+    path-browserify "^1.0.1"
+    uuid "8.3.2"
+
 "@diograph/diograph@next":
   version "0.2.3-rc2"
   resolved "https://registry.yarnpkg.com/@diograph/diograph/-/diograph-0.2.3-rc2.tgz#a504a2cf5364ae94a569774c0b4b76f0df640ef2"
@@ -1233,6 +1246,26 @@
   resolved "https://registry.yarnpkg.com/@tokenizer/token/-/token-0.3.0.tgz#fe98a93fe789247e998c75e74e9c7c63217aa276"
   integrity sha512-OvjF+z51L3ov0OyAU0duzsYuvO01PH7x4t6DJx+guahgTnBHkhJdG7soQeTSFLWN3efnHyibZ4Z8l2EuWwJN3A==
 
+"@turf/boolean-point-in-polygon@^6":
+  version "6.5.0"
+  resolved "https://registry.yarnpkg.com/@turf/boolean-point-in-polygon/-/boolean-point-in-polygon-6.5.0.tgz#6d2e9c89de4cd2e4365004c1e51490b7795a63cf"
+  integrity sha512-DtSuVFB26SI+hj0SjrvXowGTUCHlgevPAIsukssW6BG5MlNSBQAo70wpICBNJL6RjukXg8d2eXaAWuD/CqL00A==
+  dependencies:
+    "@turf/helpers" "^6.5.0"
+    "@turf/invariant" "^6.5.0"
+
+"@turf/helpers@^6", "@turf/helpers@^6.5.0":
+  version "6.5.0"
+  resolved "https://registry.yarnpkg.com/@turf/helpers/-/helpers-6.5.0.tgz#f79af094bd6b8ce7ed2bd3e089a8493ee6cae82e"
+  integrity sha512-VbI1dV5bLFzohYYdgqwikdMVpe7pJ9X3E+dlr425wa2/sMJqYDhTO++ec38/pcPvPE6oD9WEEeU3Xu3gza+VPw==
+
+"@turf/invariant@^6.5.0":
+  version "6.5.0"
+  resolved "https://registry.yarnpkg.com/@turf/invariant/-/invariant-6.5.0.tgz#970afc988023e39c7ccab2341bd06979ddc7463f"
+  integrity sha512-Wv8PRNCtPD31UVbdJE/KVAWKe7l6US+lJItRR/HOEW3eh+U/JwRCSUl/KZ7bmjM/C+zLNoreM2TU6OoLACs4eg==
+  dependencies:
+    "@turf/helpers" "^6.5.0"
+
 "@types/ini@^4.1.0":
   version "4.1.0"
   resolved "https://registry.yarnpkg.com/@types/ini/-/ini-4.1.0.tgz#20e7327b3133627f84304210670d6406cceaba25"
@@ -1468,6 +1501,11 @@ cors@2.8.5:
   dependencies:
     object-assign "^4"
     vary "^1"
+
+date-fns@^3.6.0:
+  version "3.6.0"
+  resolved "https://registry.yarnpkg.com/date-fns/-/date-fns-3.6.0.tgz#f20ca4fe94f8b754951b24240676e8618c0206bf"
+  integrity sha512-fRHTG8g/Gif+kSh50gaGEdToemgfj74aRX3swtiouboip5JDLAyDE9F11nHMIcvOaXeOC6D7SpNhi7uFyB7Uww==
 
 debug@2.6.9:
   version "2.6.9"
