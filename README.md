@@ -80,12 +80,17 @@ connection remove <connectionAddress>
   - something we shouldn't touch (=user's personal photos)
 
 diory query --all
-- NOT IMPLEMENTED YET!
 - show all diories in room in focus
+  - with --useConnectionInFocus from connection in focus
 
-diory query --all --useConnectionInFocus
-- NOT IMPLEMENTED YET!
-- show all diories in connection in focus
+diory query text <search text>
+- list all diories which have search text in their text field
+
+diory query --latlngStart "61.34890819479005, 24.252450413456693" --latlngEnd "61.34513645163953, 24.264384935041175"
+diory query --dateStart 2021-01-01T00:00:00Z --dateEnd 2022-01-01T00:00:00Z
+diory query --date 2021-01-01
+- list all diories from given geo area, time period or date
+- with --allRooms search from each LocalClient room there is in .dcli
 
 import file <filePath> --copyContent
 - generate diory from given file contents
@@ -118,6 +123,7 @@ server
 diory query [options]
 diory show <diory-id>
 diory create <text> [id]
+diory update (not implemented)
 diory remove <id>
 diory link <fromId> <toId>
 diory unlink <fromId> <toId>
