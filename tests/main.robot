@@ -69,14 +69,9 @@ Import Two Files (with and without content)
     Verify Exit Code Zero  ${exit_code}  ${output}  ${error_output}
 
     Verify Diory Data Attribute  bafkreia2c44rszqme57sao4ydipv3xtwfoigag7b2lzfeuwtunctzfdx4a  encodingFormat  video/x-m4v
-    # FIXME: Gives 00:00:16.94 in Github Actions
+    # FIXME: Gives 00:00:16.94 in Github Actions (=different ffmpeg version)
     # Verify Diory Data Attribute  bafkreia2c44rszqme57sao4ydipv3xtwfoigag7b2lzfeuwtunctzfdx4a  duration  00:00:16.93
     Verify Diory Links  /  bafkreia2c44rszqme57sao4ydipv3xtwfoigag7b2lzfeuwtunctzfdx4a
-
-# FIXME: "queryDiograph() is disabled because it doesn't work with validated diographs"
-# Query Diograph By Text
-#     ${exit_code}  ${output}  ${error_output}=  Run Dcli Command  diory query --all
-#     Verify Exit Code Zero  ${exit_code}  ${output}  ${error_output}
 
 Show Create Link Unlink Delete Diory
     ${exit_code}  ${output}  ${error_output}=  Run Dcli Command  diory show bafkreihvgvtqocownctpbskgrwsdtr3l6z3yp4w2rirs32ny2u7epz7ona
@@ -164,14 +159,12 @@ Export Connection As Room
     File Should Exist    /tmp/exported-room/room.json
     File Should Exist    /tmp/exported-room/diograph.json
 
-
 Query Diograph By Text
     ${exit_code}  ${output}  ${error_output}=  Run Dcli Command  diory query --all
     Verify Exit Code Zero  ${exit_code}  ${output}  ${error_output}
 
     ${exit_code}  ${output}  ${error_output}=  Run Dcli Command  diory query --text some-video
     Verify Exit Code Zero  ${exit_code}  ${output}  ${error_output}
-    # Yksi rivi vain
 
 Query Diograph By Date
     ${exit_code}  ${output}  ${error_output}=  Run Dcli Command  diory query --date 2021-04-07T00:00:00Z
