@@ -166,8 +166,6 @@ Export Connection As Room
 
 
 Query Diograph By Text
-
-
     ${exit_code}  ${output}  ${error_output}=  Run Dcli Command  diory query --all
     Verify Exit Code Zero  ${exit_code}  ${output}  ${error_output}
 
@@ -178,11 +176,11 @@ Query Diograph By Text
 Query Diograph By Date
     ${exit_code}  ${output}  ${error_output}=  Run Dcli Command  diory query --date 2021-04-07T00:00:00Z
     Verify Exit Code Zero  ${exit_code}  ${output}  ${error_output}
-    Should Contain    ${output}    Date geo searchResult [ 'bafkreia2c44rszqme57sao4ydipv3xtwfoigag7b2lzfeuwtunctzfdx4a' ]
+    Should Contain    ${output}    searchResult [ 'bafkreia2c44rszqme57sao4ydipv3xtwfoigag7b2lzfeuwtunctzfdx4a' ]
 
     ${exit_code}  ${output}  ${error_output}=  Run Dcli Command  diory query --dateStart 2021-01-01T00:00:00Z --dateEnd 2022-01-01T00:00:00Z
     Verify Exit Code Zero  ${exit_code}  ${output}  ${error_output}
-    Should Contain    ${output}   Date geo searchResult [ 'bafkreia2c44rszqme57sao4ydipv3xtwfoigag7b2lzfeuwtunctzfdx4a' ]
+    Should Contain    ${output}   searchResult [ 'bafkreia2c44rszqme57sao4ydipv3xtwfoigag7b2lzfeuwtunctzfdx4a' ]
 
 Query Diograph By LatLng
     ${exit_code}  ${output}  ${error_output}=  Run Dcli Command  diory query --latlngStart 43.464500N,11.88147800E --latlngEnd 43.464400N,11.88147900E

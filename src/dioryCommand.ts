@@ -8,18 +8,15 @@ import { constructAndLoadRoom } from '@diograph/diograph'
 const searchFromRoom = (diograph: IDiograph, options: queryActionOptions) => {
   if (Object.keys(options).length === 0) {
     const searchResult = diograph.queryDiograph(options)
-    // console.debug('searchResult', Object.keys(searchResult))
     return searchResult
   }
 
   if (options.text) {
     const textSearchResult = diograph.queryDiograph(options)
-    // console.debug('Text searchResult', Object.keys(textSearchResult))
     return textSearchResult
   }
 
   const searchResult = diograph.queryDiographByDateAndGeo(options)
-  // console.debug('Date geo searchResult', Object.keys(searchResult))
 
   return searchResult
 }
@@ -60,7 +57,8 @@ const queryAction = async (options: queryActionOptions) => {
           )
           const diograph = room.diograph
           const results = searchFromRoom(diograph, options)
-          console.log(`Search results: ${localRoomConfig.id}`, Object.keys(results))
+
+          console.log('searchResult', Object.keys(results))
         }),
     )
     return
@@ -70,7 +68,7 @@ const queryAction = async (options: queryActionOptions) => {
   const diograph = room.diograph
 
   const results = searchFromRoom(diograph, options)
-  console.log('Search results:', Object.keys(results))
+  console.log('searchResult', Object.keys(results))
 }
 
 const showAction = async (dioryId: string) => {
