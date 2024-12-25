@@ -39,17 +39,23 @@ room focus <roomId>
 
 room create --address <address>
 - create new room to given path
+  - uses LocalClient unless `--clientType S3Client` used
+- creates native connection to it in <address>/Diory\ Content
+  - asks for if it needs to be created
+  - can be skipped with flag `--no-native-connection`
 - set it in focus
 - set its connection in focus
 - saves room info to config file
 
 room add <address>
 - add existing room into app and set it in focus
+- uses LocalClient unless `--clientType S3Client` used
 
 room remove <room-id>
 - NOT IMPLEMENTED YET!
 - removes room info from config file
 - doesn't delete any files or folders
+- room can be re-added with `room add`
 
 room destroy <room-id>
 - NOT IMPLEMENTED YET!
@@ -58,6 +64,7 @@ room destroy <room-id>
 
 connection create --address <address>
 - connect given folder
+- uses LocalClient unless `--clientType S3Client` used
 - set connection in focus
 - saves connection info to the room in focus
 
@@ -81,7 +88,7 @@ connection remove <connectionAddress>
 
 diory query --all
 - show all diories in room in focus
-  - with --useConnectionInFocus from connection in focus
+  - with `--useConnectionInFocus` from connection in focus
 
 diory query text <search text>
 - list all diories which have search text in their text field
@@ -90,7 +97,7 @@ diory query --latlngStart "61.34890819479005, 24.252450413456693" --latlngEnd "6
 diory query --dateStart 2021-01-01T00:00:00Z --dateEnd 2022-01-01T00:00:00Z
 diory query --date 2021-01-01
 - list all diories from given geo area, time period or date
-- with --allRooms search from each LocalClient room there is in .dcli
+- with `--allRooms` search from each LocalClient room there is in .dcli
 
 import file <filePath> --copyContent
 - generate diory from given file contents
@@ -98,6 +105,7 @@ import file <filePath> --copyContent
 - link it to the root diory of the room in focus
 
 import folder <folderPath>
+- DOESN'T CREATE ROOM.JSON
 - generate diograph from given folder structure
 - add diograph to room in focus
 
