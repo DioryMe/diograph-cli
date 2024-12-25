@@ -44,7 +44,20 @@ const fileAction = async (filePath: string, options: fileActionOptions) => {
   chalk.green('Import file success!')
 }
 
-const folderAction = async (filePath: string) => {
+interface folderActionOptions {
+  address?: string
+  here?: boolean
+}
+
+const folderAction = async (options: folderActionOptions) => {
+  if (Object.keys(options).length === 0) {
+    console.log(chalk.red('Please provide a room --address or --here'))
+    process.exitCode = 1
+    return
+  }
+
+  const filePath = options.here || !options.address ? process.cwd() : options.address
+
   const room = await roomInFocus()
   let generateDiographReturnValue
   try {
@@ -81,7 +94,8 @@ const importFileCommand = new Command('file')
   .action(fileAction)
 
 const importFolderCommand = new Command('folder')
-  .arguments('<filePath>')
+  .option('--address <value>', 'Import folder from given path')
+  .option('--here', 'Import folder from current directory')
   // .option('--copyContent', 'Copy content')
   .action(folderAction)
 
