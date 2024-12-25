@@ -4,6 +4,7 @@ import { generateDiory } from '@diograph/file-generator'
 import { roomInFocus } from './utils/configManager.js'
 import { readFile } from 'fs/promises'
 import { Command } from 'commander'
+import { join } from 'path'
 
 interface fileActionOptions {
   copyContent: boolean
@@ -47,6 +48,7 @@ const fileAction = async (filePath: string, options: fileActionOptions) => {
 interface folderActionOptions {
   address?: string
   here?: boolean
+  diographOnly?: boolean
 }
 
 const folderAction = async (options: folderActionOptions) => {
@@ -56,12 +58,12 @@ const folderAction = async (options: folderActionOptions) => {
     return
   }
 
-  const filePath = options.here || !options.address ? process.cwd() : options.address
+  const folderPath = options.here || !options.address ? process.cwd() : options.address
 
   const room = await roomInFocus()
   let generateDiographReturnValue
   try {
-    generateDiographReturnValue = await generateDiograph(filePath)
+    generateDiographReturnValue = await generateDiograph(folderPath)
   } catch (error: any) {
     if (/^FFMPEG_PATH not defined/.test(error.message)) {
       console.error(
@@ -81,6 +83,20 @@ const folderAction = async (options: folderActionOptions) => {
   room.diograph.initialise(diograph.toObject())
 
   // TODO: Copy content to Content folder / connection (in focus)
+  if (!options.diographOnly) {
+    console.log('retur', generateDiographReturnValue)
+    await Promise.all(
+      Object.entries(generateDiographReturnValue.paths)
+        .filter(([cid, contentPath]) => !contentPath.endsWith('/'))
+        .map(([cid, contentPath]) => {
+          const filePath = join(folderPath, contentPath)
+          return readFile(filePath).then((sourceFileContent) => {
+            room.addContent(sourceFileContent, cid)
+            // diory.changeContentUrl(dioryObject.id)
+          })
+        }),
+    )
+  }
 
   await room.saveRoom()
 
@@ -94,6 +110,7 @@ const importFileCommand = new Command('file')
   .action(fileAction)
 
 const importFolderCommand = new Command('folder')
+  .option('--diographOnly', "Import only diograph, don't copy contents")
   .option('--address <value>', 'Import folder from given path')
   .option('--here', 'Import folder from current directory')
   // .option('--copyContent', 'Copy content')
