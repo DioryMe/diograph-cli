@@ -3,7 +3,40 @@ import { setRoomInFocus } from './utils/setInFocus.js'
 import { addRoom, listRooms } from './utils/configManager.js'
 import chalk from 'chalk'
 import { getAvailableClients } from './utils/getAvailableClients.js'
-import { constructAndLoadRoom, constructAndLoadRoomWithNativeConnection } from '@diograph/diograph'
+import {
+  constructAndLoadRoom,
+  constructAndLoadRoomWithNativeConnection,
+  getClientAndVerify,
+} from '@diograph/diograph'
+import { ConnectionClientList } from '@diograph/diograph/types'
+
+const exitIfAddressNotExists = async (
+  address: string,
+  contentClientType: string,
+  availableClients: ConnectionClientList,
+  method: string,
+) => {
+  try {
+    await getClientAndVerify(address, contentClientType, availableClients)
+    return true
+  } catch (err) {
+    // eslint-disable-next-line no-console
+    console.error(
+      chalk.red(
+        `${method} error: address ${address} doesn't exist, please create it before continuing`,
+      ),
+    )
+    process.exit(1)
+  }
+}
+
+const getNativeConnectionAddress = (roomAddress: string) => {
+  return `${
+    roomAddress[roomAddress.length - 1] === '/'
+      ? roomAddress.slice(0, roomAddress.length - 1)
+      : roomAddress
+  }/Diory Content`
+}
 
 const exitIfRoomAlreadyExists = async (roomAddress: string, method?: string) => {
   const roomList = await listRooms()
@@ -34,10 +67,21 @@ const createAction = async (options: createActionOptions) => {
   const contentClientType = options.clientType ?? 'LocalClient'
   const roomAddress = options.here || !options.address ? process.cwd() : options.address
 
+  // Check if addresses exist
+  // TODO: Prompt user to create address if it doesn't exist
+  // - needs to be done with client but client is not available here and doesn't have proper methods
+  const availableClients = await getAvailableClients()
+  await exitIfAddressNotExists(roomAddress, contentClientType, availableClients, 'createRoom')
+  await exitIfAddressNotExists(
+    getNativeConnectionAddress(roomAddress),
+    contentClientType,
+    availableClients,
+    'createRoom',
+  )
+  // Check if room already added to dcli
   await exitIfRoomAlreadyExists(roomAddress, 'createRoom')
 
   try {
-    const availableClients = await getAvailableClients()
     const room = await constructAndLoadRoomWithNativeConnection(
       roomAddress,
       contentClientType,
