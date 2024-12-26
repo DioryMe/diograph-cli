@@ -134,7 +134,7 @@ Copy diory from one room to another
     Verify Not Diory Links  3e2ddc49-b3b6-4212-8a0a-80b9150a57ae  6abcc50e-422e-4802-9b14-84fcdd08f591
 
 Import Folder
-    ${exit_code}  ${output}  ${error_output}=  Run Dcli Command  import folder ${CURDIR}/demo-content-room/source
+    ${exit_code}  ${output}  ${error_output}=  Run Dcli Command  import folder --address ${CURDIR}/demo-content-room/source
     Verify Exit Code Zero  ${exit_code}  ${output}  ${error_output}
 
 Connection list-contents

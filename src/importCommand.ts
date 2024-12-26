@@ -5,6 +5,7 @@ import { roomInFocus } from './utils/configManager.js'
 import { readFile } from 'fs/promises'
 import { Command } from 'commander'
 import { join } from 'path'
+import { existsSync, statSync } from 'fs'
 
 interface fileActionOptions {
   copyContent: boolean
@@ -84,13 +85,18 @@ const folderAction = async (options: folderActionOptions) => {
 
   if (!options.diographOnly) {
     await Promise.all(
-      Object.entries(generateDiographReturnValue.paths)
-        .filter(([cid, contentPath]) => !contentPath.endsWith('/'))
-        .map(async ([cid, contentPath]) => {
-          const filePath = join(folderPath, contentPath)
+      Object.entries(generateDiographReturnValue.paths).map(async ([cid, contentPath]) => {
+        const filePath = join(folderPath, contentPath)
+        if (existsSync(filePath)) {
+          const stats = statSync(filePath)
+          if (stats.isDirectory()) {
+            return
+          }
           const sourceFileContent = await readFile(filePath)
           return room.addContent(sourceFileContent, cid)
-        }),
+        }
+        return
+      }),
     )
   }
 
