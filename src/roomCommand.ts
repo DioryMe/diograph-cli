@@ -149,6 +149,7 @@ const addAction = async (options: createActionOptions) => {
 interface removeActionOptions {
   roomId?: string
   address?: string
+  yes?: boolean
 }
 
 const removeAction = async (options: removeActionOptions) => {
@@ -170,7 +171,9 @@ const removeAction = async (options: removeActionOptions) => {
     return
   }
   const roomAddress = roomConfig.address
-  await confirmContinue(`Are you sure you want to remove room in ${roomAddress}? (y/n): `)
+  if (!options.yes) {
+    await confirmContinue(`Are you sure you want to remove room in ${roomAddress}? (y/n): `)
+  }
 
   await removeRoom(roomConfig.id)
 }
@@ -192,8 +195,14 @@ const focusAction = async (roomId: string) => {
 interface destroyActionOptions {
   roomId?: string
   address?: string
+  destroyConnections: boolean
+  yes?: boolean
 }
 
+// TODO: Should indicate destroying the connections!
+// - --dry-run option to show what would be destroyed
+// - it's ok to destroy native connection
+// - but maybe destroying other connection folders is very dangerous
 const destroyAction = async (options: destroyActionOptions) => {
   if (Object.keys(options).length === 0) {
     console.log(chalk.red('Please provide a room --address or --id'))
@@ -216,7 +225,9 @@ const destroyAction = async (options: destroyActionOptions) => {
     process.exitCode = 1
     return
   }
-  await confirmContinue(`Are you sure you want to destroy room in ${roomConfig.address}? (y/n): `)
+  if (!options.yes) {
+    await confirmContinue(`Are you sure you want to destroy room in ${roomConfig.address}? (y/n): `)
+  }
   const availableClients = await getAvailableClients()
   const room = await constructAndLoadRoom(
     roomConfig.address,
@@ -225,13 +236,17 @@ const destroyAction = async (options: destroyActionOptions) => {
   )
 
   try {
-    await Promise.all(
-      room.connections.map(async (connection) => {
-        connection.deleteConnection()
-      }),
-    )
-    await room.deleteRoom()
-    await removeRoom(roomConfig.id)
+    if (options.destroyConnections) {
+      await Promise.all(
+        room.connections.map(async (connection) => {
+          console.log('Destroying connection: ', connection.address)
+          // connection.deleteConnection()
+        }),
+      )
+    }
+    console.log('Destroying room: ', room.address)
+    // await room.deleteRoom()
+    // await removeRoom(roomConfig.id)
   } catch (error) {
     console.error(chalk.red(`destroyRoom error: ${error}`))
     process.exitCode = 1
@@ -254,6 +269,7 @@ const addRoomCommand = new Command('add')
 const removeRoomCommand = new Command('remove') //
   .option('--address <value>', 'Destroy room from given address')
   .option('--roomId <value>', 'Destroy room from given id')
+  .option('--yes', 'Confirm removal without asking')
   .action(removeAction)
 
 const focusRoomCommand = new Command('focus') //
@@ -263,6 +279,8 @@ const focusRoomCommand = new Command('focus') //
 const destroyRoomCommand = new Command('destroy') //
   .option('--address <value>', 'Destroy room from given address')
   .option('--roomId <value>', 'Destroy room from given id')
+  .option('--yes', 'Confirm removal without asking')
+  .option('--destroyConnections', 'Destroy also connection folders')
   .action(destroyAction)
 
 const roomCommand = new Command('room')

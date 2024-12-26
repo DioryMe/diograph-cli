@@ -1,0 +1,19 @@
+{
+  "connections": [
+    {
+      "address": "/tmp/Diory Content",
+      "contentClientType": "LocalClient",
+      "contentUrls": {
+        "bafkreihvgvtqocownctpbskgrwsdtr3l6z3yp4w2rirs32ny2u7epz7ona": "bafkreihvgvtqocownctpbskgrwsdtr3l6z3yp4w2rirs32ny2u7epz7ona",
+        "bafkreihp3h6ggnxysuobjsgtsibaqq5khzjbaamyy6ec2adredtf2ixz3u": "bafkreihp3h6ggnxysuobjsgtsibaqq5khzjbaamyy6ec2adredtf2ixz3u"
+      },
+      "diograph": {}
+    },
+    {
+      "address": "/tmp",
+      "contentClientType": "LocalClient",
+      "contentUrls": {},
+      "diograph": {}
+    }
+  ]
+}

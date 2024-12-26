@@ -137,6 +137,9 @@ Import Folder
     ${exit_code}  ${output}  ${error_output}=  Run Dcli Command  import folder --address ${CURDIR}/demo-content-room/source
     Verify Exit Code Zero  ${exit_code}  ${output}  ${error_output}
 
+    Verify Room JSON Contents     ${CURDIR}/import_folder_room_json.txt
+    File Should Exist    /tmp/Diory\ Content/bafkreihp3h6ggnxysuobjsgtsibaqq5khzjbaamyy6ec2adredtf2ixz3u
+
 Connection list-contents
     ${exit_code}  ${output}  ${error_output}=  Run Dcli Command  connection create --address ${CURDIR}/demo-content-room/source
     Verify Exit Code Zero  ${exit_code}  ${output}  ${error_output}
@@ -158,6 +161,36 @@ Export Connection As Room
 
     File Should Exist    /tmp/exported-room/room.json
     File Should Exist    /tmp/exported-room/diograph.json
+
+Remove and re-add room
+    File Should Exist    /tmp/exported-room/room.json
+    File Should Exist    /tmp/exported-room/diograph.json
+
+    ${exit_code}  ${output}  ${error_output}=  Run Dcli Command  room remove --address /tmp/exported-room --yes
+    Verify Exit Code Zero  ${exit_code}  ${output}  ${error_output}
+
+    File Should Exist    /tmp/exported-room/room.json
+    File Should Exist    /tmp/exported-room/diograph.json
+
+    # ${exit_code}  ${output}  ${error_output}=  Run Dcli Command  list rooms
+    # Should Be Equal  ${output.strip()}  list of rooms without exported-room
+
+    ${exit_code}  ${output}  ${error_output}=  Run Dcli Command  room add --address /tmp/exported-room
+    Verify Exit Code Zero  ${exit_code}  ${output}  ${error_output}
+
+    # ${exit_code}  ${output}  ${error_output}=  Run Dcli Command  list rooms
+    # Should Be Equal  ${output.strip()}  list of rooms with exported-room
+
+# TODO: This is a bit too dangerous test to run locally...
+# Destroy room
+#     File Should Exist    /tmp/exported-room/room.json
+#     File Should Exist    /tmp/exported-room/diograph.json
+
+#     ${exit_code}  ${output}  ${error_output}=  Run Dcli Command  room destroy --address /tmp/exported-room --yes
+#     Verify Exit Code Zero  ${exit_code}  ${output}  ${error_output}
+
+#     File Should Not Exist    /tmp/exported-room/room.json
+#     File Should Not Exist    /tmp/exported-room/diograph.json
 
 Query Diograph By Text
     ${exit_code}  ${output}  ${error_output}=  Run Dcli Command  diory query --all
