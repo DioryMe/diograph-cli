@@ -82,18 +82,14 @@ const folderAction = async (options: folderActionOptions) => {
 
   room.diograph.initialise(diograph.toObject())
 
-  // TODO: Copy content to Content folder / connection (in focus)
   if (!options.diographOnly) {
-    console.log('retur', generateDiographReturnValue)
     await Promise.all(
       Object.entries(generateDiographReturnValue.paths)
         .filter(([cid, contentPath]) => !contentPath.endsWith('/'))
-        .map(([cid, contentPath]) => {
+        .map(async ([cid, contentPath]) => {
           const filePath = join(folderPath, contentPath)
-          return readFile(filePath).then((sourceFileContent) => {
-            room.addContent(sourceFileContent, cid)
-            // diory.changeContentUrl(dioryObject.id)
-          })
+          const sourceFileContent = await readFile(filePath)
+          return room.addContent(sourceFileContent, cid)
         }),
     )
   }
