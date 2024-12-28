@@ -1,0 +1,25 @@
+{
+  "connections": [
+    {
+      "address": "/tmp/Diory Content",
+      "contentClientType": "LocalClient",
+      "contentUrls": {
+        "bafkreihvgvtqocownctpbskgrwsdtr3l6z3yp4w2rirs32ny2u7epz7ona": "bafkreihvgvtqocownctpbskgrwsdtr3l6z3yp4w2rirs32ny2u7epz7ona",
+        "bafkreihp3h6ggnxysuobjsgtsibaqq5khzjbaamyy6ec2adredtf2ixz3u": "bafkreihp3h6ggnxysuobjsgtsibaqq5khzjbaamyy6ec2adredtf2ixz3u",
+        "bafkreiaeiw7j723fgzl2h5udldir42sszpjmrtxbrub43mpkbkzxhtcaxm": "bafkreiaeiw7j723fgzl2h5udldir42sszpjmrtxbrub43mpkbkzxhtcaxm",
+        "bafkreibmmzu26ak6fu24st2yofgulmv6heqwoqhrwewyfs3wcv25psk2cq": "bafkreibmmzu26ak6fu24st2yofgulmv6heqwoqhrwewyfs3wcv25psk2cq",
+        "bafkreieytmbbc6h7gz4qkcqo6323mdkzcjocuudovum7zsk4tltmeol5yi": "bafkreieytmbbc6h7gz4qkcqo6323mdkzcjocuudovum7zsk4tltmeol5yi",
+        "bafkreihoednm4s2g4vpame3mweewfq5of3hks2mbmkvoksxg3z4rhmweeu": "bafkreihoednm4s2g4vpame3mweewfq5of3hks2mbmkvoksxg3z4rhmweeu",
+        "bafkreihkqxpj4iwdw32vshr47qjme3fm3alwnar6ltngwscypf4jtpff6q": "bafkreihkqxpj4iwdw32vshr47qjme3fm3alwnar6ltngwscypf4jtpff6q",
+        "bafkreia2c44rszqme57sao4ydipv3xtwfoigag7b2lzfeuwtunctzfdx4a": "bafkreia2c44rszqme57sao4ydipv3xtwfoigag7b2lzfeuwtunctzfdx4a"
+      },
+      "diograph": {}
+    },
+    {
+      "address": "/tmp",
+      "contentClientType": "LocalClient",
+      "contentUrls": {},
+      "diograph": {}
+    }
+  ]
+}

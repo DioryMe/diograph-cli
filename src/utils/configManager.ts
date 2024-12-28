@@ -39,6 +39,12 @@ const addRoom = async (roomAddress: string, roomClientType: string): Promise<voi
   await writeConfig(configObject)
 }
 
+const removeRoom = async (roomId: string): Promise<void> => {
+  const configObject = await readConfig()
+  delete configObject.rooms[roomId]
+  await writeConfig(configObject)
+}
+
 const setRoomInFocus = async (roomAddress: string): Promise<void> => {
   const configObject = await readConfig()
 
@@ -191,6 +197,7 @@ const writeConfig = async (configObject: ConfigObject): Promise<void> => {
 
 export {
   addRoom,
+  removeRoom,
   setRoomInFocus,
   setConnectionInFocus,
   listRooms,

@@ -703,7 +703,7 @@
     "@diograph/file-generator" "0.2.0-rc1"
     uuid "^8.3.2"
 
-"@diograph/local-client@next":
+"@diograph/local-client@0.2.0-rc2", "@diograph/local-client@next":
   version "0.2.0-rc2"
   resolved "https://registry.yarnpkg.com/@diograph/local-client/-/local-client-0.2.0-rc2.tgz#59469c454bc426732aab2177626d12b32f0872f0"
   integrity sha512-VbNTygAwfX2mKv8Gbp/m5s80QUanedFdXqyY4UoybiWrKM7yAlEoD9KziNU4mEWyld8iFFdFpmAoNaPOD86tKg==
