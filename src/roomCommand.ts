@@ -18,7 +18,7 @@ const confirmContinue = (question: string) => {
   })
 
   return new Promise((resolve) => {
-    rl.question(question, (input: string) => {
+    rl.question(`${question} (y/n): `, (input: string) => {
       const userInput = input.trim().toLowerCase()
 
       if (userInput === 'y') {
@@ -42,7 +42,6 @@ const exitIfAddressNotExists = async (
     await getClientAndVerify(address, contentClientType, availableClients)
     return true
   } catch (err) {
-    // eslint-disable-next-line no-console
     console.error(
       chalk.red(
         `${method} error: address ${address} doesn't exist, please create it before continuing`,
@@ -172,7 +171,7 @@ const removeAction = async (options: removeActionOptions) => {
   }
   const roomAddress = roomConfig.address
   if (!options.yes) {
-    await confirmContinue(`Are you sure you want to remove room in ${roomAddress}? (y/n): `)
+    await confirmContinue(`Are you sure you want to remove room in ${roomAddress}?`)
   }
 
   await removeRoom(roomConfig.id)
@@ -226,7 +225,7 @@ const destroyAction = async (options: destroyActionOptions) => {
     return
   }
   if (!options.yes) {
-    await confirmContinue(`Are you sure you want to destroy room in ${roomConfig.address}? (y/n): `)
+    await confirmContinue(`Are you sure you want to destroy room in ${roomConfig.address}?`)
   }
   const availableClients = await getAvailableClients()
   const room = await constructAndLoadRoom(
