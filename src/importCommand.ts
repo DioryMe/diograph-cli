@@ -8,7 +8,7 @@ import { join } from 'path'
 import { existsSync, statSync } from 'fs'
 
 interface fileActionOptions {
-  copyContent: boolean
+  diographOnly: boolean
 }
 
 const fileAction = async (filePath: string, options: fileActionOptions) => {
@@ -33,11 +33,9 @@ const fileAction = async (filePath: string, options: fileActionOptions) => {
   // TODO: Specify diory to be linked with --fromDioryId argument
   room.diograph.addDioryAndLink(diory)
 
-  // --copyContent
-  if (options.copyContent) {
+  if (!options.diographOnly) {
     const sourceFileContent = await readFile(filePath)
     await room.addContent(sourceFileContent, diory.id)
-    // diory.changeContentUrl(dioryObject.id)
   }
 
   await room.saveRoom()
@@ -108,14 +106,13 @@ const folderAction = async (options: folderActionOptions) => {
 
 const importFileCommand = new Command('file')
   .arguments('<filePath>')
-  .option('--copyContent', 'Copy content')
+  .option('--diographOnly', "Only diory to diograph, don't copy content")
   .action(fileAction)
 
 const importFolderCommand = new Command('folder')
   .option('--diographOnly', "Import only diograph, don't copy contents")
   .option('--address <value>', 'Import folder from given path')
   .option('--here', 'Import folder from current directory')
-  // .option('--copyContent', 'Copy content')
   .action(folderAction)
 
 const importCommand = new Command('import')

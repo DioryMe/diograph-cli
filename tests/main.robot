@@ -55,7 +55,7 @@ Set Config Path
     Config File Contains  ffmpegPath
 
 Import Two Files (with and without content)
-    ${exit_code}  ${output}  ${error_output}=  Run Dcli Command  import file ${CURDIR}/demo-content-room/demo-content.png --copyContent
+    ${exit_code}  ${output}  ${error_output}=  Run Dcli Command  import file ${CURDIR}/demo-content-room/demo-content.png
     Verify Exit Code Zero  ${exit_code}  ${output}  ${error_output}
 
     Verify Diory Data Attribute  bafkreihvgvtqocownctpbskgrwsdtr3l6z3yp4w2rirs32ny2u7epz7ona  contentUrl  bafkreihvgvtqocownctpbskgrwsdtr3l6z3yp4w2rirs32ny2u7epz7ona
@@ -114,7 +114,7 @@ Test global flag to set connection in focus (create & query diory)
     Verify Output Contains  ${CURDIR}/demo_content_source_connection_diory_list.txt  ${output}
 
 Copy diory from connection to room and link it to the given diory with content
-    ${exit_code}  ${output}  ${error_output}=  Run Dcli Command  copy /Mary/PIXNIO-53799-6177x4118.jpeg room-1:/ --copyContent
+    ${exit_code}  ${output}  ${error_output}=  Run Dcli Command  copy /Mary/PIXNIO-53799-6177x4118.jpeg room-1:/
     Verify Exit Code Zero  ${exit_code}  ${output}  ${error_output}
 
     Verify Diory Attribute  /Mary/PIXNIO-53799-6177x4118.jpeg  id  /Mary/PIXNIO-53799-6177x4118.jpeg

@@ -81,7 +81,7 @@ const parseDioryStringArguments = async (fromDioryString: string, toDioryString:
 }
 
 interface copyDioryActionOptions {
-  copyContent: boolean
+  diographOnly: boolean
 }
 
 const copyDioryAction = async (
@@ -106,8 +106,7 @@ const copyDioryAction = async (
 
   destinationRoom.diograph.addDioryAndLink(diory, parentDiory)
 
-  // --copyContent
-  if (options.copyContent) {
+  if (!options.diographOnly) {
     const contentUrl = diory.data && diory.data[0].contentUrl
     if (contentUrl) {
       const sourceFileContent = await sourceRoom.readContent(contentUrl)
@@ -121,9 +120,9 @@ const copyDioryAction = async (
 }
 
 const copyCommand = new Command('copy')
-  .arguments('<fromDiory> <toDiory>')
-  .option('--copyContent', 'Copy also data object')
   .description('Copy diory from one room to another')
+  .arguments('<fromDiory> <toDiory>')
+  .option('--diographOnly', "Only diory to diograph, don't copy content")
   .action(copyDioryAction)
 
 export { parseDioryStringArguments, copyCommand }
