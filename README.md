@@ -38,6 +38,7 @@ room focus <roomId>
 - set given room into focus
 
 room create --address <address>
+- NOTE: Only absolute paths here as this will be saved as room address
 - create new room to given address
   - create to current diory using `--here` instead of `--address`
   - TODO: Prompt user to create address if it doesn't exist
@@ -48,6 +49,7 @@ room create --address <address>
 - save room info to config file
 
 room add --address <address>
+- NOTE: Only absolute paths here as this will be saved as room address
 - add existing room into app and set it in focus
   - add room in current diory using `--here` instead of `--address`
 - use LocalClient unless `--clientType S3Client` used
@@ -119,7 +121,7 @@ import file <filePath>
 - add content to room in focus native connection
   - with `--diographOnly` doesn't copy content, adds only diograph
 
-copy <fromDioryId> <toDioryId>
+copy <fromDioryRoom>:<fromDioryId> <toDioryRoom>:<toDioryId>
 - copy diory from one room or connection to another room
 - link the newly created diory to toDiory
 - copy fromDiory content to destination room's native connection

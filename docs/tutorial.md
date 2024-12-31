@@ -14,7 +14,8 @@ mkdir ~/PhotoRoom/Diory\ Content
 2. Create room to that folder
 
 ```
-dcli room create --address ~/PhotoRoom
+# NOTE: Only absolute paths here as this will be saved as room address
+dcli room create --address $(pwd)/PhotoRoom
 # OR
 cd ~/PhotoRoom
 dcli room create --here
@@ -23,16 +24,36 @@ dcli room create --here
 3. Import single file to diograph
 
 ```
-dcli import file /2022-07-20 19.32.33.png --copyContent
+dcli import file /2022-07-20 19.32.33.png
 ```
 
-4. Create connection to some folders with photos
+4. Prepare and add demo-content-room
+
+```
+export DEMO_CONTENT_ROOM_PATH=/path/to/demo-content-room
+# Set correct address for demo-content-room
+sed -i '' 's|"/Diory Content",|"'$DEMO_CONTENT_ROOM_PATH'/Diory Content",|g' $DEMO_CONTENT_ROOM_PATH/room.json
+# Add room
+dcli room add --address $DEMO_CONTENT_ROOM_PATH
+```
+
+5. Copy diory from demo-content-room
+
+```
+dcli copy room-2:5c63b738-2bc0-449c-80a8-be04dfe1e8b4 room-1:/
+```
+
+6. Open room in diory-browser-electron
+
+## Connecting to folder
+
+1. Create connection to some folder with photos
 
 ```
 dcli connection create --address ~/MyPictures
 ```
 
-5. Populate connection diograph to room.json from ~/MyPictures folder content
+2. Populate connection diograph to room.json from ~/MyPictures folder content
 
 NOTE: You need ffmpeg dependency and FFMPEG_PATH if you have videos in the MyPictures folder (otherwise it can be omitted)
 
@@ -41,7 +62,7 @@ dcli config set FFMPEG_PATH /opt/homebrew/bin/ffmpeg
 dcli connection list-contents
 ```
 
-6. Copy diory from ~/MyPictures folder to room
+3. Copy diory from ~/MyPictures folder to room
 
 NOTE: Diory id without "room-x:" prefix means connection in focus (as connections don't currently have ids to refer to)
 
@@ -49,7 +70,7 @@ NOTE: Diory id without "room-x:" prefix means connection in focus (as connection
 dcli copy /Mary/PIXNIO-53799-6177x4118.jpeg room-1:/ --copyContent
 ```
 
-7. Open room in diory-browser-electron
+4. Open room in diory-browser-electron
 
 ## S3
 
