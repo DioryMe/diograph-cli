@@ -27,6 +27,12 @@ dcli room create --here
 dcli import file /2022-07-20 19.32.33.png
 ```
 
+4. Import folder to diograph
+
+```
+dcli import folder --address $(pwd)/some-photos
+```
+
 4. Prepare and add demo-content-room
 
 ```

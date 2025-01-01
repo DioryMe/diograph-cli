@@ -79,7 +79,14 @@ const folderAction = async (options: folderActionOptions) => {
 
   const diograph = generateDiographReturnValue.diograph
 
+  const originalRoot = room.diograph.getDiory({ id: '/' })
+  // FIXME: Import folder can't be run twice as there will be two diories with id 'previousRoot'
+  originalRoot.id = 'previousRoot'
+  // originalRoot.id = Date.now().toString() // or uuid
   room.diograph.initialise(diograph.toObject())
+  if (originalRoot) {
+    room.diograph.addDioryAndLink(originalRoot, { id: '/' })
+  }
 
   if (!options.diographOnly) {
     await Promise.all(
