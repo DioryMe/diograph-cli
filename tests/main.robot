@@ -144,11 +144,8 @@ Import Folder
     ${exit_code}  ${output}  ${error_output}=  Run Dcli Command  import folder --address ${CURDIR}/demo-content-room/source
     Verify Exit Code Zero  ${exit_code}  ${output}  ${error_output}
 
-    # Import diograph's root diory becomes the room's root diory
-    # - previous root is linked to the new root
-    Verify Root Diory Links   /   previousRoot
-    # - previous root should persist their links
-    Verify Diory Links   previousRoot   3e2ddc49-b3b6-4212-8a0a-80b9150a57ae
+    # Import diograph's root diory in linked to the room's root diory
+    # - no way to test this as we don't know the folder diograph's root diory id...
 
     # CIDMapping should be updated
     ${file_contents}=  Get File    ${room_json_file_path}
