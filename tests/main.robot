@@ -69,7 +69,7 @@ Import Two Files (with and without content)
     Verify Diory Data Attribute  bafkreia2c44rszqme57sao4ydipv3xtwfoigag7b2lzfeuwtunctzfdx4a  encodingFormat  video/x-m4v
 
     # FIXME: Gives 00:00:16.94 in Github Actions (=different ffmpeg version)
-    # Verify Diory Data Attribute  bafkreia2c44rszqme57sao4ydipv3xtwfoigag7b2lzfeuwtunctzfdx4a  duration  00:00:16.94
+    Verify Diory Data Attribute  bafkreia2c44rszqme57sao4ydipv3xtwfoigag7b2lzfeuwtunctzfdx4a  duration  00:00:16.94
     Verify Diory Links  /  bafkreia2c44rszqme57sao4ydipv3xtwfoigag7b2lzfeuwtunctzfdx4a
 
     # Verify CIDMapping in room.json
@@ -144,9 +144,20 @@ Import Folder
     ${exit_code}  ${output}  ${error_output}=  Run Dcli Command  import folder --address ${CURDIR}/demo-content-room/source
     Verify Exit Code Zero  ${exit_code}  ${output}  ${error_output}
 
-    # Flaky test: Import folder handles files concurrently and sometimes the order is different
-    # Verify Room JSON Contents     ${CURDIR}/import_folder_room_json.txt
-    # File Should Exist    /tmp/Diory\ Content/bafkreihp3h6ggnxysuobjsgtsibaqq5khzjbaamyy6ec2adredtf2ixz3u
+    # Import diograph's root diory in linked to the room's root diory
+    # - no way to test this as we don't know the folder diograph's root diory id...
+
+    # CIDMapping should be updated
+    ${file_contents}=  Get File    ${room_json_file_path}
+    Should Contain   ${file_contents}   "bafkreihvgvtqocownctpbskgrwsdtr3l6z3yp4w2rirs32ny2u7epz7ona": "bafkreihvgvtqocownctpbskgrwsdtr3l6z3yp4w2rirs32ny2u7epz7ona"
+    Should Contain   ${file_contents}   "bafkreihp3h6ggnxysuobjsgtsibaqq5khzjbaamyy6ec2adredtf2ixz3u": "bafkreihp3h6ggnxysuobjsgtsibaqq5khzjbaamyy6ec2adredtf2ixz3u"
+
+    Should Contain   ${file_contents}   "bafkreiaeiw7j723fgzl2h5udldir42sszpjmrtxbrub43mpkbkzxhtcaxm": "bafkreiaeiw7j723fgzl2h5udldir42sszpjmrtxbrub43mpkbkzxhtcaxm"
+    Should Contain   ${file_contents}   "bafkreibmmzu26ak6fu24st2yofgulmv6heqwoqhrwewyfs3wcv25psk2cq": "bafkreibmmzu26ak6fu24st2yofgulmv6heqwoqhrwewyfs3wcv25psk2cq"
+    Should Contain   ${file_contents}   "bafkreieytmbbc6h7gz4qkcqo6323mdkzcjocuudovum7zsk4tltmeol5yi": "bafkreieytmbbc6h7gz4qkcqo6323mdkzcjocuudovum7zsk4tltmeol5yi"
+    Should Contain   ${file_contents}   "bafkreihoednm4s2g4vpame3mweewfq5of3hks2mbmkvoksxg3z4rhmweeu": "bafkreihoednm4s2g4vpame3mweewfq5of3hks2mbmkvoksxg3z4rhmweeu"
+    Should Contain   ${file_contents}   "bafkreihkqxpj4iwdw32vshr47qjme3fm3alwnar6ltngwscypf4jtpff6q": "bafkreihkqxpj4iwdw32vshr47qjme3fm3alwnar6ltngwscypf4jtpff6q"
+    Should Contain   ${file_contents}   "bafkreia2c44rszqme57sao4ydipv3xtwfoigag7b2lzfeuwtunctzfdx4a": "bafkreia2c44rszqme57sao4ydipv3xtwfoigag7b2lzfeuwtunctzfdx4a"
 
 Connection list-contents
     ${exit_code}  ${output}  ${error_output}=  Run Dcli Command  connection create --address ${CURDIR}/demo-content-room/source

@@ -59,6 +59,13 @@ Should Not Be In Links Array
     END
     Should Not Be True  ${found}
 
+Verify Root Diory Links
+    [Arguments]  ${rootId}  ${linkToDioryId}
+    ${content}=  Get File  ${diograph_json_file_path}
+    ${diographObject}=  Evaluate  json.loads('''${content}''')  json
+    ${rootDioryId}=  Set Variable  ${diographObject}[/][id]
+    Should Be In Links Array  ${diographObject}[${rootDioryId}][links]  ${linkToDioryId}
+
 Verify Diory Links
     [Arguments]  ${dioryId}  ${linkToDioryId}
     ${content}=  Get File  ${diograph_json_file_path}
