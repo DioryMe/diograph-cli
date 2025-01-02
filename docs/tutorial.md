@@ -7,8 +7,8 @@
 NOTE: These are not automatically created as otherwise we couldn't know if creating the would happen on purpose. Adding this feature would need extending ConnectionClient interface with e.g. "createAddressForFolder" (+implementing it to each client) AND prompting "Are your sure to add new folder?" on each command using it.
 
 ```
-mkdir ~/PhotoRoom/
-mkdir ~/PhotoRoom/Diory\ Content
+mkdir ./PhotoRoom/
+mkdir ./PhotoRoom/Diory\ Content
 ```
 
 2. Create room to that folder
@@ -17,7 +17,7 @@ mkdir ~/PhotoRoom/Diory\ Content
 # NOTE: Only absolute paths here as this will be saved as room address
 dcli room create --address $(pwd)/PhotoRoom
 # OR
-cd ~/PhotoRoom
+cd ./PhotoRoom
 dcli room create --here
 ```
 
@@ -73,7 +73,7 @@ dcli connection list-contents
 NOTE: Diory id without "room-x:" prefix means connection in focus (as connections don't currently have ids to refer to)
 
 ```
-dcli copy /Mary/PIXNIO-53799-6177x4118.jpeg room-1:/ --copyContent
+dcli copy bafkreihvgvtqocownctpbskgrwsdtr3l6z3yp4w2rirs32ny2u7epz7ona room-1:/
 ```
 
 4. Open room in diory-browser-electron
