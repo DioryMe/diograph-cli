@@ -8,11 +8,27 @@ import { join } from 'path'
 import { promises as fsPromises } from 'fs'
 
 interface fileActionOptions {
+  fromDioryId?: string
   diographOnly: boolean
 }
 
 const fileAction = async (filePath: string, options: fileActionOptions) => {
   const room = await roomInFocus()
+
+  let fromDiory
+  if (options.fromDioryId) {
+    try {
+      fromDiory = room.diograph.getDiory({ id: options.fromDioryId })
+    } catch (error: any) {
+      if (error.message.startsWith('getDiory: Item not found')) {
+        console.log(chalk.red(`fromDiory with id ${options.fromDioryId} not found in the room`))
+        process.exitCode = 1
+        return
+      }
+      throw error
+    }
+  }
+
   let diory
   try {
     diory = await generateDiory('', filePath)
@@ -30,8 +46,8 @@ const fileAction = async (filePath: string, options: fileActionOptions) => {
     throw error
   }
 
-  // TODO: Specify diory to be linked with --fromDioryId argument
-  room.diograph.addDioryAndLink(diory)
+  // Link imported diory to given fromDiory or room's root diory
+  room.diograph.addDioryAndLink(diory, fromDiory ? { id: fromDiory.id } : undefined)
 
   if (!options.diographOnly) {
     const sourceFileContent = await readFile(filePath)
@@ -47,6 +63,7 @@ const fileAction = async (filePath: string, options: fileActionOptions) => {
 interface folderActionOptions {
   address?: string
   here?: boolean
+  fromDioryId?: string
   diographOnly?: boolean
 }
 
@@ -57,9 +74,24 @@ const folderAction = async (options: folderActionOptions) => {
     return
   }
 
+  const room = await roomInFocus()
+
+  let fromDiory
+  if (options.fromDioryId) {
+    try {
+      fromDiory = room.diograph.getDiory({ id: options.fromDioryId })
+    } catch (error: any) {
+      if (error.message.startsWith('getDiory: Item not found')) {
+        console.log(chalk.red(`fromDiory with id ${options.fromDioryId} not found in the room`))
+        process.exitCode = 1
+        return
+      }
+      throw error
+    }
+  }
+
   const folderPath = options.here || !options.address ? process.cwd() : options.address
 
-  const room = await roomInFocus()
   let generateDiographReturnValue
   try {
     generateDiographReturnValue = await generateDiograph(folderPath)
@@ -84,10 +116,9 @@ const folderAction = async (options: folderActionOptions) => {
   folderDiograph.diograph['/'].id = '/'
   room.diograph.initialise(folderDiograph.toObject())
 
-  // TODO: Specify diory to be linked with --fromDioryId argument
-  // Link folderDiograph's root diory to room's root diory
-  const roomDiographRootDiory = room.diograph.getDiory({ id: '/' })
-  roomDiographRootDiory.addLink({ id: folderDiographRootDioryId })
+  // Link folderDiograph's root diory to given fromDiory or room's root diory
+  fromDiory = fromDiory || room.diograph.getDiory({ id: '/' })
+  fromDiory.addLink({ id: folderDiographRootDioryId })
 
   if (!options.diographOnly) {
     await Promise.all(
@@ -120,13 +151,15 @@ const folderAction = async (options: folderActionOptions) => {
 
 const importFileCommand = new Command('file')
   .arguments('<filePath>')
+  .option('--fromDioryId <value>', 'Link imported file to given diory')
   .option('--diographOnly', "Only diory to diograph, don't copy content")
   .action(fileAction)
 
 const importFolderCommand = new Command('folder')
-  .option('--diographOnly', "Import only diograph, don't copy contents")
   .option('--address <value>', 'Import folder from given path')
   .option('--here', 'Import folder from current directory')
+  .option('--fromDioryId <value>', "Link imported folder's root diory to given diory")
+  .option('--diographOnly', "Import only diograph, don't copy contents")
   .action(folderAction)
 
 const importCommand = new Command('import')

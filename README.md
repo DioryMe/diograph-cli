@@ -111,13 +111,14 @@ diory query --date 2021-01-01
 import folder --address <folderPath>
 - generate diograph from given folder structure
 - add diograph to room in focus
+  - link to any other diory with `--fromDioryId` argument
 - copy content to native connection
   - with `--diographOnly` doesn't copy content, adds only diograph
 
 import file <filePath>
 - generate diory from given file contents
 - link it to the root diory of the room in focus
-  - TODO: Link to any diory in the room in focus with --fromDioryId argument
+  - link to any other diory with `--fromDioryId` argument
 - add content to room in focus native connection
   - with `--diographOnly` doesn't copy content, adds only diograph
 
