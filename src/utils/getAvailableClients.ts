@@ -3,11 +3,15 @@ import { ConnectionClientList } from '@diograph/diograph/types'
 import { LocalClient } from '@diograph/local-client'
 import { getS3Credentials } from './configManager.js'
 import { S3Client } from '@diograph/s3-client'
+import { HttpClient } from '@diograph/http-client'
 
 export const getAvailableClients = async (): Promise<ConnectionClientList> => {
   const availableClients: ConnectionClientList = {
     LocalClient: {
       clientConstructor: LocalClient,
+    },
+    HttpClient: {
+      clientConstructor: HttpClient,
     },
   }
 
