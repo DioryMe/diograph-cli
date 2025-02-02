@@ -658,10 +658,10 @@
     path-browserify "^1.0.1"
     uuid "8.3.2"
 
-"@diograph/diograph@0.2.6-rc2":
-  version "0.2.6-rc2"
-  resolved "https://registry.yarnpkg.com/@diograph/diograph/-/diograph-0.2.6-rc2.tgz#468949ad6d1b8f28e39751c068cf3cb9516c8b7a"
-  integrity sha512-KYeXBYzv+UfJXFuHr0X59ht5BBCGRrgYP7BHCP7Lt2WYexgVwFd1p0tfjr04cNHERunWE9u4Fh4XEyMB7BpBbQ==
+"@diograph/diograph@0.2.7":
+  version "0.2.7"
+  resolved "https://registry.yarnpkg.com/@diograph/diograph/-/diograph-0.2.7.tgz#f56ff5ab0b17469f65e2eb3968e5ac9c1b009b27"
+  integrity sha512-h1xVs6A+oukQ5UnXAipUjzyvFP05dS/NyrqLMGVqR0DzAW0hI+JPXjb7EwKum9OteU5+oPnE8AeyxyihU2ROgA==
   dependencies:
     "@turf/boolean-point-in-polygon" "^6"
     "@turf/helpers" "^6"

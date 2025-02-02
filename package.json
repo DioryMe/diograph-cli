@@ -13,7 +13,7 @@
     "dist"
   ],
   "dependencies": {
-    "@diograph/diograph": "0.2.6-rc2",
+    "@diograph/diograph": "0.2.7",
     "@diograph/diograph-server": "0.1.0",
     "@diograph/file-generator": "0.2.0-rc1",
     "@diograph/folder-generator": "0.1.2-rc1",
