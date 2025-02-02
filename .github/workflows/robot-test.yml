@@ -1,4 +1,4 @@
-name: Robot test
+name: Robot test (main.robot)
 
 on: [push]
 

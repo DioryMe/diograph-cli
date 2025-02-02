@@ -1,4 +1,4 @@
-name: Robot test
+name: Robot test (main-http.robot)
 
 on: [push]
 

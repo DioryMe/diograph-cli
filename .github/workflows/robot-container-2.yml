@@ -1,4 +1,4 @@
-name: Robot container (main.robot)
+name: Robot container (main-http.robot)
 
 on: [push]
 
@@ -21,5 +21,5 @@ jobs:
       - name: Build Docker Image
         run: docker build -t robot-tests .
 
-      - name: Run main.robot (default CMD)
-        run: docker run robot-tests
+      - name: Run main-http.robot
+        run: docker run robot-tests robot tests/main-http.robot
