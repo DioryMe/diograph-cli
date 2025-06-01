@@ -703,10 +703,10 @@
     "@diograph/file-generator" "0.2.0-rc1"
     uuid "^8.3.2"
 
-"@diograph/http-client@0.1.1":
-  version "0.1.1"
-  resolved "https://registry.yarnpkg.com/@diograph/http-client/-/http-client-0.1.1.tgz#9c7215dced658b4bff5f8dbf23bf5eab01a1e4b7"
-  integrity sha512-9H8tuTb1vNL3yAy1BXK7bSVxrrHpK4FJDHZDrWr8Gaat3uhJPcXuw3wVxyNiIfr5JdMIHpWQ1LhGvxvS9coShg==
+"@diograph/http-client@0.1.2":
+  version "0.1.2"
+  resolved "https://registry.yarnpkg.com/@diograph/http-client/-/http-client-0.1.2.tgz#a52d5bcf037e8921b0f3f1acb3a067a3cb2cf178"
+  integrity sha512-g99KNymgQLusOjIch/sU6E0k9H6ZDla8/fMVM9GOhV6a/OPH08AMmy5Vomzqtgldwb67gwuPiAccEqll2HtDLA==
   dependencies:
     "@diograph/diograph" "0.2.5-rc1"
     axios "1.7.9"
