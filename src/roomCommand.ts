@@ -72,7 +72,6 @@ interface createActionOptions {
   address?: string
   here?: boolean
   clientType?: string
-  httpClientToken?: string
 }
 
 const createAction = async (options: createActionOptions) => {
@@ -91,7 +90,7 @@ const createAction = async (options: createActionOptions) => {
   // - needs to be done with client but ConnectionClient interface doesn't have proper methods
   // - need extending with e.g. "createAddressForFolder" (+ implementing it to each client)
   // - prompting "Are your sure to add new folder?" on each command using it
-  const availableClients = await getAvailableClients(options.httpClientToken)
+  const availableClients = await getAvailableClients()
   await exitIfAddressNotExists(roomAddress, contentClientType, availableClients, 'createRoom')
   await exitIfAddressNotExists(
     getNativeConnectionAddress(roomAddress),

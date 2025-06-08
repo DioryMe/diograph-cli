@@ -15,15 +15,18 @@ Initiate necessary files and folders
 
 
 *** Test Cases ***
-
 Add Room
-    ${exit_code}  ${output}  ${error_output}=  Run Dcli Command  room add --address http://diory-demo-content.surge.sh --clientType HttpClient
+    ${exit_code}  ${output}  ${error_output}=  Run Dcli Command  config set http-credentials e10d1d2e-032e-4c42-bc53-587239a3119f
+    Verify Exit Code Zero  ${exit_code}  ${output}  ${error_output}
+
+    # TODO: Host demo-content-room for HTTPClient with basic auth online
+    ${exit_code}  ${output}  ${error_output}=  Run Dcli Command  room add --address http://localhost:8080/RoomName --clientType HttpClient
     Verify Exit Code Zero  ${exit_code}  ${output}  ${error_output}
 
 Query Diograph By Text
     ${exit_code}  ${output}  ${error_output}=  Run Dcli Command  diory query --all
     Verify Exit Code Zero  ${exit_code}  ${output}  ${error_output}
-    Verify Output Contains  ${CURDIR}/demo_content_room_diory_list.txt  ${output}
+    Verify Output Contains  ${CURDIR}/demo_content_room_diory_list_http.txt  ${output}
 
 Copy diory from one room to another
     ${exit_code}  ${output}  ${error_output}=  Run Dcli Command  room create --address /tmp
@@ -33,13 +36,15 @@ Copy diory from one room to another
     Verify Exit Code Zero  ${exit_code}  ${output}  ${error_output}
     Verify Diory Attribute  new-diory-id  text  Created Diory
 
-    ${exit_code}  ${output}  ${error_output}=  Run Dcli Command  copy room-1:3e2ddc49-b3b6-4212-8a0a-80b9150a57ae room-2:/
+    # TODO: Use demo content diory id's here
+    ${exit_code}  ${output}  ${error_output}=  Run Dcli Command  copy room-1:22185bcd-c09f-4f16-b613-af5f3c81150c room-2:/
     Verify Exit Code Zero  ${exit_code}  ${output}  ${error_output}
 
     ${exit_code}  ${output}  ${error_output}=  Run Dcli Command  room focus room-1
     Verify Exit Code Zero  ${exit_code}  ${output}  ${error_output}
 
-    Verify Diory Attribute  3e2ddc49-b3b6-4212-8a0a-80b9150a57ae  id  3e2ddc49-b3b6-4212-8a0a-80b9150a57ae
-    Verify Diory Links  /  3e2ddc49-b3b6-4212-8a0a-80b9150a57ae
+    Verify Diory Attribute  22185bcd-c09f-4f16-b613-af5f3c81150c  id  22185bcd-c09f-4f16-b613-af5f3c81150c
+    Verify Diory Links  /  22185bcd-c09f-4f16-b613-af5f3c81150c
+    # TODO: Enable when demo-content-room in use
     # Links should be removed from the copied diory
-    Verify Not Diory Links  3e2ddc49-b3b6-4212-8a0a-80b9150a57ae  6abcc50e-422e-4802-9b14-84fcdd08f591
+    # Verify Not Diory Links  22185bcd-c09f-4f16-b613-af5f3c81150c  6abcc50e-422e-4802-9b14-84fcdd08f591
