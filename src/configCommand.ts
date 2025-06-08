@@ -1,5 +1,5 @@
 import chalk from 'chalk'
-import { setFfmpegPath, setS3Credentials } from './utils/configManager.js'
+import { setFfmpegPath, setHttpCredentials, setS3Credentials } from './utils/configManager.js'
 import { Command } from 'commander'
 
 const setAction = async (configKey: string, configValue: string) => {
@@ -19,6 +19,9 @@ const setAction = async (configKey: string, configValue: string) => {
       }
       const [accessKeyId, secretAccessKey] = configValue.split(' ')
       await setS3Credentials({ accessKeyId, secretAccessKey })
+      break
+    case 'http-credentials':
+      await setHttpCredentials({ basicAuthToken: configValue })
       break
     default:
       console.log(chalk.red(`Unknown key ${configKey}`))

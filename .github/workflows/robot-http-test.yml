@@ -1,4 +1,4 @@
-name: Robot test (main.robot)
+name: Robot test (main-http.robot)
 
 on: [push]
 
@@ -8,15 +8,6 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-
-      - name: Checkout demo-content-room
-        uses: actions/checkout@v4
-        with:
-          path: 'tests/demo-content-room'
-          repository: 'DioryMe/demo-content-room'
-
-      - name: Apply absolute paths to demo-content-room
-        run: sed -i 's|"/Diory Content",|"'$(pwd)'/tests/demo-content-room/Diory Content",|g' tests/demo-content-room/room.json
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -40,13 +31,10 @@ jobs:
       - name: Link dcli globally
         run: npm link && dcli --version
 
-      - name: Install ffmpeg
-        run: sudo apt-get update && sudo apt-get install -y ffmpeg && /usr/bin/ffmpeg -version
-
       - name: Run Robot Framework tests
         env:
           FFMPEG_PATH: /usr/bin/ffmpeg
-        run: robot tests/main.robot
+        run: robot tests/main-http.robot
 
       - name: Upload test artifacts
         if: always()

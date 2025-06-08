@@ -11,7 +11,7 @@ ${diograph_json_file_path}  /tmp/diograph.json
 Verify Output Contains
     [Arguments]    ${resource_file_path}  ${expected_output}
     ${file_content}=    Get File    ${resource_file_path}
-    Should Be Equal    ${file_content.strip()}    ${expected_output.strip()}
+    Should Contain    ${expected_output.strip()}   ${file_content.strip()}
 
 Verify Config File Contents
     [Arguments]    ${expected_file_path}

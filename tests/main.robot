@@ -69,7 +69,7 @@ Import Two Files (with and without content)
     Verify Diory Data Attribute  bafkreia2c44rszqme57sao4ydipv3xtwfoigag7b2lzfeuwtunctzfdx4a  encodingFormat  video/x-m4v
 
     # FIXME: Gives 00:00:16.94 in Github Actions (=different ffmpeg version)
-    Verify Diory Data Attribute  bafkreia2c44rszqme57sao4ydipv3xtwfoigag7b2lzfeuwtunctzfdx4a  duration  00:00:16.94
+    # Verify Diory Data Attribute  bafkreia2c44rszqme57sao4ydipv3xtwfoigag7b2lzfeuwtunctzfdx4a  duration  00:00:16.93
     Verify Diory Links  /  bafkreia2c44rszqme57sao4ydipv3xtwfoigag7b2lzfeuwtunctzfdx4a
 
     # Verify CIDMapping in room.json

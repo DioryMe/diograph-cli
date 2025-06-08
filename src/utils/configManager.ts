@@ -7,6 +7,7 @@ import { S3ClientCredentials } from '@diograph/s3-client'
 import { getAvailableClients } from './getAvailableClients.js'
 import { RoomConfigData } from '@diograph/diograph/types'
 import { validateRoomConfigData } from '@diograph/diograph/validator'
+import { HttpClientCredentials } from '@diograph/http-client/dist/httpClient.js'
 
 export interface ConfigObject {
   focus: {
@@ -18,6 +19,7 @@ export interface ConfigObject {
   }
   ffmpegPath?: string
   s3Credentials?: S3ClientCredentials
+  httpCredentials?: HttpClientCredentials
 }
 
 const defaultConfigObject: ConfigObject = {
@@ -136,6 +138,22 @@ const getFfmpegPath = async (): Promise<string> => {
   return configObject.ffmpegPath
 }
 
+const setHttpCredentials = async (credentials: HttpClientCredentials): Promise<void> => {
+  const configObject = await readConfig()
+  configObject.httpCredentials = credentials
+  await writeConfig(configObject)
+}
+
+const getHttpCredentials = async (): Promise<HttpClientCredentials> => {
+  const configObject = await readConfig()
+
+  if (!configObject.httpCredentials) {
+    throw new Error('No s3Credentials defined in config file')
+  }
+
+  return configObject.httpCredentials
+}
+
 const setS3Credentials = async (credentials: S3ClientCredentials): Promise<void> => {
   const configObject = await readConfig()
   configObject.s3Credentials = credentials
@@ -209,4 +227,6 @@ export {
   getFfmpegPath,
   setS3Credentials,
   getS3Credentials,
+  setHttpCredentials,
+  getHttpCredentials,
 }
