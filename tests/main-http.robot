@@ -13,7 +13,6 @@ Initiate necessary files and folders
     ${config_file_path}=  Get Config File Path
     OperatingSystem.Run  mkdir -p /tmp/Diory\\ Content
 
-
 *** Test Cases ***
 Add Room
     ${exit_code}  ${output}  ${error_output}=  Run Dcli Command  config set http-credentials e10d1d2e-032e-4c42-bc53-587239a3119f

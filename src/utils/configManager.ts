@@ -7,6 +7,7 @@ import { S3ClientCredentials } from '@diograph/s3-client'
 import { getAvailableClients } from './getAvailableClients.js'
 import { RoomConfigData } from '@diograph/diograph/types'
 import { validateRoomConfigData } from '@diograph/diograph/validator'
+import { HttpClientCredentials } from '@diograph/http-client/dist/httpClient.js'
 
 export interface ConfigObject {
   focus: {
@@ -135,11 +136,6 @@ const getFfmpegPath = async (): Promise<string> => {
   }
 
   return configObject.ffmpegPath
-}
-
-// TODO: Export from HttpClient
-export interface HttpClientCredentials {
-  basicAuthToken: string
 }
 
 const setHttpCredentials = async (credentials: HttpClientCredentials): Promise<void> => {
