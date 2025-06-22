@@ -22,4 +22,7 @@ jobs:
         run: docker build -t robot-tests .
 
       - name: Run main-http.robot
-        run: docker run robot-tests robot tests/main-http.robot
+        env:
+          DEMO_CONTENT_ADDRESS: ${{ secrets.DEMO_CONTENT_ADDRESS }}
+          HTTP_CREDENTIALS: ${{ secrets.HTTP_CREDENTIALS }}
+        run: docker run -e HTTP_CREDENTIALS=$HTTP_CREDENTIALS -e DEMO_CONTENT_ADDRESS=$DEMO_CONTENT_ADDRESS robot-tests robot tests/main-http.robot

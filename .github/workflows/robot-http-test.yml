@@ -34,6 +34,8 @@ jobs:
       - name: Run Robot Framework tests
         env:
           FFMPEG_PATH: /usr/bin/ffmpeg
+          DEMO_CONTENT_ADDRESS: ${{ secrets.DEMO_CONTENT_ADDRESS }}
+          HTTP_CREDENTIALS: ${{ secrets.HTTP_CREDENTIALS }}
         run: robot tests/main-http.robot
 
       - name: Upload test artifacts

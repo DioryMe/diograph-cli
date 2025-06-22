@@ -15,11 +15,12 @@ Initiate necessary files and folders
 
 *** Test Cases ***
 Add Room
-    ${exit_code}  ${output}  ${error_output}=  Run Dcli Command  config set http-credentials e10d1d2e-032e-4c42-bc53-587239a3119f
+    ${HTTP_CREDENTIALS}=  Get Environment Variable  HTTP_CREDENTIALS
+    ${exit_code}  ${output}  ${error_output}=  Run Dcli Command  config set http-credentials ${HTTP_CREDENTIALS}
     Verify Exit Code Zero  ${exit_code}  ${output}  ${error_output}
 
-    # TODO: Host demo-content-room for HTTPClient with basic auth online
-    ${exit_code}  ${output}  ${error_output}=  Run Dcli Command  room add --address http://diory-demo-content.surge.sh --clientType HttpClient
+    ${DEMO_CONTENT_ADDRESS}=  Get Environment Variable  DEMO_CONTENT_ADDRESS
+    ${exit_code}  ${output}  ${error_output}=  Run Dcli Command  room add --address ${DEMO_CONTENT_ADDRESS} --clientType HttpClient
     Verify Exit Code Zero  ${exit_code}  ${output}  ${error_output}
 
 Query Diograph By Text
